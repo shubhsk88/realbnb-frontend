@@ -13,7 +13,8 @@
     }
   },
   "extends": [
-    "plugin:react/recommended", // Use recommended rules from @eslint-plugin-react
+    "plugin:react/recommended",
+    // Use recommended rules from @eslint-plugin-react
     "plugin:@typescript-eslint/recommended", // Use recommended rules from @typescript-eslint/eslint-plugin,
     "prettier/@typescript-eslint", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
     "plugin:prettier/recommended" // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
@@ -22,8 +23,10 @@
   "rules": {
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
+    "react/react-in-jsx-scope": "off",
+
     "no-console": 1,
-    "no-plusplus": [2, {"allowForLoopAfterthoughts": true}],
+    "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
     "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
     "arrow-body-style": ["error", "as-needed"],
     "no-duplicate-imports": "error"
