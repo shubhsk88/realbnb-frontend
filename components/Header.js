@@ -1,19 +1,23 @@
-import { useRouter } from 'next/router'
-import Link from 'next/link'
-
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { Button } from "@chakra-ui/react";
 export default function Header() {
-  const { pathname } = useRouter()
+  const { pathname } = useRouter();
 
   return (
     <header>
       <Link href="/">
-        <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
+        <a className={pathname === "/" ? "is-active" : ""}>Home</a>
       </Link>
       <Link href="/about">
-        <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
+        <a className={pathname === "/about" ? "is-active" : ""}>
+          <Button mx={4} my={4}>
+            Hello
+          </Button>
+        </a>
       </Link>
       <Link href="/client-only">
-        <a className={pathname === '/client-only' ? 'is-active' : ''}>
+        <a className={pathname === "/client-only" ? "is-active" : ""}>
           Client-Only
         </a>
       </Link>
@@ -31,5 +35,5 @@ export default function Header() {
         }
       `}</style>
     </header>
-  )
+  );
 }
