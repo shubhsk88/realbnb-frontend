@@ -1,2 +1,2 @@
-export * from './CardPrimary';
+export * from './CardVertical';
 export * from './Header';
