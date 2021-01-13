@@ -1,9 +1,11 @@
 import { ApolloProvider } from "@apollo/client";
-import { useApollo } from "../lib/apolloClient";
+import { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
+import { useApollo } from "../lib/apolloClient";
 import theme from "../styles/theme";
+import { ReactElement } from "react";
 
-export default function App({ Component, pageProps }) {
+export default function App({ Component, pageProps }: AppProps): ReactElement {
   const apolloClient = useApollo(pageProps);
 
   return (
