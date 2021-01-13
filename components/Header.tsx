@@ -1,41 +1,19 @@
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { Button } from "@chakra-ui/react";
-import { useHelloQuery } from "../generated";
-export default function Header() {
-  const { pathname } = useRouter();
-  const { data, error } = useHelloQuery();
-  console.log(data, error);
+import { Box, Flex, Link, Icon, Button } from "@chakra-ui/react";
+import { BsSearch } from "react-icons/bs";
+import { ButtonPrimary } from "./shared";
+export const Header = () => {
   return (
-    <header>
-      <Link href="/">
-        <a className={pathname === "/" ? "is-active" : ""}>Home</a>
-      </Link>
-      <Link href="/about">
-        <a className={pathname === "/about" ? "is-active" : ""}>
-          <Button mx={4} my={4}>
-            Hello
-          </Button>
-        </a>
-      </Link>
-      <Link href="/client-only">
-        <a className={pathname === "/client-only" ? "is-active" : ""}>
-          Client-Only
-        </a>
-      </Link>
-      <style jsx>{`
-        header {
-          margin-bottom: 25px;
-        }
-        a {
-          font-size: 14px;
-          margin-right: 15px;
-          text-decoration: none;
-        }
-        .is-active {
-          text-decoration: underline;
-        }
-      `}</style>
-    </header>
+    <Box maxW="1200px" w="100%" mx="auto">
+      <Flex justifyContent="space-between" h="5rem" alignItems="center">
+        <Icon icon={<BsSearch />} />
+        <Box fontWeight="bold">
+          <Link mr={24}>Booking</Link>
+          <Link mr={24}>Saved</Link>
+          <ButtonPrimary>
+            <Link>Login</Link>
+          </ButtonPrimary>
+        </Box>
+      </Flex>
+    </Box>
   );
-}
+};
