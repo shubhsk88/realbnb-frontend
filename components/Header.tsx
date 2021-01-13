@@ -5,7 +5,7 @@ export const Header = () => {
   return (
     <Box maxW="1200px" w="100%" mx="auto">
       <Flex justifyContent="space-between" h="5rem" alignItems="center">
-        <Icon icon={<BsSearch />} />
+        <Icon as={BsSearch} />
         <Box fontWeight="bold">
           <Link mr={24}>Booking</Link>
           <Link mr={24}>Saved</Link>
