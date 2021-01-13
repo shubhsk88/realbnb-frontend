@@ -1,0 +1,19 @@
+query getRooms {
+  getRooms {
+    ok
+    error
+    rooms {
+      id
+      name
+      description
+      beds
+      roomType {
+        name
+      }
+      photos {
+        link
+        caption
+      }
+    }
+  }
+}

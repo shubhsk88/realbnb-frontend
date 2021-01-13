@@ -7,10 +7,12 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "typescript-react-apollo"
+      - "graphql-codegen-apollo-next-ssr"
     config:
       withHooks: true
       reactApolloVersion: 3
       withHOC: false
+      apolloClientInstanceImport: "../lib/apolloClient"
   ./graphql.schema.json:
     plugins:
       - "introspection"
