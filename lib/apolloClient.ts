@@ -1,3 +1,4 @@
+/* eslint-disable */ 
 import { useMemo } from "react";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { concatPagination } from "@apollo/client/utilities";
@@ -12,8 +13,8 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: new HttpLink({
-      uri: "https://nextjs-graphql-with-prisma-simple.vercel.app/api", // Server URL (must be absolute)
-      credentials: "same-origin", // Additional fetch() options like `credentials` or `headers`
+      uri: "http://localhost:4000/graphql", // Server URL (must be absolute)
+      // Additional fetch() options like `credentials` or `headers`
     }),
     cache: new InMemoryCache({
       typePolicies: {
@@ -41,8 +42,8 @@ export function initializeApollo(initialState = null) {
       // combine arrays using object equality (like in sets)
       arrayMerge: (destinationArray, sourceArray) => [
         ...sourceArray,
-        ...destinationArray.filter((d) =>
-          sourceArray.every((s) => !isEqual(d, s))
+        ...destinationArray.filter((d: string) =>
+          sourceArray.every((s: string) => !isEqual(d, s))
         ),
       ],
     });
@@ -58,7 +59,7 @@ export function initializeApollo(initialState = null) {
   return _apolloClient;
 }
 
-export function addApolloState(client, pageProps) {
+export function addApolloState(client, pageProps): void {
   if (pageProps?.props) {
     pageProps.props[APOLLO_STATE_PROP_NAME] = client.cache.extract();
   }

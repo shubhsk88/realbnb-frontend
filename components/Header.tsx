@@ -1,9 +1,11 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Button } from "@chakra-ui/react";
+import { useHelloQuery } from "../generated";
 export default function Header() {
   const { pathname } = useRouter();
-
+  const { data, error } = useHelloQuery();
+  console.log(data, error);
   return (
     <header>
       <Link href="/">
