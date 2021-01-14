@@ -36,6 +36,7 @@ query getRoom($id: String!) {
         name
       }
       photos {
+        id
         link
         caption
       }

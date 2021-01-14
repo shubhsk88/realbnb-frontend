@@ -23,6 +23,7 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
         borderRadius="inherit"
         overflow="hidden"
       >
+        {/* TODO: image caption */}
         <Image
           src={
             room.photos.length
@@ -31,7 +32,7 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
           }
           layout="fill"
           sizes="500px"
-          alt="Image"
+          alt="image caption"
           objectFit="cover"
         />
         <PlainButton rightIcon={<AiOutlineStar />}>5.0</PlainButton>

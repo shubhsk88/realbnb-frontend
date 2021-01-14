@@ -12,8 +12,9 @@ export default function App({ Component, pageProps }: AppProps): ReactElement {
   return (
     <ChakraProvider theme={theme} resetCSS={true}>
       <ApolloProvider client={apolloClient}>
-        <Layout />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ApolloProvider>
     </ChakraProvider>
   );

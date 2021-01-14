@@ -380,7 +380,7 @@ export type GetRoomQuery = (
         & Pick<HouseRule, 'name'>
       )>>, photos: Array<Maybe<(
         { __typename?: 'Photo' }
-        & Pick<Photo, 'link' | 'caption'>
+        & Pick<Photo, 'id' | 'link' | 'caption'>
       )>> }
     )> }
   ) }
@@ -456,6 +456,7 @@ export const GetRoomDocument = gql`
         name
       }
       photos {
+        id
         link
         caption
       }

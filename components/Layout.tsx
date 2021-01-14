@@ -1,11 +1,15 @@
-import React from "react";
+import { Box } from "@chakra-ui/react";
+import React, { ReactElement } from "react";
 import { Header } from "./Header";
 
-const Layout = () => {
+const Layout = ({ children }): ReactElement => {
   return (
-    <div>
+    <>
       <Header />
-    </div>
+      <Box as="main" maxW="1200px" w="100%" mx="auto" marginTop="4em">
+        {children}
+      </Box>
+    </>
   );
 };
 

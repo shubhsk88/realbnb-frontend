@@ -7,7 +7,7 @@ import { GetStaticProps } from "next";
 import { GetRoomsDocument, useGetRoomsQuery } from "../generated";
 import { initializeApollo } from "../lib/apolloClient";
 
-interface PageProps {
+export interface PageProps {
   data: Record<string, unknown>;
 }
 
@@ -20,7 +20,7 @@ const IndexPage = (props: PageProps): ReactElement => {
   if (serverError) return <div> {serverError}</div>;
   return (
     <>
-      <Box as="main" maxW="1200px" w="100%" mx="auto" marginTop="4em">
+      <Box>
         <Grid
           gridTemplateColumns="repeat(auto-fill, minmax(20rem, 1fr))"
           gap="2rem"
