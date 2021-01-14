@@ -1,11 +1,5 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
-import { NextPage } from 'next';
-import { NextRouter, useRouter } from 'next/router'
-import { QueryHookOptions, useQuery } from '@apollo/client';
-import type React from 'react';
-import { getApolloClient} from '../lib/apolloClient';
-import type { NormalizedCacheObject } from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -351,13 +345,6 @@ export type GetRoomsQuery = (
     & { rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
       & Pick<Room, 'id' | 'name' | 'description' | 'beds'>
-      & { roomType: (
-        { __typename?: 'RoomType' }
-        & Pick<RoomType, 'name'>
-      ), photos: Array<Maybe<(
-        { __typename?: 'Photo' }
-        & Pick<Photo, 'link' | 'caption'>
-      )>> }
     )>>> }
   ) }
 );
@@ -381,13 +368,6 @@ export const GetRoomsDocument = gql`
       name
       description
       beds
-      roomType {
-        name
-      }
-      photos {
-        link
-        caption
-      }
     }
   }
 }
@@ -447,85 +427,3 @@ export function useHelloLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Hell
 export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>;
 export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;
-export const GetRoomsDocument = gql`
-    query getRooms {
-  getRooms {
-    ok
-    error
-    rooms {
-      id
-      name
-      description
-      beds
-      roomType {
-        name
-      }
-      photos {
-        link
-        caption
-      }
-    }
-  }
-}
-    `;
-export async function getServerPageGetRooms
-    (options: Omit<Apollo.QueryOptions<GetRoomsQueryVariables>, 'query'>, ctx? :any ){
-        const apolloClient = getApolloClient(ctx);
-
-        const data = await apolloClient.query<GetRoomsQuery>({ ...options, query:Operations.GetRoomsDocument });
-
-        const apolloState = apolloClient.cache.extract();
-
-        return {
-            props: {
-                apolloState,
-                data: data?.data,
-                error: data?.error ?? data?.errors ?? null,
-            },
-        };
-      }
-export const useGetRooms = (
-  optionsFunc?: (router: NextRouter)=> QueryHookOptions<GetRoomsQuery, GetRoomsQueryVariables>) => {
-  const router = useRouter();
-  const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.GetRoomsDocument, options);
-};
-export type PageGetRoomsComp = React.FC<{data?: GetRoomsQuery, error?: Apollo.ApolloError}>;
-export const ssrGetRooms = {
-      getServerPage: getServerPageGetRooms,
-
-      usePage: useGetRooms,
-    }
-export const HelloDocument = gql`
-    query hello {
-  hello
-}
-    `;
-export async function getServerPageHello
-    (options: Omit<Apollo.QueryOptions<HelloQueryVariables>, 'query'>, ctx? :any ){
-        const apolloClient = getApolloClient(ctx);
-
-        const data = await apolloClient.query<HelloQuery>({ ...options, query:Operations.HelloDocument });
-
-        const apolloState = apolloClient.cache.extract();
-
-        return {
-            props: {
-                apolloState,
-                data: data?.data,
-                error: data?.error ?? data?.errors ?? null,
-            },
-        };
-      }
-export const useHello = (
-  optionsFunc?: (router: NextRouter)=> QueryHookOptions<HelloQuery, HelloQueryVariables>) => {
-  const router = useRouter();
-  const options = optionsFunc ? optionsFunc(router) : {};
-  return useQuery(Operations.HelloDocument, options);
-};
-export type PageHelloComp = React.FC<{data?: HelloQuery, error?: Apollo.ApolloError}>;
-export const ssrHello = {
-      getServerPage: getServerPageHello,
-
-      usePage: useHello,
-    }

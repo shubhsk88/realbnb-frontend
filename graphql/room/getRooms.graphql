@@ -8,6 +8,7 @@ query getRooms {
       description
       beds
       roomType {
+        id
         name
       }
       photos {

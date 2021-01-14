@@ -27,7 +27,7 @@
     "typescript-eslint/explicit-module-boundary-types":"off",
     "no-console": 1,
     "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
-    "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
+    // "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
     "arrow-body-style": ["error", "as-needed"],
     "no-duplicate-imports": "error"
   }

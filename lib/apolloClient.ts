@@ -10,14 +10,14 @@ import { useMemo } from "react";
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 export const getApolloClient = (
-  ctx?: any,
-  initialState?: NormalizedCacheObject
+  _ = null,
+  initialState: NormalizedCacheObject = {}
 ) => {
   const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     fetch,
   });
-  const cache = new InMemoryCache().restore(initialState || {});
+  const cache = new InMemoryCache().restore(initialState);
   return new ApolloClient({
     link: httpLink,
     cache,
