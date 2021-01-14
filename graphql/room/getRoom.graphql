@@ -1,0 +1,44 @@
+query getRoom($id: String!) {
+  getRoom(id: $id) {
+    ok
+    error
+    room {
+      id
+      name
+      description
+      beds
+      bedrooms
+      bathrooms
+      price
+      host {
+        name
+      }
+      reviews {
+        content
+        created
+        updated
+        accuracy
+        location
+        communication
+        checkIn
+        value
+      }
+      roomType {
+        name
+      }
+      amenities {
+        name
+      }
+      facilities {
+        name
+      }
+      houseRules {
+        name
+      }
+      photos {
+        link
+        caption
+      }
+    }
+  }
+}

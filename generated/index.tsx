@@ -98,18 +98,31 @@ export type MutationPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
 
+export type GetRoomResponse = {
+  __typename?: 'getRoomResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  room?: Maybe<Room>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getRoom: GetRoomResponse;
+  getRooms: GetRoomsResponse;
+  getUserProfile: GetUserProfileResponse;
+  hello?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetRoomArgs = {
+  id: Scalars['String'];
+};
+
 export type GetRoomsResponse = {
   __typename?: 'getRoomsResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   rooms?: Maybe<Array<Maybe<Room>>>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getRooms: GetRoomsResponse;
-  getUserProfile: GetUserProfileResponse;
-  hello?: Maybe<Scalars['String']>;
 };
 
 export type CompletePhoneVerificationResponse = {
@@ -194,7 +207,7 @@ export type Room = {
   photos: Array<Maybe<Photo>>;
   beds: Scalars['Int'];
   bedrooms: Scalars['Int'];
-  bathroom: Scalars['Int'];
+  bathrooms: Scalars['Float'];
   guests: Scalars['Int'];
   checkIn: Scalars['DateTime'];
   checkOut: Scalars['DateTime'];
@@ -334,6 +347,45 @@ export type Verification = {
   payload: Scalars['String'];
 };
 
+export type GetRoomQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetRoomQuery = (
+  { __typename?: 'Query' }
+  & { getRoom: (
+    { __typename?: 'getRoomResponse' }
+    & Pick<GetRoomResponse, 'ok' | 'error'>
+    & { room?: Maybe<(
+      { __typename?: 'Room' }
+      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'bedrooms' | 'bathrooms' | 'price'>
+      & { host: (
+        { __typename?: 'User' }
+        & Pick<User, 'name'>
+      ), reviews: Array<Maybe<(
+        { __typename?: 'Review' }
+        & Pick<Review, 'content' | 'created' | 'updated' | 'accuracy' | 'location' | 'communication' | 'checkIn' | 'value'>
+      )>>, roomType: (
+        { __typename?: 'RoomType' }
+        & Pick<RoomType, 'name'>
+      ), amenities: Array<Maybe<(
+        { __typename?: 'Amenity' }
+        & Pick<Amenity, 'name'>
+      )>>, facilities: Array<Maybe<(
+        { __typename?: 'Facility' }
+        & Pick<Facility, 'name'>
+      )>>, houseRules: Array<Maybe<(
+        { __typename?: 'HouseRule' }
+        & Pick<HouseRule, 'name'>
+      )>>, photos: Array<Maybe<(
+        { __typename?: 'Photo' }
+        & Pick<Photo, 'link' | 'caption'>
+      )>> }
+    )> }
+  ) }
+);
+
 export type GetRoomsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -365,6 +417,78 @@ export type HelloQuery = (
 );
 
 
+export const GetRoomDocument = gql`
+    query getRoom($id: String!) {
+  getRoom(id: $id) {
+    ok
+    error
+    room {
+      id
+      name
+      description
+      beds
+      bedrooms
+      bathrooms
+      price
+      host {
+        name
+      }
+      reviews {
+        content
+        created
+        updated
+        accuracy
+        location
+        communication
+        checkIn
+        value
+      }
+      roomType {
+        name
+      }
+      amenities {
+        name
+      }
+      facilities {
+        name
+      }
+      houseRules {
+        name
+      }
+      photos {
+        link
+        caption
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetRoomQuery__
+ *
+ * To run a query within a React component, call `useGetRoomQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoomQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRoomQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetRoomQuery(baseOptions: Apollo.QueryHookOptions<GetRoomQuery, GetRoomQueryVariables>) {
+        return Apollo.useQuery<GetRoomQuery, GetRoomQueryVariables>(GetRoomDocument, baseOptions);
+      }
+export function useGetRoomLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRoomQuery, GetRoomQueryVariables>) {
+          return Apollo.useLazyQuery<GetRoomQuery, GetRoomQueryVariables>(GetRoomDocument, baseOptions);
+        }
+export type GetRoomQueryHookResult = ReturnType<typeof useGetRoomQuery>;
+export type GetRoomLazyQueryHookResult = ReturnType<typeof useGetRoomLazyQuery>;
+export type GetRoomQueryResult = Apollo.QueryResult<GetRoomQuery, GetRoomQueryVariables>;
 export const GetRoomsDocument = gql`
     query getRooms {
   getRooms {
