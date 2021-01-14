@@ -8,11 +8,9 @@ import { IoBedOutline } from "react-icons/io5";
 import { ReactElement } from "react";
 
 export const CardVertical = ({ room }: { room: Room }): ReactElement => {
-  
   return (
     <Box
-      w="320px"
-      h="400px"
+      w="25rem"
       bgColor="gray.50"
       boxShadow="md"
       borderRadius="lg"
@@ -21,7 +19,7 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
       <Box
         position="relative"
         w="100%"
-        h="40%"
+        h="200px"
         borderRadius="inherit"
         overflow="hidden"
       >
@@ -32,7 +30,9 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
               : "https://res.cloudinary.com/dnpwz5gdn/image/upload/v1610472448/zbr9m61suuhkvo74tsxt.webp"
           }
           layout="fill"
+          sizes="500px"
           alt="Image"
+          objectFit="cover"
         />
         <PlainButton rightIcon={<AiOutlineStar />}>5.0</PlainButton>
         <PlainIconButton
@@ -55,7 +55,7 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
           {room.beds}
         </Text>
 
-        <Text fontWeight="extrabold" fontSize="2xl" color="teal.400">
+        <Text fontWeight="extrabold" fontSize="2xl" color="primary">
           ${room.price}
         </Text>
       </TextWrapper>
@@ -102,6 +102,7 @@ const PlainIconButton = styled(IconButton)`
 
 const TextWrapper = styled(Box)`
   padding: 1rem;
+  margin-top: auto;
 
   & > :not(:first-child) {
     padding-top: 0.25rem;
