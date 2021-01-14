@@ -1,4 +1,4 @@
-import { Box, Flex, Link, Icon, Button } from "@chakra-ui/react";
+import { Box, Flex, Link, Icon } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { BsSearch } from "react-icons/bs";
 import { ButtonPrimary } from "./shared";

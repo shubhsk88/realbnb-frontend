@@ -16,15 +16,24 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import { ElementType, ReactElement, ReactNode } from "react";
 
-const IconPair = ({ icon, children }) => (
+interface IconPairProps {
+  icon: ElementType;
+  children: ReactNode;
+}
+const IconPair = ({ icon, children }: IconPairProps) => (
   <Flex color="gray.400" fontSize="md" alignItems="center">
     <Icon as={icon} h={6} w={6} mr="0.5rem" />
     <p>{children}</p>
   </Flex>
 );
 
-const Section = ({ name, children }) => (
+interface SectionProps {
+  name: string;
+  children: ReactNode;
+}
+const Section = ({ name, children }: SectionProps) => (
   <>
     <hr />
     <Heading as="h3" size="md">
@@ -34,7 +43,7 @@ const Section = ({ name, children }) => (
   </>
 );
 
-const RoomDetails = () => {
+const RoomDetails = (): ReactElement => {
   const router = useRouter();
   const { query } = router;
   const id = query.roomId as string;
@@ -64,7 +73,7 @@ const RoomDetails = () => {
         ))}
       </Grid>
       <Stack direction="row">
-        <Info flexGrow="1">
+        <Info flexGrow={1}>
           <Text size="sm" fontWeight="medium" color="gray.400">
             Room Type
           </Text>
