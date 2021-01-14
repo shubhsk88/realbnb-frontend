@@ -13,6 +13,8 @@ import {
   Select,
   GridItem,
   HStack,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
@@ -20,6 +22,7 @@ import { ElementType, ReactElement, ReactNode } from "react";
 import { FiShare } from "react-icons/fi";
 import { RatingButton } from "../../components/shared";
 import { useGetRoomQuery } from "../../generated";
+import { ReviewCard } from "../../components/shared/ReviewCard";
 
 interface IconPairProps {
   icon: ElementType;
@@ -59,7 +62,7 @@ const RoomDetails = (): ReactElement => {
     <>
       <Grid
         gap={2}
-        borderRadius="md"
+        borderRadius="xl"
         overflow="hidden"
         h="50vh"
         mb={20}
@@ -130,6 +133,15 @@ const RoomDetails = (): ReactElement => {
           </Box>
         </Box>
       </Stack>
+      <Wrap spacing="20px" w="100%" justify="space-between">
+        {Array(10)
+          .fill("")
+          .map((review, index) => (
+            <WrapItem w="40%" key={index}>
+              <ReviewCard />
+            </WrapItem>
+          ))}
+      </Wrap>
     </>
   );
 };

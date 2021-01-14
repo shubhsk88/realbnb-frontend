@@ -36,7 +36,14 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
           alt="image caption"
           objectFit="cover"
         />
-        <RatingButton rightIcon={<AiOutlineStar />}>5.0</RatingButton>
+        <RatingButton
+          position="absolute"
+          top={2}
+          left={2}
+          rightIcon={<AiOutlineStar />}
+        >
+          5.0
+        </RatingButton>
         <PlainIconButton
           aria-label="button"
           icon={<AiOutlineHeart size="1.3rem" />}
