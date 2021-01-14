@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { useGetRoomQuery } from "../../generated";
-
 import { IoBedOutline } from "react-icons/io5";
 import {
   Box,
@@ -14,9 +12,14 @@ import {
   Stack,
   Select,
   GridItem,
+  HStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
+import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
 import { ElementType, ReactElement, ReactNode } from "react";
+import { FiShare } from "react-icons/fi";
+import { RatingButton } from "../../components/shared";
+import { useGetRoomQuery } from "../../generated";
 
 interface IconPairProps {
   icon: ElementType;
@@ -55,19 +58,39 @@ const RoomDetails = (): ReactElement => {
   return (
     <>
       <Grid
-        h="30vh"
-        templateColumns="repeat(5, 1fr)"
-        templateRows="repeat(2, 1fr)"
+        gap={2}
+        borderRadius="md"
+        overflow="hidden"
+        h="50vh"
+        mb={20}
+        templateColumns="repeat(6, 1fr)"
+        templateRows="repeat(3, 1fr)"
       >
-        <GridItem colSpan={3} rowSpan={2} />
-        <GridItem colSpan={2} />
-        {room.photos.slice(5).map((photo, index) => (
-          <GridItem
-            rowSpan={!index ? 2 : 1}
-            colSpan={index === 1 ? 3 : 1}
-            key={photo.id}
-            position="relative"
+        <GridItem overflow="hidden" colSpan={4} rowSpan={3} position="relative">
+          <Image layout="fill" src={room.photos[0].link} />
+          <RatingButton
+            position="absolute"
+            left={6}
+            bottom={6}
+            rightIcon={<AiOutlineStar />}
           >
+            4.8
+          </RatingButton>
+          <HStack position="absolute" spacing={2} top={2} left={4}>
+            <RatingButton>
+              <FiShare size="1.3rem" />
+            </RatingButton>
+            <RatingButton>
+              <AiOutlineHeart size="1.3rem" />
+            </RatingButton>
+          </HStack>
+        </GridItem>
+        <GridItem overflow="hidden" colSpan={2} rowSpan={1} position="relative">
+          <Image layout="fill" src={room.photos[1].link} />
+        </GridItem>
+
+        {room.photos.slice(2, 6).map((photo) => (
+          <GridItem overflow="hidden" key={photo.id} position="relative">
             <Image layout="fill" src={photo.link} />
           </GridItem>
         ))}
@@ -112,12 +135,6 @@ const RoomDetails = (): ReactElement => {
 };
 
 export default RoomDetails;
-
-const ImageGrid = styled(Grid)`
-  grid-template-areas:
-    "first"
-    "first";
-`;
 
 const Info = styled(Box)`
   & > * {

@@ -6,6 +6,7 @@ import { Room } from "../generated";
 
 import { IoBedOutline } from "react-icons/io5";
 import { ReactElement } from "react";
+import { RatingButton } from "./shared";
 
 export const CardVertical = ({ room }: { room: Room }): ReactElement => {
   return (
@@ -35,7 +36,7 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
           alt="image caption"
           objectFit="cover"
         />
-        <PlainButton rightIcon={<AiOutlineStar />}>5.0</PlainButton>
+        <RatingButton rightIcon={<AiOutlineStar />}>5.0</RatingButton>
         <PlainIconButton
           aria-label="button"
           icon={<AiOutlineHeart size="1.3rem" />}
@@ -63,23 +64,6 @@ export const CardVertical = ({ room }: { room: Room }): ReactElement => {
     </Box>
   );
 };
-
-const PlainButton = styled(Button)`
-  position: absolute;
-  bottom: 0.5em;
-  left: 0.5em;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.2);
-
-  :hover,
-  :focus {
-    background-color: rgba(0, 0, 0, 0.3);
-  }
-
-  :active {
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-`;
 
 const PlainIconButton = styled(IconButton)`
   position: absolute;
