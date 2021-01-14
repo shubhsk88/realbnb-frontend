@@ -6,7 +6,7 @@ import theme from "../styles/theme";
 import { ReactElement } from "react";
 
 export default function App({ Component, pageProps }: AppProps): ReactElement {
-  const apolloClient = useApollo(pageProps);
+  const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
     <ChakraProvider theme={theme} resetCSS={true}>

@@ -7,14 +7,6 @@ query getRooms {
       name
       description
       beds
-      roomType {
-        id
-        name
-      }
-      photos {
-        link
-        caption
-      }
     }
   }
 }
