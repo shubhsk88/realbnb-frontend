@@ -7,6 +7,14 @@ query getRooms {
       name
       description
       beds
+      photos {
+        link
+        caption
+      }
+      price
+      roomType{
+        name
+      }
     }
   }
 }

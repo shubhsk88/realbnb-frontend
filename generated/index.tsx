@@ -344,7 +344,14 @@ export type GetRoomsQuery = (
     & Pick<GetRoomsResponse, 'ok' | 'error'>
     & { rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
-      & Pick<Room, 'id' | 'name' | 'description' | 'beds'>
+      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'price'>
+      & { photos: Array<Maybe<(
+        { __typename?: 'Photo' }
+        & Pick<Photo, 'link' | 'caption'>
+      )>>, roomType: (
+        { __typename?: 'RoomType' }
+        & Pick<RoomType, 'name'>
+      ) }
     )>>> }
   ) }
 );
@@ -368,6 +375,14 @@ export const GetRoomsDocument = gql`
       name
       description
       beds
+      photos {
+        link
+        caption
+      }
+      price
+      roomType {
+        name
+      }
     }
   }
 }

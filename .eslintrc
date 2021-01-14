@@ -24,11 +24,12 @@
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     // e.g. "@typescript-eslint/explicit-function-return-type": "off",
     "react/react-in-jsx-scope": "off",
-    "typescript-eslint/explicit-module-boundary-types":"off",
+    
+    "typescript-eslint/explicit-module-boundary-types": "off",
     "no-console": 1,
     "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
     // "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
-    "arrow-body-style": ["error", "as-needed"],
+    "arrow-body-style":"off",
     "no-duplicate-imports": "error"
   }
 }
