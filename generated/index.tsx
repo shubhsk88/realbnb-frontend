@@ -214,6 +214,7 @@ export type Room = {
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
   description: Scalars['String'];
+  averageRating: AverageReviewRating;
 };
 
 export type Address = {
@@ -273,6 +274,15 @@ export type Facility = {
   room: Array<Maybe<Room>>;
 };
 
+export type AverageReviewRating = {
+  __typename?: 'AverageReviewRating';
+  accuracy: Scalars['Float'];
+  location: Scalars['Float'];
+  communication: Scalars['Float'];
+  value: Scalars['Float'];
+  checkIn: Scalars['Float'];
+};
+
 export type Review = {
   __typename?: 'Review';
   id: Scalars['String'];
@@ -286,6 +296,7 @@ export type Review = {
   value: Scalars['Int'];
   User: User;
   Room: Room;
+  averageRating: Scalars['Float'];
 };
 
 export type Reservation = {
@@ -365,8 +376,15 @@ export type GetRoomQuery = (
         & Pick<User, 'name'>
       ), reviews: Array<Maybe<(
         { __typename?: 'Review' }
-        & Pick<Review, 'content' | 'created' | 'updated' | 'accuracy' | 'location' | 'communication' | 'checkIn' | 'value'>
-      )>>, roomType: (
+        & Pick<Review, 'updated' | 'content' | 'created' | 'accuracy' | 'location' | 'communication' | 'checkIn' | 'value' | 'averageRating'>
+        & { User: (
+          { __typename?: 'User' }
+          & Pick<User, 'name'>
+        ) }
+      )>>, averageRating: (
+        { __typename?: 'AverageReviewRating' }
+        & Pick<AverageReviewRating, 'accuracy' | 'location' | 'communication' | 'checkIn' | 'value'>
+      ), roomType: (
         { __typename?: 'RoomType' }
         & Pick<RoomType, 'name'>
       ), amenities: Array<Maybe<(
@@ -434,9 +452,21 @@ export const GetRoomDocument = gql`
         name
       }
       reviews {
+        User {
+          name
+        }
+        updated
         content
         created
         updated
+        accuracy
+        location
+        communication
+        checkIn
+        value
+        averageRating
+      }
+      averageRating {
         accuracy
         location
         communication

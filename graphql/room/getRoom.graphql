@@ -14,9 +14,22 @@ query getRoom($id: String!) {
         name
       }
       reviews {
+        id
+        User {
+          name
+        }
+        updated
         content
         created
         updated
+        accuracy
+        location
+        communication
+        checkIn
+        value
+        averageRating
+      }
+      averageRating {
         accuracy
         location
         communication

@@ -1,7 +1,12 @@
 import { Avatar, Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
+import { Review } from "../../generated";
 
-export const ReviewCard = (): ReactElement => {
+interface CardProps {
+  review: Review;
+}
+
+export const ReviewCard = ({ review }: CardProps): ReactElement => {
   const [isTruncated, setIsTruncated] = useState<boolean>(true);
 
   return (
@@ -10,16 +15,12 @@ export const ReviewCard = (): ReactElement => {
         <Avatar name="Dan" src="https://bit.ly/dan-abramov" />
         <Box mx={4}>
           <Heading as="h5" size="md">
-            Name
+            {review.User.name}
           </Heading>
-          <Text color="gray.400">Date </Text>
+          <Text color="gray.400">{review.updated}</Text>
         </Box>
       </Flex>
-      <Text noOfLines={isTruncated ? 3 : 0}>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Incidunt nisi
-        non repudiandae modi eaque aliquid mollitia, ullam reprehenderit iure
-        sit nam earum sint blanditiis quod ad libero sequi aut? Illo.
-      </Text>
+      <Text noOfLines={isTruncated ? 3 : 0}>{review.content}</Text>
       {isTruncated ? (
         <Button
           my={2}

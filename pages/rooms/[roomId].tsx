@@ -53,10 +53,12 @@ const RoomDetails = (): ReactElement => {
   const { query } = router;
   const id = query.roomId as string;
   const { loading, data, error } = useGetRoomQuery({ variables: { id } });
-  if (error) return <div>Error</div>;
+  if (error) return <div>Error: {JSON.stringify(error)}</div>;
   if (loading) return <div>Loading</div>;
 
   const room = data.getRoom.room;
+
+  console.log(room);
   return (
     <>
       <Grid
@@ -132,7 +134,7 @@ const RoomDetails = (): ReactElement => {
           </Box>
         </Box>
       </Stack>
-      <Review />
+      <Review ratings={room.averageRating} reviews={room.reviews} />
     </>
   );
 };
