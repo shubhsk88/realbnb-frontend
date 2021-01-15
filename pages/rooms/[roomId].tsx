@@ -3,16 +3,17 @@ import { useRouter } from "next/router";
 import { IoBedOutline } from "react-icons/io5";
 import {
   Box,
-  Button,
   Flex,
+  Stack,
+  HStack,
+  Wrap,
+  WrapItem,
   Grid,
+  GridItem,
   Heading,
   Icon,
   Text,
-  Stack,
-  Select,
-  GridItem,
-  HStack,
+  Button,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
@@ -20,8 +21,9 @@ import { ElementType, ReactElement, ReactNode } from "react";
 import { FiShare } from "react-icons/fi";
 import { RatingButton } from "../../components/shared";
 import { useGetRoomQuery } from "../../generated";
-import { ReviewCard } from "../../components/shared/ReviewCard";
+import { BookingCard } from "../../components/BookingCard";
 import { Review } from "../../components/Review";
+import { TextSummary } from "../../components/shared/TextSummary";
 
 interface IconPairProps {
   icon: ElementType;
@@ -58,7 +60,6 @@ const RoomDetails = (): ReactElement => {
 
   const room = data.getRoom.room;
 
-  console.log(room);
   return (
     <>
       <Grid
@@ -99,7 +100,7 @@ const RoomDetails = (): ReactElement => {
           </GridItem>
         ))}
       </Grid>
-      <Stack direction="row">
+      <Stack direction="row" spacing="30px">
         <Info flexGrow={1}>
           <Text size="sm" fontWeight="medium" color="gray.400">
             Room Type
@@ -109,30 +110,22 @@ const RoomDetails = (): ReactElement => {
           </Heading>
           <IconPair icon={IoBedOutline}>2</IconPair>
           <Section name="Description">
-            <Text>This is some sample description text</Text>
-            <Button variant="link" size="sm" color="primary">
-              More...
-            </Button>
+            <TextSummary>{room.description}</TextSummary>
           </Section>
 
           <Section name="Amenities">
-            <Stack spacing={2}>
-              <p>Air Conditioning</p>
-              <p>Dryer</p>
-              <p>Kitchen</p>
-              <p>Wifi</p>
-            </Stack>
+            <Wrap w="100%" spacing={8}>
+              {room.amenities.slice(0, 5).map(({ id, name }) => (
+                <WrapItem key={id}>
+                  <Text casing="capitalize">{name}</Text>
+                </WrapItem>
+              ))}
+            </Wrap>
+            <Button>Show More</Button>
           </Section>
         </Info>
 
-        <Box minWidth="300px">
-          <Box p={5} shadow="md" borderRadius="10px">
-            <Select placeholder="" focusBorderColor="primary" />
-            <Button w="100%" colorScheme="gray">
-              Book Now
-            </Button>
-          </Box>
-        </Box>
+        <BookingCard />
       </Stack>
       <Review ratings={room.averageRating} reviews={room.reviews} />
     </>

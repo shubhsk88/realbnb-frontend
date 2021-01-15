@@ -376,10 +376,10 @@ export type GetRoomQuery = (
         & Pick<User, 'name'>
       ), reviews: Array<Maybe<(
         { __typename?: 'Review' }
-        & Pick<Review, 'updated' | 'content' | 'created' | 'accuracy' | 'location' | 'communication' | 'checkIn' | 'value' | 'averageRating'>
+        & Pick<Review, 'id' | 'updated' | 'content' | 'created' | 'accuracy' | 'location' | 'communication' | 'checkIn' | 'value' | 'averageRating'>
         & { User: (
           { __typename?: 'User' }
-          & Pick<User, 'name'>
+          & Pick<User, 'name' | 'avatar'>
         ) }
       )>>, averageRating: (
         { __typename?: 'AverageReviewRating' }
@@ -389,7 +389,7 @@ export type GetRoomQuery = (
         & Pick<RoomType, 'name'>
       ), amenities: Array<Maybe<(
         { __typename?: 'Amenity' }
-        & Pick<Amenity, 'name'>
+        & Pick<Amenity, 'id' | 'name'>
       )>>, facilities: Array<Maybe<(
         { __typename?: 'Facility' }
         & Pick<Facility, 'name'>
@@ -452,8 +452,10 @@ export const GetRoomDocument = gql`
         name
       }
       reviews {
+        id
         User {
           name
+          avatar
         }
         updated
         content
@@ -477,6 +479,7 @@ export const GetRoomDocument = gql`
         name
       }
       amenities {
+        id
         name
       }
       facilities {

@@ -8,14 +8,15 @@ interface CardProps {
 
 export const ReviewCard = ({ review }: CardProps): ReactElement => {
   const [isTruncated, setIsTruncated] = useState<boolean>(true);
+  const user = review.User;
 
   return (
     <Box my={10}>
       <Flex alignItems="center" my={6}>
-        <Avatar name="Dan" src="https://bit.ly/dan-abramov" />
+        <Avatar name={user.name} src={user.avatar} />
         <Box mx={4}>
           <Heading as="h5" size="md">
-            {review.User.name}
+            {user.name}
           </Heading>
           <Text color="gray.400">{review.updated}</Text>
         </Box>

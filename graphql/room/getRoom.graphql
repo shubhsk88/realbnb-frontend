@@ -17,6 +17,7 @@ query getRoom($id: String!) {
         id
         User {
           name
+          avatar
         }
         updated
         content
@@ -40,6 +41,7 @@ query getRoom($id: String!) {
         name
       }
       amenities {
+        id
         name
       }
       facilities {
