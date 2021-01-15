@@ -1,10 +1,10 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import { HStack, Icon, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { ReviewScore } from "./shared/ReviewScore";
 import { ReviewCard } from "./shared/ReviewCard";
 import { AiOutlineStar } from "react-icons/ai";
 
-export const Review = () => {
+export const Review = (): ReactElement => {
   return (
     <>
       <hr />

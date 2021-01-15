@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Icon, Button, IconButton } from "@chakra-ui/react";
+import { Box, Heading, Text, Icon, IconButton } from "@chakra-ui/react";
 import { AiOutlineStar, AiOutlineHeart } from "react-icons/ai";
 import Image from "next/image";
 import styled from "@emotion/styled";
