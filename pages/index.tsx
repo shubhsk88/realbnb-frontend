@@ -27,7 +27,7 @@ const IndexPage = (props: PageProps): ReactElement => {
           mb={10}
         >
           {rooms.map((room) => (
-            <Link href={`rooms/${room.id}`} key={room.id}>
+            <Link href={`/rooms/${room.id}`} key={room.id}>
               <a>
                 <CardVertical room={room} />
               </a>
