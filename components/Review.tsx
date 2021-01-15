@@ -8,24 +8,20 @@ import { Review as ReviewType, AverageReviewRating } from "../generated";
 interface ReviewProps {
   ratings: AverageReviewRating;
   reviews: ReviewType[];
+  overallRating: number;
 }
 
-export const Review = ({ ratings, reviews }: ReviewProps): ReactElement => {
+export const Review = ({
+  ratings,
+  reviews,
+  overallRating,
+}: ReviewProps): ReactElement => {
   const ratingEntries = useMemo(() => Object.entries(ratings).slice(1), [
     ratings,
   ]);
 
-  const overallRating = useMemo(() => {
-    const sum = reviews.reduce(
-      (acc, { averageRating }) => (acc += averageRating),
-      0
-    );
-    return sum ? sum / reviews.length : sum;
-  }, [reviews]);
-
   return (
     <>
-      <hr />
       <HStack fontSize="20px" my={10}>
         <Icon as={AiOutlineStar} />
         <Text fontWeight="bold">

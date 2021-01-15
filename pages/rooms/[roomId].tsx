@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+
 import { useRouter } from "next/router";
 import { IoBedOutline } from "react-icons/io5";
 import {
@@ -14,16 +15,18 @@ import {
   Icon,
   Text,
   Button,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
-import { ElementType, ReactElement, ReactNode } from "react";
+import { ElementType, ReactElement, ReactNode, useMemo } from "react";
 import { FiShare } from "react-icons/fi";
 import { RatingButton } from "../../components/shared";
 import { useGetRoomQuery } from "../../generated";
 import { BookingCard } from "../../components/BookingCard";
 import { Review } from "../../components/Review";
 import { TextSummary } from "../../components/shared/TextSummary";
+import { BsList } from "react-icons/bs";
 
 interface IconPairProps {
   icon: ElementType;
@@ -41,13 +44,13 @@ interface SectionProps {
   children: ReactNode;
 }
 const Section = ({ name, children }: SectionProps) => (
-  <>
+  <Box mt={20}>
     <hr />
-    <Heading as="h3" size="md">
+    <Heading as="h2" fontWeight="bold" my={4} size="md">
       {name}
     </Heading>
     {children}
-  </>
+  </Box>
 );
 
 const RoomDetails = (): ReactElement => {
@@ -60,6 +63,13 @@ const RoomDetails = (): ReactElement => {
 
   const room = data.getRoom.room;
 
+  const overallRating = useMemo(() => {
+    const sum = room.reviews.reduce(
+      (acc, { averageRating }) => (acc += averageRating),
+      0
+    );
+    return sum ? sum / room.reviews.length : sum;
+  }, [room.reviews]);
   return (
     <>
       <Grid
@@ -114,20 +124,29 @@ const RoomDetails = (): ReactElement => {
           </Section>
 
           <Section name="Amenities">
-            <Wrap w="100%" spacing={8}>
+            <SimpleGrid columns={2} spacingX={12} spacingY={4}>
               {room.amenities.slice(0, 5).map(({ id, name }) => (
-                <WrapItem key={id}>
+                <Box key={id}>
                   <Text casing="capitalize">{name}</Text>
-                </WrapItem>
+                </Box>
               ))}
-            </Wrap>
-            <Button>Show More</Button>
+            </SimpleGrid>
+
+            <Button my={10} rightIcon={<BsList />} mx="15rem">
+              Show More
+            </Button>
           </Section>
         </Info>
 
         <BookingCard />
       </Stack>
-      <Review ratings={room.averageRating} reviews={room.reviews} />
+      <Section name="Review">
+        <Review
+          ratings={room.averageRating}
+          reviews={room.reviews}
+          overallRating={overallRating}
+        />
+      </Section>
     </>
   );
 };
