@@ -1,30 +1,30 @@
 import { ReactElement } from "react";
 import styled from "@emotion/styled";
 
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Heading, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { Photo, Room } from "../generated";
 import { AiOutlineStar, AiOutlineHeart } from "react-icons/ai";
 import { IoBedOutline } from "react-icons/io5";
 
 import { ButtonOpaque, IconButtonClear, IconPair } from "./shared";
-interface CardProps {
+interface CardProps extends BoxProps {
   room: Room;
 }
 
-export const CardVertical = ({ room }: CardProps): ReactElement => {
+export const CardVertical = ({ room, ...props }: CardProps): ReactElement => {
   return (
-    <Box
-      w="25rem"
+    <VStack
       h="100%"
       bgColor="gray.50"
-      boxShadow="md"
+      boxShadow="lg"
       borderRadius="lg"
       overflow="hidden"
+      {...props}
     >
       <RoomImage photos={room.photos} />
 
-      <TextWrapper as="section">
+      <VStack as="section" align="stretch" spacing={2} p={4}>
         <Text size="xs" fontWeight="medium" color="gray.400">
           {room.roomType.name}
         </Text>
@@ -34,7 +34,7 @@ export const CardVertical = ({ room }: CardProps): ReactElement => {
         <Text as="p">{room.description}</Text>
 
         <Box mt="auto">
-          <IconPair icon={IoBedOutline} my={4}>
+          <IconPair icon={IoBedOutline} my={3}>
             {room.beds}
           </IconPair>
 
@@ -42,18 +42,10 @@ export const CardVertical = ({ room }: CardProps): ReactElement => {
             ${room.price}
           </Text>
         </Box>
-      </TextWrapper>
-    </Box>
+      </VStack>
+    </VStack>
   );
 };
-
-const TextWrapper = styled(Box)`
-  padding: 1rem;
-  & > :not(:first-child) {
-    padding-top: 0.25rem;
-  }
-`;
-
 interface ImageProps {
   photos: Photo[];
 }
