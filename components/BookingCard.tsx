@@ -1,10 +1,7 @@
-import { Box, Select, Button, BoxProps } from "@chakra-ui/react";
+import { ReactElement } from "react";
+import { Box, BoxProps, Button, Select } from "@chakra-ui/react";
 
-interface BookingProps {
-  props: BoxProps;
-}
-
-export const BookingCard = ({ ...props }) => {
+export const BookingCard = ({ ...props }: BoxProps): ReactElement => {
   return (
     <Box minWidth="300px" {...props}>
       <Box p={5} shadow="md" borderRadius="10px">

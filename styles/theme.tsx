@@ -5,9 +5,11 @@ const fontWeights = {
   medium: 600,
   bold: 700,
 };
+
 const colors = {
   primary: "#38B2AC",
 };
+
 const icons = {
   google: {
     path: (
@@ -44,5 +46,6 @@ const icons = {
     viewBox: "0 0 256 249",
   },
 };
+
 const theme = extendTheme({ icons, fontWeights, colors });
 export default theme;

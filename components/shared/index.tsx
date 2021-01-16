@@ -1,2 +1,4 @@
-export * from "./ButtonPrimary";
-export * from "./RatingButton";
+export * from "./Buttons/Primary";
+export * from "./Buttons/Opaque";
+export * from "./Buttons/Clear";
+export * from "./IconPair";

@@ -7,8 +7,6 @@ import {
   Flex,
   Stack,
   HStack,
-  Wrap,
-  WrapItem,
   Grid,
   GridItem,
   Heading,
@@ -21,24 +19,12 @@ import Image from "next/image";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
 import { ElementType, ReactElement, ReactNode, useMemo } from "react";
 import { FiShare } from "react-icons/fi";
-import { RatingButton } from "../../components/shared";
+import { ButtonOpaque, IconPair } from "../../components/shared";
 import { useGetRoomQuery } from "../../generated";
 import { BookingCard } from "../../components/BookingCard";
 import { Review } from "../../components/Review";
 import { TextSummary } from "../../components/shared/TextSummary";
 import { BsList } from "react-icons/bs";
-
-interface IconPairProps {
-  icon: ElementType;
-  children: ReactNode;
-}
-const IconPair = ({ icon, children }: IconPairProps) => (
-  <Flex color="gray.400" fontSize="md" alignItems="center">
-    <Icon as={icon} h={6} w={6} mr="0.5rem" />
-    <p>{children}</p>
-  </Flex>
-);
-
 interface SectionProps {
   name: string;
   children: ReactNode;
@@ -58,18 +44,27 @@ const RoomDetails = (): ReactElement => {
   const { query } = router;
   const id = query.roomId as string;
   const { loading, data, error } = useGetRoomQuery({ variables: { id } });
+
+  const room = data?.getRoom.room;
+
+  const averageReviews = () => {
+    const sum = room
+      ? room.reviews.reduce(
+          (sum, { averageRating }) => (sum += averageRating),
+          0
+        )
+      : null;
+
+    return sum ? sum / room.reviews.length : sum;
+  };
+
+  const overallRating = useMemo(() => averageReviews(), [
+    data?.getRoom.room.reviews,
+  ]);
+
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
   if (loading) return <div>Loading</div>;
 
-  const room = data.getRoom.room;
-
-  const overallRating = useMemo(() => {
-    const sum = room.reviews.reduce(
-      (acc, { averageRating }) => (acc += averageRating),
-      0
-    );
-    return sum ? sum / room.reviews.length : sum;
-  }, [room.reviews]);
   return (
     <>
       <Grid
@@ -83,21 +78,17 @@ const RoomDetails = (): ReactElement => {
       >
         <GridItem overflow="hidden" colSpan={4} rowSpan={3} position="relative">
           <Image layout="fill" src={room.photos[0].link} />
-          <RatingButton
+          <ButtonOpaque
             position="absolute"
             left={6}
             bottom={6}
             rightIcon={<AiOutlineStar />}
           >
-            4.8
-          </RatingButton>
+            {overallRating}
+          </ButtonOpaque>
           <HStack position="absolute" spacing={2} top={2} left={4}>
-            <RatingButton>
-              <FiShare size="1.3rem" />
-            </RatingButton>
-            <RatingButton>
-              <AiOutlineHeart size="1.3rem" />
-            </RatingButton>
+            <ButtonOpaque leftIcon={<FiShare size="1.3rem" />} />
+            <ButtonOpaque leftIcon={<AiOutlineHeart size="1.3rem" />} />
           </HStack>
         </GridItem>
         <GridItem overflow="hidden" colSpan={2} rowSpan={1} position="relative">
@@ -118,7 +109,7 @@ const RoomDetails = (): ReactElement => {
           <Heading as="h2" size="lg">
             Room Name
           </Heading>
-          <IconPair icon={IoBedOutline}>2</IconPair>
+          <IconPair icon={IoBedOutline}>{room.beds}</IconPair>
           <Section name="Description">
             <TextSummary>{room.description}</TextSummary>
           </Section>
@@ -141,11 +132,7 @@ const RoomDetails = (): ReactElement => {
         <BookingCard />
       </Stack>
       <Section name="Review">
-        <Review
-          ratings={room.averageRating}
-          reviews={room.reviews}
-          overallRating={overallRating}
-        />
+        <Review ratings={room.averageRating} reviews={room.reviews} />
       </Section>
     </>
   );

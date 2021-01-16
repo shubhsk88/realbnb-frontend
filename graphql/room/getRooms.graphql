@@ -12,7 +12,7 @@ query getRooms {
         caption
       }
       price
-      roomType{
+      roomType {
         name
       }
     }
