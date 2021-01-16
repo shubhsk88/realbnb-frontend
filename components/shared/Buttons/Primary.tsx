@@ -4,11 +4,16 @@ import styled from "@emotion/styled";
 
 const style = css`
   color: white;
-  background-color: black;
+  background-color: #000000;
   font-weight: bold;
+
   &:hover,
   &:focus {
-    background-color: #1a202c;
+    background-color: #2d3748;
+  }
+
+  &:active {
+    background-color: #171923;
   }
 
   border-radius: 10px;

@@ -1,27 +1,29 @@
-import { Box, Flex, Link, Icon } from "@chakra-ui/react";
 import { ReactElement } from "react";
-import { BsSearch } from "react-icons/bs";
-import { ButtonPrimary } from "./shared";
+import { Link, BoxProps, Stack, HStack, IconButton } from "@chakra-ui/react";
 import NextLink from "next/link";
-export const Header = (): ReactElement => {
+
+import { BsSearch } from "react-icons/bs";
+
+import { LayoutContainer } from "./Layout";
+import { ButtonPrimary } from "./shared";
+
+export const Header = (props: BoxProps): ReactElement => {
   return (
-    <Box shadow="lg">
-      <Box maxW="1200px" mx="auto">
-        <Flex justifyContent="space-between" h="5rem" alignItems="center">
-          <NextLink href="/">
-            <a>
-              <Icon as={BsSearch} />
-            </a>
+    <LayoutContainer shadow="lg" {...props}>
+      <HStack py={4} justify="space-between">
+        <NextLink href="/">
+          <IconButton as="a" aria-label="home" icon={<BsSearch />} />
+        </NextLink>
+        <Stack direction="row" align="center" spacing={8} fontWeight="bold">
+          <NextLink href="#">
+            <Link>Booking</Link>
           </NextLink>
-          <Box fontWeight="bold">
-            <Link mr={24}>Booking</Link>
-            <Link mr={24}>Saved</Link>
-            <ButtonPrimary>
-              <Link>Login</Link>
-            </ButtonPrimary>
-          </Box>
-        </Flex>
-      </Box>
-    </Box>
+          <NextLink href="#">
+            <Link>Saved</Link>
+          </NextLink>
+          <ButtonPrimary>Login</ButtonPrimary>
+        </Stack>
+      </HStack>
+    </LayoutContainer>
   );
 };

@@ -24,7 +24,7 @@ export const CardVertical = ({ room, ...props }: CardProps): ReactElement => {
     >
       <RoomImage photos={room.photos} />
 
-      <VStack as="section" align="stretch" spacing={2} p={4}>
+      <VStack as="section" flexGrow={1} align="stretch" spacing={2} p={4}>
         <Text size="xs" fontWeight="medium" color="gray.400">
           {room.roomType.name}
         </Text>
