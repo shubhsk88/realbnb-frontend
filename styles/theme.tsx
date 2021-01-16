@@ -1,13 +1,13 @@
 import { extendTheme } from "@chakra-ui/react";
 
+const colors = {
+  primary: "#38B2AC",
+};
+
 const fontWeights = {
   normal: 400,
   medium: 600,
   bold: 700,
-};
-
-const colors = {
-  primary: "#38B2AC",
 };
 
 const icons = {

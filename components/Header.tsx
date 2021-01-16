@@ -5,7 +5,7 @@ import NextLink from "next/link";
 import { BsSearch } from "react-icons/bs";
 
 import { LayoutContainer } from "./Layout";
-import { ButtonPrimary } from "./shared";
+import { ButtonPrimary } from "./common";
 
 export const Header = (props: BoxProps): ReactElement => {
   return (

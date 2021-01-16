@@ -1,7 +1,7 @@
+import { ReactElement, ReactNode, useMemo } from "react";
+import { useRouter } from "next/router";
 import styled from "@emotion/styled";
 
-import { useRouter } from "next/router";
-import { IoBedOutline } from "react-icons/io5";
 import {
   Box,
   Stack,
@@ -13,20 +13,26 @@ import {
   Button,
   SimpleGrid,
 } from "@chakra-ui/react";
+
 import Image from "next/image";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
-import { ElementType, ReactElement, ReactNode, useMemo } from "react";
 import { FiShare } from "react-icons/fi";
-import { ButtonOpaque, IconPair } from "../../components/shared";
-import { useGetRoomQuery } from "../../generated";
-import { BookingCard } from "../../components/BookingCard";
-import { Review } from "../../components/Review";
-import { TextSummary } from "../../components/shared/TextSummary";
+import { IoBedOutline } from "react-icons/io5";
 import { BsList } from "react-icons/bs";
+
+import { useGetRoomQuery } from "../../generated";
+import { BookingCard, Review } from "../../components";
+import {
+  ButtonOpaque,
+  IconButtonOpaque,
+  IconPair,
+  TextSummary,
+} from "../../components/common";
 interface SectionProps {
   name: string;
   children: ReactNode;
 }
+
 const Section = ({ name, children }: SectionProps) => (
   <Box mt={20}>
     <hr />
@@ -85,8 +91,14 @@ const RoomDetails = (): ReactElement => {
             {overallRating}
           </ButtonOpaque>
           <HStack position="absolute" spacing={2} top={2} left={4}>
-            <ButtonOpaque leftIcon={<FiShare size="1.3rem" />} />
-            <ButtonOpaque leftIcon={<AiOutlineHeart size="1.3rem" />} />
+            <IconButtonOpaque
+              aria-label="Share listing"
+              icon={<FiShare size="1.3rem" />}
+            />
+            <IconButtonOpaque
+              aria-label="Save listing"
+              icon={<AiOutlineHeart size="1.3rem" />}
+            />
           </HStack>
         </GridItem>
         <GridItem overflow="hidden" colSpan={2} rowSpan={1} position="relative">

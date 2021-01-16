@@ -14,7 +14,7 @@ import { Photo, Room } from "../generated";
 import { AiOutlineStar, AiOutlineHeart } from "react-icons/ai";
 import { IoBedOutline } from "react-icons/io5";
 
-import { ButtonOpaque, IconButtonClear, IconPair } from "./shared";
+import { ButtonOpaque, IconButtonClear, IconPair } from "./common";
 
 interface CardProps extends BoxProps {
   room: Room;
@@ -40,7 +40,7 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
         <Heading as="h3" size="md">
           {room.name}
         </Heading>
-        <Text as="p">{room.description}</Text>
+        <Text>{room.description}</Text>
 
         <Box mt="auto">
           <IconPair icon={IoBedOutline} my={3}>

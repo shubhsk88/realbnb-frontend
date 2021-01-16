@@ -1,7 +1,7 @@
 import React, { ReactElement, useMemo } from "react";
 import { HStack, Icon, Text, Wrap, WrapItem } from "@chakra-ui/react";
-import { ReviewScore } from "./shared/ReviewScore";
-import { ReviewCard } from "./shared/ReviewCard";
+import { ReviewScore } from "./common/ReviewScore";
+import { ReviewCard } from "./common/ReviewCard";
 import { AiOutlineStar } from "react-icons/ai";
 import { Review as ReviewType, AverageReviewRating } from "../generated";
 
