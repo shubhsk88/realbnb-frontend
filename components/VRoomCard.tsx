@@ -1,18 +1,26 @@
 import { ReactElement } from "react";
 import styled from "@emotion/styled";
 
-import { Box, BoxProps, Heading, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Heading,
+  Skeleton,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { Photo, Room } from "../generated";
 import { AiOutlineStar, AiOutlineHeart } from "react-icons/ai";
 import { IoBedOutline } from "react-icons/io5";
 
 import { ButtonOpaque, IconButtonClear, IconPair } from "./shared";
+
 interface CardProps extends BoxProps {
   room: Room;
 }
 
-export const CardVertical = ({ room, ...props }: CardProps): ReactElement => {
+export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
   return (
     <VStack
       h="100%"
@@ -20,9 +28,10 @@ export const CardVertical = ({ room, ...props }: CardProps): ReactElement => {
       boxShadow="lg"
       borderRadius="lg"
       overflow="hidden"
+      align="stretch"
       {...props}
     >
-      <RoomImage photos={room.photos} />
+      <RoomImage photo={room.photos[0]} />
 
       <VStack as="section" flexGrow={1} align="stretch" spacing={2} p={4}>
         <Text size="xs" fontWeight="medium" color="gray.400">
@@ -38,6 +47,11 @@ export const CardVertical = ({ room, ...props }: CardProps): ReactElement => {
             {room.beds}
           </IconPair>
 
+          {/* Current bug breaks StatNumber
+            <StatNumber color="primary">${room.price}</StatNumber>
+            */}
+
+          {/* FIXME: primary needs to be properly defined (ButtonPrimary -> Secondary) */}
           <Text fontWeight="extrabold" fontSize="2xl" color="primary">
             ${room.price}
           </Text>
@@ -46,33 +60,38 @@ export const CardVertical = ({ room, ...props }: CardProps): ReactElement => {
     </VStack>
   );
 };
+
 interface ImageProps {
-  photos: Photo[];
+  photo: Photo;
 }
 
-const RoomImage = ({ photos }: ImageProps): ReactElement => {
+const RoomImage = ({ photo }: ImageProps): ReactElement => {
   return (
-    <ImageWrapper>
-      {/* TODO: image caption */}
-      <Image
-        src={
-          photos.length
-            ? photos[0].link
-            : "https://res.cloudinary.com/dnpwz5gdn/image/upload/v1610472448/zbr9m61suuhkvo74tsxt.webp"
-        }
-        layout="fill"
-        alt="image caption"
-        objectFit="cover"
-      />
+    <Skeleton isLoaded={!!photo}>
+      <ImageWrapper>
+        {photo && (
+          <>
+            {/* TODO: image caption */}
+            <Image
+              src={photo.link}
+              alt={photo.caption}
+              layout="fill"
+              objectFit="cover"
+              loading="lazy"
+            />
 
-      <RatingButton rightIcon={<AiOutlineStar size="1.3rem" />}>
-        5.00
-      </RatingButton>
-      <HeartButton
-        aria-label="Save room"
-        icon={<AiOutlineHeart size="1.3rem" />}
-      />
-    </ImageWrapper>
+            {/* TODO: add average rating data */}
+            <RatingButton rightIcon={<AiOutlineStar size="1.3rem" />}>
+              5.00
+            </RatingButton>
+            <HeartButton
+              aria-label="Save room"
+              icon={<AiOutlineHeart size="1.3rem" />}
+            />
+          </>
+        )}
+      </ImageWrapper>
+    </Skeleton>
   );
 };
 

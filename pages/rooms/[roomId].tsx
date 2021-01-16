@@ -4,13 +4,11 @@ import { useRouter } from "next/router";
 import { IoBedOutline } from "react-icons/io5";
 import {
   Box,
-  Flex,
   Stack,
   HStack,
   Grid,
   GridItem,
   Heading,
-  Icon,
   Text,
   Button,
   SimpleGrid,

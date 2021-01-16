@@ -1,3 +1,3 @@
-export * from "./CardVertical";
+export * from "./VRoomCard";
 export * from "./Header";
 export * from "./Layout";

@@ -1,12 +1,12 @@
 import { ReactElement } from "react";
 import { GetStaticProps } from "next";
 
-import { Box, SimpleGrid, Grid, Flex, Wrap, WrapItem } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import Link from "next/link";
 import { GetRoomsDocument, useGetRoomsQuery } from "../generated";
 
 import { initializeApollo } from "../lib/apolloClient";
-import { CardVertical } from "../components";
+import { VRoomCard } from "../components";
 
 export interface PageProps {
   data: Record<string, unknown>;
@@ -27,7 +27,7 @@ const IndexPage = (props: PageProps): ReactElement => {
       {rooms.map((room) => (
         <Link key={room.id} href={`/rooms/${room.id}`}>
           <a>
-            <CardVertical room={room} />
+            <VRoomCard room={room} />
           </a>
         </Link>
       ))}
