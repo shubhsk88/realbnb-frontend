@@ -16,7 +16,7 @@ interface ModalProps {
   children: ReactNode;
 }
 
-export const ModalComponent = ({ name = "", children }: ModalProps) => {
+export const ModalComponent = ({ name, children }: ModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>

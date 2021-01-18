@@ -14,6 +14,7 @@ import {
 import { ButtonPrimary, ErrorDialog } from "./common";
 import { useEffect, useState } from "react";
 import { useEmailLoginMutation } from "../generated";
+import { isLoggedInVar } from "../lib/cache";
 
 export interface LoginInputData {
   email: string;
@@ -33,6 +34,14 @@ export const Login = () => {
   });
   const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
   const [onLogin, { data, error, loading }] = useEmailLoginMutation();
+  // {
+  //   onCompleted: ({ emailSignIn }) => {
+  //     if (emailSignIn.token) {
+  //       localStorage.setItem("token", emailSignIn.token as string);
+  //     }
+  //     isLoggedInVar(true);
+  //   },
+  // }
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset({ ...submittedData });

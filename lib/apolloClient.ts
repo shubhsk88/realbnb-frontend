@@ -4,11 +4,19 @@ import {
   createHttpLink,
   InMemoryCache,
   NormalizedCacheObject,
+  gql,
 } from "@apollo/client";
+
 import { useMemo } from "react";
+import { clientCache } from "./cache";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
+const typeDefs = gql`
+  extend type Query {
+    isLoggedIn: Boolean!
+  }
+`;
 export const getApolloClient = (
   _ = null,
   initialState: NormalizedCacheObject = {}
@@ -16,6 +24,9 @@ export const getApolloClient = (
   const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     fetch,
+    // headers: {
+    //   authorization: localStorage.getItem("token") || "",
+    // },
   });
   const cache = new InMemoryCache().restore(initialState);
   return new ApolloClient({
