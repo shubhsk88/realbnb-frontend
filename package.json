@@ -28,6 +28,7 @@
     "react-icons": "^4.1.0",
     "react-nice-dates": "^3.0.7",
     "react-query": "^3.5.12",
+    "react-spinners": "^0.10.4",
     "yup": "^0.32.8"
   },
   "license": "MIT",

@@ -1,5 +1,6 @@
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ModalComponent } from "./common/ModalComponent";
+import { BeatLoader } from "react-spinners";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../utils";
 import {
@@ -8,18 +9,40 @@ import {
   Input,
   FormErrorMessage,
   Box,
+  Spinner,
 } from "@chakra-ui/react";
 import { ButtonPrimary } from "./common";
+import { useEffect, useState } from "react";
+import { useEmailLoginMutation } from "../generated";
 
+export interface LoginInputData {
+  email: string;
+  password: string;
+}
 export const Login = () => {
-  const { register, handleSubmit, errors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    getValues,
+    formState: { isSubmitSuccessful },
+  } = useForm<LoginInputData>({
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   });
+  const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
+  const [onLogin, { data, error, loading }] = useEmailLoginMutation();
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset({ ...submittedData });
+    }
+  }, [isSubmitSuccessful, submittedData, reset]);
+  console.log(data, error, loading);
+  const onSubmit: SubmitHandler<LoginInputData> = (inputData) => {
+    setSubmittedData((prev) => ({ ...prev, inputData }));
 
-  const onSubmit = (data) => {
-    console.log(errors);
-    console.log(data);
+    onLogin({ variables: inputData });
   };
 
   return (
@@ -35,6 +58,7 @@ export const Login = () => {
             type="email"
             name="email"
             placeholder="Email Address"
+            focusBorderColor="primary"
             ref={register}
           />
           <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -49,16 +73,23 @@ export const Login = () => {
           <Input
             type="password"
             name="password"
+            focusBorderColor="primary"
             placeholder="Password"
             ref={register}
           />
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
-        <Box w="100%" textAlign="center">
-          <ButtonPrimary type="submit" w="80%" mx="auto" my={6}>
-            Login
-          </ButtonPrimary>
-        </Box>
+        <FormErrorMessage>Hello</FormErrorMessage>
+        <ButtonPrimary
+          isLoading={loading}
+          loadingText="Submitting"
+          spinner={<BeatLoader size={8} color="white" />}
+          type="submit"
+          w="100%"
+          my={6}
+        >
+          Login
+        </ButtonPrimary>
       </form>
     </ModalComponent>
   );
