@@ -11,7 +11,7 @@ import {
   Box,
   Spinner,
 } from "@chakra-ui/react";
-import { ButtonPrimary } from "./common";
+import { ButtonPrimary, ErrorDialog } from "./common";
 import { useEffect, useState } from "react";
 import { useEmailLoginMutation } from "../generated";
 
@@ -79,11 +79,13 @@ export const Login = () => {
           />
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
-        <FormErrorMessage>Hello</FormErrorMessage>
+        {data?.emailSignIn?.error ? (
+          <ErrorDialog error={data.emailSignIn.error} />
+        ) : null}
         <ButtonPrimary
           isLoading={loading}
           loadingText="Submitting"
-          spinner={<BeatLoader size={8} color="white" />}
+          spinner={<BeatLoader size={4} color="white" />}
           type="submit"
           w="100%"
           my={6}
