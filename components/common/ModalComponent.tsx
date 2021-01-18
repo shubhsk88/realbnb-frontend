@@ -8,28 +8,28 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Button,
 } from "@chakra-ui/react";
+import { ButtonPrimary } from "./Buttons/Primary";
 
-export const ModalComponent = ({ children }: { children: ReactNode }) => {
+interface ModalProps {
+  name?: string;
+  children: ReactNode;
+}
+
+export const ModalComponent = ({ name = "", children }: ModalProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Button onClick={onOpen}>Open Modal</Button>
+      <ButtonPrimary onClick={onOpen}>Login</ButtonPrimary>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>{name}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>{children}</ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
-          </ModalFooter>
+          <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
     </>

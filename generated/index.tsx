@@ -426,6 +426,20 @@ export type GetRoomsQuery = (
   ) }
 );
 
+export type EmailLoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type EmailLoginMutation = (
+  { __typename?: 'Mutation' }
+  & { emailSignIn: (
+    { __typename?: 'emailSignInResponse' }
+    & Pick<EmailSignInResponse, 'ok' | 'error' | 'token'>
+  ) }
+);
+
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -570,6 +584,41 @@ export function useGetRoomsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetRoomsQueryHookResult = ReturnType<typeof useGetRoomsQuery>;
 export type GetRoomsLazyQueryHookResult = ReturnType<typeof useGetRoomsLazyQuery>;
 export type GetRoomsQueryResult = Apollo.QueryResult<GetRoomsQuery, GetRoomsQueryVariables>;
+export const EmailLoginDocument = gql`
+    mutation emailLogin($email: String!, $password: String!) {
+  emailSignIn(email: $email, password: $password) {
+    ok
+    error
+    token
+  }
+}
+    `;
+export type EmailLoginMutationFn = Apollo.MutationFunction<EmailLoginMutation, EmailLoginMutationVariables>;
+
+/**
+ * __useEmailLoginMutation__
+ *
+ * To run a mutation, you first call `useEmailLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEmailLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [emailLoginMutation, { data, loading, error }] = useEmailLoginMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useEmailLoginMutation(baseOptions?: Apollo.MutationHookOptions<EmailLoginMutation, EmailLoginMutationVariables>) {
+        return Apollo.useMutation<EmailLoginMutation, EmailLoginMutationVariables>(EmailLoginDocument, baseOptions);
+      }
+export type EmailLoginMutationHookResult = ReturnType<typeof useEmailLoginMutation>;
+export type EmailLoginMutationResult = Apollo.MutationResult<EmailLoginMutation>;
+export type EmailLoginMutationOptions = Apollo.BaseMutationOptions<EmailLoginMutation, EmailLoginMutationVariables>;
 export const HelloDocument = gql`
     query hello {
   hello
