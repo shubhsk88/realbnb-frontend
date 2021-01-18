@@ -6,6 +6,7 @@ import { BsSearch } from "react-icons/bs";
 
 import { LayoutContainer } from "./Layout";
 import { ButtonPrimary } from "./common";
+import { Login } from "./Login";
 
 export const Header = (props: BoxProps): ReactElement => {
   return (
@@ -21,7 +22,7 @@ export const Header = (props: BoxProps): ReactElement => {
           <NextLink href="#">
             <Link>Saved</Link>
           </NextLink>
-          <ButtonPrimary>Login</ButtonPrimary>
+          <Login />
         </Stack>
       </HStack>
     </LayoutContainer>

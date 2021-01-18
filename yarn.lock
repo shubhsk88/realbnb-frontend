@@ -3822,6 +3822,11 @@ elliptic@^6.5.3:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
+embla-carousel@^4.1.3:
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/embla-carousel/-/embla-carousel-4.1.3.tgz#526be0266b838b0c7bed809fa7b52c93e8648cf3"
+  integrity sha512-9mX8h8SVRi9szOB6RIcSZuAPl1NgWa1+2KRRXFDWUy0ER+6BOgYvVHmunNkjLM/yg9VElAxL5PNmc+YccKeFtQ==
+
 emoji-regex@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"

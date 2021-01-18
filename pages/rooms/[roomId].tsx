@@ -28,6 +28,7 @@ import {
   IconPair,
   TextSummary,
 } from "../../components/common";
+import { CarouselModal } from "../../components/CarouselModal";
 interface SectionProps {
   name: string;
   children: ReactNode;
@@ -113,6 +114,8 @@ const RoomDetails = (): ReactElement => {
       </Grid>
       <Stack direction="row" spacing="30px">
         <Info flexGrow={1}>
+          <CarouselModal></CarouselModal>
+
           <Text size="sm" fontWeight="medium" color="gray.400">
             Room Type
           </Text>

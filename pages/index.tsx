@@ -6,7 +6,7 @@ import Link from "next/link";
 import { GetRoomsDocument, useGetRoomsQuery } from "../generated";
 
 import { initializeApollo } from "../lib/apolloClient";
-import { VRoomCard, Login } from "../components";
+import { VRoomCard } from "../components";
 
 export interface PageProps {
   data: Record<string, unknown>;
@@ -31,7 +31,6 @@ const IndexPage = (props: PageProps): ReactElement => {
           </a>
         </Link>
       ))}
-      <Login />
     </SimpleGrid>
   );
 };
