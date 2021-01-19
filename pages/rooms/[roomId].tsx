@@ -29,6 +29,7 @@ import {
   TextSummary,
 } from "../../components/common";
 import { CarouselModal } from "../../components/CarouselModal";
+import { DateRangePickerComponent } from "../../components/DatePicker";
 interface SectionProps {
   name: string;
   children: ReactNode;
@@ -115,6 +116,7 @@ const RoomDetails = (): ReactElement => {
       <Stack direction="row" spacing="30px">
         <Info flexGrow={1}>
           <CarouselModal></CarouselModal>
+          <DateRangePickerComponent />
 
           <Text size="sm" fontWeight="medium" color="gray.400">
             Room Type
