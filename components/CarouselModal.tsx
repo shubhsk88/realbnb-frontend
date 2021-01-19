@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import {
   Button,
   Modal,
@@ -10,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { Carousel } from "./common/Carousel";
 
-export const CarouselModal = () => {
+export const CarouselModal = (): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -19,11 +20,10 @@ export const CarouselModal = () => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
-          <ModalCloseButton />
+        <ModalContent minW="60vw" h="70vh">
           <ModalBody>
-            <Carousel></Carousel>
+            <ModalCloseButton />
+            <Carousel />
           </ModalBody>
         </ModalContent>
       </Modal>

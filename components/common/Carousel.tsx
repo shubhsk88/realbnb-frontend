@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { Box, IconButton } from "@chakra-ui/react";
 import { useEmblaCarousel } from "embla-carousel/react";
-import Image from "next/image";
+
+import { Box, Flex, IconButton } from "@chakra-ui/react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import Image from "next/image";
 
 const slides = [
   "http://res.cloudinary.com/dnpwz5gdn/image/upload/v1610472448/nxayaq3ppnairemae4ev.webp",
@@ -17,13 +18,12 @@ const slides = [
 export const mediaByIndex = (index) => slides[index % slides.length];
 
 export const Carousel = () => {
-  const [emblaRef, embla] = useEmblaCarousel();
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(true);
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(true);
+  const [viewportRef, embla] = useEmblaCarousel();
+  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
+  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
 
   const scrollPrev = useCallback(() => embla && embla.scrollPrev(), [embla]);
   const scrollNext = useCallback(() => embla && embla.scrollNext(), [embla]);
-
   const onSelect = useCallback(() => {
     if (!embla) return;
     setPrevBtnEnabled(embla.canScrollPrev());
@@ -37,29 +37,47 @@ export const Carousel = () => {
   }, [embla, onSelect]);
 
   return (
-    <Box overflow="hidden" pos="relative">
-      <Box display="flex" ref={emblaRef}>
-        {slides.map((slide, index) => (
-          <Box key={index} pos="relative" minW="100%">
-            <img src={mediaByIndex(index)} alt="A cool cat." />
-          </Box>
-        ))}
+    <Box pos="relative" w="100%" h="100%">
+      <Box ref={viewportRef} overflow="hidden" w="100%" h="100%">
+        <Flex w="100%" h="100%">
+          {slides.map((slide) => (
+            <Box
+              key={slide}
+              minW="100%"
+              maxW="100%"
+              minH="100%"
+              maxH="100%"
+              position="relative"
+            >
+              <Image
+                src={slide}
+                alt="A cool cat."
+                layout="fill"
+                objectFit="contain"
+              />
+            </Box>
+          ))}
+        </Flex>
       </Box>
+
       <IconButton
-        onClick={() => scrollPrev}
+        onClick={scrollPrev}
         pos="absolute"
         top="50%"
         left={5}
         transform="translateY(-50%)"
+        variant="ghost"
         aria-label="Next slide"
         icon={<FaChevronLeft />}
       />
+
       <IconButton
-        onClick={() => scrollNext}
+        onClick={scrollNext}
         pos="absolute"
         top="50%"
         right={5}
         transform="translateY(-50%)"
+        variant="ghost"
         aria-label="Next slide"
         icon={<FaChevronRight />}
       />
