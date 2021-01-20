@@ -12,12 +12,14 @@ import {
   Button,
   Center,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import { ButtonPrimary, ErrorDialog } from "./common";
 import { ReactElement, useEffect, useState } from "react";
 import { useEmailLoginMutation, useGoogleAuthMutation } from "../generated";
 import { isLoggedInVar } from "../lib/cache";
 import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
+import { GoogleIcon } from "../styles/theme";
 
 export interface LoginInputData {
   email: string;
@@ -95,59 +97,68 @@ export const Login = (): ReactElement => {
   };
 
   return (
-    <ModalComponent name={isLogin ? "Login" : "Create Account"}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl
-          id="email"
-          isRequired
-          isInvalid={Boolean(errors.email?.message)}
-        >
-          <FormLabel>Email Address</FormLabel>
-          <Input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            focusBorderColor="primary"
-            ref={register}
-          />
-          <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
-        </FormControl>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormControl
+        id="email"
+        isRequired
+        isInvalid={Boolean(errors.email?.message)}
+      >
+        <FormLabel>Email Address</FormLabel>
+        <Input
+          type="email"
+          name="email"
+          placeholder="Email Address"
+          focusBorderColor="primary"
+          ref={register}
+        />
+        <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+      </FormControl>
 
-        <FormControl
-          id="password"
-          isRequired
-          isInvalid={Boolean(errors.password?.message)}
-        >
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            name="password"
-            focusBorderColor="primary"
-            placeholder="Password"
-            ref={register}
-          />
-          <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
-        </FormControl>
-        {data?.emailSignIn?.error ? (
-          <ErrorDialog error={data.emailSignIn.error} />
-        ) : null}
-        <ButtonPrimary
-          isLoading={loading}
-          loadingText="Submitting"
-          spinner={<BeatLoader size={4} color="white" />}
-          type="submit"
-          w="100%"
-          my={6}
-        >
-          Login
-        </ButtonPrimary>
+      <FormControl
+        id="password"
+        isRequired
+        isInvalid={Boolean(errors.password?.message)}
+      >
+        <FormLabel>Password</FormLabel>
+        <Input
+          type="password"
+          name="password"
+          focusBorderColor="primary"
+          placeholder="Password"
+          ref={register}
+        />
+        <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
+      </FormControl>
+      {data?.emailSignIn?.error ? (
+        <ErrorDialog error={data.emailSignIn.error} />
+      ) : null}
+      <ButtonPrimary
+        isLoading={loading}
+        loadingText="Submitting"
+        spinner={<BeatLoader size={4} color="white" />}
+        type="submit"
+        w="100%"
+        my={6}
+      >
+        Login
+      </ButtonPrimary>
+      <VStack spacing={4}>
         <Text>or</Text>
         <GoogleLogin
           clientId={process.env.NEXT_PUBLIC_GOOGLE_ID}
           render={(renderProps) => (
             <Button
+              leftIcon={<GoogleIcon />}
               onClick={renderProps.onClick}
               disabled={renderProps.disabled}
+              color="gray.900"
+              fontWeight="medium"
+              backgroundColor="white"
+              w="100%"
+              size="md"
+              _hover={{ bg: "gray.100" }}
+              _active={{ bg: "gray.200", transform: "scale(0.95)" }}
+              variant="outline"
             >
               Sign In With Google
             </Button>
@@ -157,12 +168,8 @@ export const Login = (): ReactElement => {
           onFailure={errorResponseGoogle}
           cookiePolicy={"single_host_origin"}
         />
-        <Center>
-          <Button variant="link" onClick={() => setIsLogin((prev) => !prev)}>
-            {isLogin ? "Create Account" : "Login to existing account"}
-          </Button>
-        </Center>
-      </form>
-    </ModalComponent>
+        
+      </VStack>
+    </form>
   );
 };

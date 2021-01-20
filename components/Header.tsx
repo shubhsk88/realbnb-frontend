@@ -8,6 +8,7 @@ import { isLoggedInVar } from "../lib/cache";
 import { useLoggedIn } from "../utils";
 import { LayoutContainer } from "./Layout";
 import { AccountMenu, Login } from "./index";
+import { ModalComponent } from "./common/ModalComponent";
 
 export const Header = (props: BoxProps): ReactElement => {
   const { isLoggedIn, loading: loadLoggedIn } = useLoggedIn();
@@ -25,7 +26,7 @@ export const Header = (props: BoxProps): ReactElement => {
           <NextLink href="#">
             <Link>Saved</Link>
           </NextLink>
-          {isLoggedIn ? <AccountMenu /> : <Login />}
+          {isLoggedIn ? <AccountMenu /> : <ModalComponent />}
         </Stack>
       </HStack>
     </LayoutContainer>
