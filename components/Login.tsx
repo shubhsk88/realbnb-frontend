@@ -33,20 +33,21 @@ export const Login = () => {
     mode: "onBlur",
   });
   const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
-  const [onLogin, { data, error, loading }] = useEmailLoginMutation();
-  // {
-  //   onCompleted: ({ emailSignIn }) => {
-  //     if (emailSignIn.token) {
-  //       localStorage.setItem("token", emailSignIn.token as string);
-  //     }
-  //     isLoggedInVar(true);
-  //   },
-  // }
+  const [onLogin, { data, error, loading }] = useEmailLoginMutation({
+    onCompleted: ({ emailSignIn }) => {
+      if (typeof window !== "undefined" && emailSignIn.token) {
+        localStorage.setItem("token", emailSignIn.token as string);
+      }
+      isLoggedInVar(true);
+    },
+  });
+
   useEffect(() => {
     if (isSubmitSuccessful) {
       reset({ ...submittedData });
     }
   }, [isSubmitSuccessful, submittedData, reset]);
+
   console.log(data, error, loading);
   const onSubmit: SubmitHandler<LoginInputData> = (inputData) => {
     setSubmittedData((prev) => ({ ...prev, inputData }));

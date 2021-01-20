@@ -17,6 +17,7 @@ const typeDefs = gql`
     isLoggedIn: Boolean!
   }
 `;
+
 export const getApolloClient = (
   _ = null,
   initialState: NormalizedCacheObject = {}
@@ -24,12 +25,18 @@ export const getApolloClient = (
   const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     fetch,
-    // headers: {
-    //   authorization: localStorage.getItem("token") || "",
-    // },
+    headers: {
+      authorization:
+        typeof window !== "undefined" && !!localStorage.getItem("token")
+          ? `Bearer ${localStorage.getItem("token")}`
+          : "",
+    },
   });
-  const cache = new InMemoryCache().restore(initialState);
+
+  const cache = clientCache.restore(initialState);
+
   return new ApolloClient({
+    ssrMode: typeof window === "undefined",
     link: httpLink,
     cache,
   });
