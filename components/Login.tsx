@@ -39,7 +39,7 @@ export const Login = (): ReactElement => {
     mode: "onBlur",
   });
 
-  const [isLogin, setIsLogin] = useState(true);
+  
   const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
   const [onLogin, { data, error, loading }] = useEmailLoginMutation({
     onCompleted: ({ emailSignIn }) => {
