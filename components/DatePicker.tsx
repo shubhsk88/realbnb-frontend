@@ -52,13 +52,17 @@ export function DateRangePickerComponent({
         {({ startDateInputProps, endDateInputProps, focus }) => (
           <HStack className="date-range" spacing={2}>
             <Input
+              flex="1"
+              minW="0"
               focusBorderColor="primary"
               className={"input" + (focus === START_DATE ? " -focused" : "")}
               {...startDateInputProps}
               placeholder="Check In"
             />
-            <span className="date-range_arrow" />
+
             <Input
+              flex="1"
+              minW="0"
               focusBorderColor="primary"
               className={"input" + (focus === END_DATE ? " -focused" : "")}
               {...endDateInputProps}

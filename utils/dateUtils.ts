@@ -8,6 +8,12 @@ export const checkDisableDate = (
 };
 
 export const dateRanges = [
-  { start: new Date("02-12-2021"), end: new Date("02-15-2021") },
-  { start: new Date("02-19-2021"), end: new Date("02-23-2021") },
+  {
+    start: new Date(2021, 2, 12),
+    end: new Date(2021, 5, 12),
+  },
+  {
+    start: new Date(2021, 2, 19),
+    end: new Date(2021, 2, 23),
+  },
 ];
