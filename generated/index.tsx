@@ -455,6 +455,22 @@ export type GetUserQuery = (
   ) }
 );
 
+export type GoogleAuthMutationVariables = Exact<{
+  name: Scalars['String'];
+  email: Scalars['String'];
+  googleId: Scalars['String'];
+  imageUrl: Scalars['String'];
+}>;
+
+
+export type GoogleAuthMutation = (
+  { __typename?: 'Mutation' }
+  & { googleAuth: (
+    { __typename?: 'googleSignInResponse' }
+    & Pick<GoogleSignInResponse, 'ok' | 'error' | 'token'>
+  ) }
+);
+
 export type HelloQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -671,6 +687,48 @@ export function useGetUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetUserQueryHookResult = ReturnType<typeof useGetUserQuery>;
 export type GetUserLazyQueryHookResult = ReturnType<typeof useGetUserLazyQuery>;
 export type GetUserQueryResult = Apollo.QueryResult<GetUserQuery, GetUserQueryVariables>;
+export const GoogleAuthDocument = gql`
+    mutation googleAuth($name: String!, $email: String!, $googleId: String!, $imageUrl: String!) {
+  googleAuth: googleSignIn(
+    name: $name
+    email: $email
+    googleId: $googleId
+    avatar: $imageUrl
+  ) {
+    ok
+    error
+    token
+  }
+}
+    `;
+export type GoogleAuthMutationFn = Apollo.MutationFunction<GoogleAuthMutation, GoogleAuthMutationVariables>;
+
+/**
+ * __useGoogleAuthMutation__
+ *
+ * To run a mutation, you first call `useGoogleAuthMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useGoogleAuthMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [googleAuthMutation, { data, loading, error }] = useGoogleAuthMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      email: // value for 'email'
+ *      googleId: // value for 'googleId'
+ *      imageUrl: // value for 'imageUrl'
+ *   },
+ * });
+ */
+export function useGoogleAuthMutation(baseOptions?: Apollo.MutationHookOptions<GoogleAuthMutation, GoogleAuthMutationVariables>) {
+        return Apollo.useMutation<GoogleAuthMutation, GoogleAuthMutationVariables>(GoogleAuthDocument, baseOptions);
+      }
+export type GoogleAuthMutationHookResult = ReturnType<typeof useGoogleAuthMutation>;
+export type GoogleAuthMutationResult = Apollo.MutationResult<GoogleAuthMutation>;
+export type GoogleAuthMutationOptions = Apollo.BaseMutationOptions<GoogleAuthMutation, GoogleAuthMutationVariables>;
 export const HelloDocument = gql`
     query hello {
   hello

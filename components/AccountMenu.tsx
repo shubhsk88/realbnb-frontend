@@ -38,6 +38,7 @@ export const AccountMenu = (): ReactElement => {
       duration: 4000,
     });
   };
+  console.log(data)
 
   if (!isLoggedIn) return null;
   if (loading) return <div>loading</div>;
