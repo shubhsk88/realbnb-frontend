@@ -4,11 +4,14 @@ import NextLink from "next/link";
 
 import { BsSearch } from "react-icons/bs";
 
+import { isLoggedInVar } from "../lib/cache";
+import { useLoggedIn } from "../utils";
 import { LayoutContainer } from "./Layout";
-import { ButtonPrimary } from "./common";
-import { Login } from "./Login";
+import { AccountMenu, Login } from "./index";
 
 export const Header = (props: BoxProps): ReactElement => {
+  const { isLoggedIn, loading: loadLoggedIn } = useLoggedIn();
+
   return (
     <LayoutContainer shadow="lg" {...props}>
       <HStack py={4} justify="space-between">
@@ -22,7 +25,7 @@ export const Header = (props: BoxProps): ReactElement => {
           <NextLink href="#">
             <Link>Saved</Link>
           </NextLink>
-          <Login />
+          {isLoggedIn ? <AccountMenu /> : <Login />}
         </Stack>
       </HStack>
     </LayoutContainer>

@@ -8,11 +8,12 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
-  Box,
-  Spinner,
+  useToast,
+  Button,
+  Center,
 } from "@chakra-ui/react";
 import { ButtonPrimary, ErrorDialog } from "./common";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useEmailLoginMutation } from "../generated";
 import { isLoggedInVar } from "../lib/cache";
 
@@ -20,7 +21,8 @@ export interface LoginInputData {
   email: string;
   password: string;
 }
-export const Login = () => {
+export const Login = (): ReactElement => {
+  const toast = useToast();
   const {
     register,
     handleSubmit,
@@ -32,13 +34,21 @@ export const Login = () => {
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   });
+
+  const [isLogin, setIsLogin] = useState(true);
   const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
   const [onLogin, { data, error, loading }] = useEmailLoginMutation({
     onCompleted: ({ emailSignIn }) => {
       if (typeof window !== "undefined" && emailSignIn.token) {
         localStorage.setItem("token", emailSignIn.token as string);
+        isLoggedInVar(true);
+
+        toast({
+          title: "Successfully logged in",
+          status: "success",
+          duration: 4000,
+        });
       }
-      isLoggedInVar(true);
     },
   });
 
@@ -56,7 +66,7 @@ export const Login = () => {
   };
 
   return (
-    <ModalComponent name="Login">
+    <ModalComponent name={isLogin ? "Login" : "Create Account"}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormControl
           id="email"
@@ -102,6 +112,11 @@ export const Login = () => {
         >
           Login
         </ButtonPrimary>
+        <Center>
+          <Button variant="link" onClick={() => setIsLogin((prev) => !prev)}>
+            {isLogin ? "Create Account" : "Login to existing account"}
+          </Button>
+        </Center>
       </form>
     </ModalComponent>
   );
