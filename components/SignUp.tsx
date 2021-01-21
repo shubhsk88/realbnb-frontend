@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   FormControl,
   FormErrorMessage,
@@ -15,11 +14,13 @@ import { useForm } from "react-hook-form";
 import { phoneSchema } from "../utils";
 import { ButtonPrimary } from "./common";
 import countries from "./constants/countries";
+import { useStartPhoneVerificationMutation } from "../generated";
 
 interface Phone {
   countryCode: string;
   phone: string;
 }
+
 export const SignUp = () => {
   const {
     register,
@@ -31,11 +32,18 @@ export const SignUp = () => {
     resolver: yupResolver(phoneSchema),
     mode: "onBlur",
   });
-  
-  const onSubmit = (data: Phone) => {
-    console.log(`${data.countryCode}${data.phone}`);
+
+  const [
+    onVerify,
+    { data, error, loading },
+  ] = useStartPhoneVerificationMutation();
+
+  const onSubmit = (inputData: Phone) => {
+    onVerify({
+      variables: { phoneNumber: `${inputData.countryCode}${inputData.phone}` },
+    });
   };
-  
+
   return (
     <>
       <VStack as="form" spacing={4} onSubmit={handleSubmit(onSubmit)}>

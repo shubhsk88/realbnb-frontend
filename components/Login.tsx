@@ -39,7 +39,7 @@ export const Login = (): ReactElement => {
     mode: "onBlur",
   });
 
-  
+
   const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
   const [onLogin, { data, error, loading }] = useEmailLoginMutation({
     onCompleted: ({ emailSignIn }) => {
@@ -64,9 +64,9 @@ export const Login = (): ReactElement => {
 
   const onSubmit: SubmitHandler<LoginInputData> = (inputData) => {
     setSubmittedData((prev) => ({ ...prev, inputData }));
-
     onLogin({ variables: inputData });
   };
+
   const [onGoogleLogin] = useGoogleAuthMutation({
     onCompleted: ({ googleAuth }) => {
       if (typeof window !== "undefined" && googleAuth.token) {
@@ -81,6 +81,7 @@ export const Login = (): ReactElement => {
       }
     },
   });
+
   const successResponseGoogle = (response: GoogleLoginResponse) => {
     const { name, email, imageUrl, googleId } = response.profileObj;
     onGoogleLogin({
@@ -168,7 +169,7 @@ export const Login = (): ReactElement => {
           onFailure={errorResponseGoogle}
           cookiePolicy={"single_host_origin"}
         />
-        
+
       </VStack>
     </form>
   );

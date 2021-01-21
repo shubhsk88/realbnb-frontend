@@ -30,7 +30,7 @@ export type Mutation = {
   emailSignIn: EmailSignInResponse;
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
-  phoneVerification: PhoneVerificationResponse;
+  startPhoneVerification: StartPhoneVerificationResponse;
 };
 
 
@@ -94,7 +94,7 @@ export type MutationGoogleSignInArgs = {
 };
 
 
-export type MutationPhoneVerificationArgs = {
+export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
 
@@ -173,8 +173,8 @@ export type GoogleSignInResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
-export type PhoneVerificationResponse = {
-  __typename?: 'phoneVerificationResponse';
+export type StartPhoneVerificationResponse = {
+  __typename?: 'startPhoneVerificationResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
@@ -479,6 +479,19 @@ export type HelloQuery = (
   & Pick<Query, 'hello'>
 );
 
+export type StartPhoneVerificationMutationVariables = Exact<{
+  phoneNumber: Scalars['String'];
+}>;
+
+
+export type StartPhoneVerificationMutation = (
+  { __typename?: 'Mutation' }
+  & { startPhoneVerification: (
+    { __typename?: 'startPhoneVerificationResponse' }
+    & Pick<StartPhoneVerificationResponse, 'ok' | 'error' | 'token'>
+  ) }
+);
+
 
 export const GetRoomDocument = gql`
     query getRoom($id: String!) {
@@ -759,3 +772,37 @@ export function useHelloLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Hell
 export type HelloQueryHookResult = ReturnType<typeof useHelloQuery>;
 export type HelloLazyQueryHookResult = ReturnType<typeof useHelloLazyQuery>;
 export type HelloQueryResult = Apollo.QueryResult<HelloQuery, HelloQueryVariables>;
+export const StartPhoneVerificationDocument = gql`
+    mutation startPhoneVerification($phoneNumber: String!) {
+  startPhoneVerification(phoneNumber: $phoneNumber) {
+    ok
+    error
+    token
+  }
+}
+    `;
+export type StartPhoneVerificationMutationFn = Apollo.MutationFunction<StartPhoneVerificationMutation, StartPhoneVerificationMutationVariables>;
+
+/**
+ * __useStartPhoneVerificationMutation__
+ *
+ * To run a mutation, you first call `useStartPhoneVerificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStartPhoneVerificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [startPhoneVerificationMutation, { data, loading, error }] = useStartPhoneVerificationMutation({
+ *   variables: {
+ *      phoneNumber: // value for 'phoneNumber'
+ *   },
+ * });
+ */
+export function useStartPhoneVerificationMutation(baseOptions?: Apollo.MutationHookOptions<StartPhoneVerificationMutation, StartPhoneVerificationMutationVariables>) {
+        return Apollo.useMutation<StartPhoneVerificationMutation, StartPhoneVerificationMutationVariables>(StartPhoneVerificationDocument, baseOptions);
+      }
+export type StartPhoneVerificationMutationHookResult = ReturnType<typeof useStartPhoneVerificationMutation>;
+export type StartPhoneVerificationMutationResult = Apollo.MutationResult<StartPhoneVerificationMutation>;
+export type StartPhoneVerificationMutationOptions = Apollo.BaseMutationOptions<StartPhoneVerificationMutation, StartPhoneVerificationMutationVariables>;
