@@ -222,6 +222,16 @@ interface SignUpProps {
 interface SignUpEmail {
   variables: CreateUserViaEmailMutationVariables;
 }
+interface A {
+  type: "A";
+  phone: string;
+  formData: CreateUserViaEmailMutationVariables;
+}
+interface B {
+  type: "B";
+  formData: CreateUserViaEmailMutationVariables;
+}
+type C = A | B;
 
 const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
   const toast = useToast();
@@ -238,7 +248,7 @@ const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
   });
 
   const [mutationError, setMutationError] = useState("");
-  const [onSignUp, { data, error, loading }] = phoneNumber
+  const [onSignUp, { data, error, loading }] = Boolean(phoneNumber)
     ? useCreateUserViaPhoneMutation({
         onCompleted: ({ createUserViaPhone }) => {
           if (createUserViaPhone.ok) {
@@ -273,11 +283,7 @@ const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
       });
 
   const onSubmit = (formData: SignUpForm) => {
-    phoneNumber
-      ? onSignUp({ variables: { phone: phoneNumber, ...formData } })
-      : onSignUp({
-          variables: formData as CreateUserViaEmailMutationVariables,
-        });
+    onSignUp({ variables: { phone: phoneNumber, ...formData } });
   };
 
   const fields = [

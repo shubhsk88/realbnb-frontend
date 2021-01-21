@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { Link, BoxProps, Stack, HStack, IconButton } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { AlgoliaSearchBar } from "./AlgoliaSearchBar";
 
 import { BsSearch } from "react-icons/bs";
 
@@ -17,7 +18,7 @@ export const Header = (props: BoxProps): ReactElement => {
     <LayoutContainer shadow="lg" {...props}>
       <HStack py={4} justify="space-between">
         <NextLink href="/">
-          <IconButton as="a" aria-label="home" icon={<BsSearch />} />
+          <AlgoliaSearchBar />
         </NextLink>
         <Stack direction="row" align="center" spacing={8} fontWeight="bold">
           <NextLink href="#">
