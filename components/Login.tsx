@@ -1,8 +1,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { ModalComponent } from "./common/ModalComponent";
 import BeatLoader from "react-spinners/BeatLoader";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { env, loginSchema } from "../utils";
+import { loginSchema } from "../utils";
 import {
   FormControl,
   FormLabel,
@@ -10,7 +9,6 @@ import {
   FormErrorMessage,
   useToast,
   Button,
-  Center,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -38,7 +36,6 @@ export const Login = (): ReactElement => {
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   });
-
 
   const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
   const [onLogin, { data, error, loading }] = useEmailLoginMutation({
@@ -93,6 +90,7 @@ export const Login = (): ReactElement => {
       },
     });
   };
+
   const errorResponseGoogle = (response) => {
     console.log(response);
   };
@@ -169,7 +167,6 @@ export const Login = (): ReactElement => {
           onFailure={errorResponseGoogle}
           cookiePolicy={"single_host_origin"}
         />
-
       </VStack>
     </form>
   );

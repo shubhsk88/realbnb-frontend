@@ -440,6 +440,23 @@ export type CompletePhoneVerificationMutation = (
   ) }
 );
 
+export type CreateUserViaPhoneMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+  birthDate: Scalars['String'];
+}>;
+
+
+export type CreateUserViaPhoneMutation = (
+  { __typename?: 'Mutation' }
+  & { createUserViaPhone: (
+    { __typename?: 'createUserViaPhoneResponse' }
+    & Pick<CreateUserViaPhoneResponse, 'ok' | 'error' | 'token'>
+  ) }
+);
+
 export type EmailLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -679,6 +696,50 @@ export function useCompletePhoneVerificationMutation(baseOptions?: Apollo.Mutati
 export type CompletePhoneVerificationMutationHookResult = ReturnType<typeof useCompletePhoneVerificationMutation>;
 export type CompletePhoneVerificationMutationResult = Apollo.MutationResult<CompletePhoneVerificationMutation>;
 export type CompletePhoneVerificationMutationOptions = Apollo.BaseMutationOptions<CompletePhoneVerificationMutation, CompletePhoneVerificationMutationVariables>;
+export const CreateUserViaPhoneDocument = gql`
+    mutation createUserViaPhone($email: String!, $password: String!, $name: String!, $phone: String!, $birthDate: String!) {
+  createUserViaPhone(
+    email: $email
+    password: $password
+    name: $name
+    phone: $phone
+    birthDate: $birthDate
+  ) {
+    ok
+    error
+    token
+  }
+}
+    `;
+export type CreateUserViaPhoneMutationFn = Apollo.MutationFunction<CreateUserViaPhoneMutation, CreateUserViaPhoneMutationVariables>;
+
+/**
+ * __useCreateUserViaPhoneMutation__
+ *
+ * To run a mutation, you first call `useCreateUserViaPhoneMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserViaPhoneMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserViaPhoneMutation, { data, loading, error }] = useCreateUserViaPhoneMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *      name: // value for 'name'
+ *      phone: // value for 'phone'
+ *      birthDate: // value for 'birthDate'
+ *   },
+ * });
+ */
+export function useCreateUserViaPhoneMutation(baseOptions?: Apollo.MutationHookOptions<CreateUserViaPhoneMutation, CreateUserViaPhoneMutationVariables>) {
+        return Apollo.useMutation<CreateUserViaPhoneMutation, CreateUserViaPhoneMutationVariables>(CreateUserViaPhoneDocument, baseOptions);
+      }
+export type CreateUserViaPhoneMutationHookResult = ReturnType<typeof useCreateUserViaPhoneMutation>;
+export type CreateUserViaPhoneMutationResult = Apollo.MutationResult<CreateUserViaPhoneMutation>;
+export type CreateUserViaPhoneMutationOptions = Apollo.BaseMutationOptions<CreateUserViaPhoneMutation, CreateUserViaPhoneMutationVariables>;
 export const EmailLoginDocument = gql`
     mutation emailLogin($email: String!, $password: String!) {
   emailSignIn(email: $email, password: $password) {
