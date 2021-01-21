@@ -18,3 +18,10 @@ export const phoneSchema = yup.object().shape({
     .matches(phoneNumberValidation, phoneError),
   countryCode: yup.string(),
 });
+
+export const verficationCode = yup.object().shape({
+  verificationCode: yup
+    .string()
+    .test("len", "Must be of 4 number", (val) => val.length === 4)
+    .matches(/([0-9]{4})/, "The verification should only contains Number"),
+});
