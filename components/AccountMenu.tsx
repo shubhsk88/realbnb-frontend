@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { gql, useApolloClient, useQuery } from "@apollo/client";
+import { useApolloClient } from "@apollo/client";
 import { useGetUserQuery } from "../generated";
 import {
   Avatar,
@@ -20,8 +20,7 @@ export const AccountMenu = (): ReactElement => {
   const client = useApolloClient();
   const toast = useToast();
 
-  const { isLoggedIn, loading: loadLoggedIn } = useLoggedIn();
-
+  const { isLoggedIn, loading: loadingLogin } = useLoggedIn();
   const { data, error, loading } = useGetUserQuery();
 
   const logout = () => {
@@ -38,11 +37,10 @@ export const AccountMenu = (): ReactElement => {
       duration: 4000,
     });
   };
-  console.log(data)
 
-  if (!isLoggedIn) return null;
-  if (loading) return <div>loading</div>;
   if (error) return <div>{JSON.stringify(error)}</div>;
+  else if (!isLoggedIn) return null;
+  else if (loading || loadingLogin || !data) return <div>loading</div>;
 
   return (
     <Box>
@@ -52,13 +50,13 @@ export const AccountMenu = (): ReactElement => {
           leftIcon={
             <Avatar
               size="sm"
-              name={data?.profile.user.name}
-              src={data?.profile.user.avatar}
+              name={data?.profile.user?.name}
+              src={data?.profile.user?.avatar}
             />
           }
           rightIcon={<FiChevronDown />}
         >
-          {data?.profile.user.name}
+          {data?.profile.user?.name}
         </MenuButton>
         <MenuList>
           <MenuItem>Account</MenuItem>

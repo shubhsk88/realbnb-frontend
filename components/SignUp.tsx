@@ -21,6 +21,8 @@ import {
   useStartPhoneVerificationMutation,
   useCompletePhoneVerificationMutation,
   useCreateUserViaPhoneMutation,
+  useCreateUserViaEmailMutation,
+  CreateUserViaEmailMutationVariables,
 } from "../generated";
 import { isLoggedInVar } from "../lib/cache";
 import { phoneSchema, phoneSignUp, verificationCode } from "../utils";
@@ -144,6 +146,7 @@ export const SignUp = () => {
               name="phone"
               ref={register}
               placeholder="Enter your phone Number"
+              focusBorderColor="primary"
             />
             <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
           </FormControl>
@@ -168,6 +171,7 @@ export const SignUp = () => {
               name="verificationCode"
               ref={verifyRegister}
               placeholder="Enter your Verification Code here"
+              focusBorderColor="primary"
             />
             <FormErrorMessage>
               {verifyErrors?.verificationCode?.message}
@@ -203,18 +207,23 @@ export const SignUp = () => {
   );
 };
 
-interface PhoneSignUpForm {
+interface SignUpForm {
+  phone?: string;
   email: string;
   password: string;
   name: string;
   birthDate: string;
 }
 
-interface PhoneSignUpProps {
+interface SignUpProps {
   phoneNumber: string;
 }
 
-const PhoneSignUp = ({ phoneNumber }: PhoneSignUpProps) => {
+interface SignUpEmail {
+  variables: CreateUserViaEmailMutationVariables;
+}
+
+const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
   const toast = useToast();
 
   const {
@@ -223,31 +232,52 @@ const PhoneSignUp = ({ phoneNumber }: PhoneSignUpProps) => {
     errors,
     reset,
     formState: { isSubmitSuccessful },
-  } = useForm<PhoneSignUpForm>({
+  } = useForm<SignUpForm>({
     resolver: yupResolver(phoneSignUp),
     mode: "onBlur",
   });
 
   const [mutationError, setMutationError] = useState("");
-  const [onSignUp, { data, error, loading }] = useCreateUserViaPhoneMutation({
-    onCompleted: ({ createUserViaPhone }) => {
-      if (createUserViaPhone.ok) {
-        localStorage.setItem("token", createUserViaPhone.token as string);
-        isLoggedInVar(true);
+  const [onSignUp, { data, error, loading }] = phoneNumber
+    ? useCreateUserViaPhoneMutation({
+        onCompleted: ({ createUserViaPhone }) => {
+          if (createUserViaPhone.ok) {
+            localStorage.setItem("token", createUserViaPhone.token);
+            isLoggedInVar(true);
 
-        toast({
-          title: "Successfully created account",
-          status: "success",
-          duration: 4000,
+            toast({
+              title: "Successfully created account",
+              status: "success",
+              duration: 4000,
+            });
+          } else {
+            setMutationError(createUserViaPhone.error);
+          }
+        },
+      })
+    : useCreateUserViaEmailMutation({
+        onCompleted: ({ emailSignUp }) => {
+          if (emailSignUp.ok) {
+            localStorage.setItem("token", emailSignUp.token);
+            isLoggedInVar(true);
+
+            toast({
+              title: "Successfully created account",
+              status: "success",
+              duration: 4000,
+            });
+          } else {
+            setMutationError(emailSignUp.error);
+          }
+        },
+      });
+
+  const onSubmit = (formData: SignUpForm) => {
+    phoneNumber
+      ? onSignUp({ variables: { phone: phoneNumber, ...formData } })
+      : onSignUp({
+          variables: formData as CreateUserViaEmailMutationVariables,
         });
-      } else {
-        setMutationError(createUserViaPhone.error);
-      }
-    },
-  });
-
-  const onSubmit = (formData: PhoneSignUpForm) => {
-    onSignUp({ variables: { phone: phoneNumber, ...formData } });
   };
 
   const fields = [
@@ -278,7 +308,12 @@ const PhoneSignUp = ({ phoneNumber }: PhoneSignUpProps) => {
       {fields.map((field) => (
         <FormControl key={field.label} isRequired>
           <FormLabel>{field.label}</FormLabel>
-          <Input type={field.type} name={field.name} ref={register} />
+          <Input
+            type={field.type}
+            name={field.name}
+            ref={register}
+            focusBorderColor="primary"
+          />
           {errors[field.name] ? (
             <FormErrorMessage>{errors[field.name].message}</FormErrorMessage>
           ) : null}
