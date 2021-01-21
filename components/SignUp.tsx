@@ -202,13 +202,14 @@ export const SignUp = () => {
       ) : null}
 
       <Text>or</Text>
-      <Button>Continue With Email</Button>
+      <Button onClick={() => setModalState("VERIFIED")}>
+        Continue With Email
+      </Button>
     </>
   );
 };
 
 interface SignUpForm {
-  phone?: string;
   email: string;
   password: string;
   name: string;
@@ -217,10 +218,6 @@ interface SignUpForm {
 
 interface SignUpProps {
   phoneNumber: string;
-}
-
-interface SignUpEmail {
-  variables: CreateUserViaEmailMutationVariables;
 }
 
 const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
@@ -273,11 +270,7 @@ const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
       });
 
   const onSubmit = (formData: SignUpForm) => {
-    phoneNumber
-      ? onSignUp({ variables: { phone: phoneNumber, ...formData } })
-      : onSignUp({
-          variables: formData as CreateUserViaEmailMutationVariables,
-        });
+    onSignUp({ variables: { phone: phoneNumber, ...formData } });
   };
 
   const fields = [
