@@ -8,6 +8,11 @@ import {
   Text,
   useToast,
   VStack,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  CloseButton,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
@@ -15,7 +20,10 @@ import { useForm } from "react-hook-form";
 import { phoneSchema, verficationCode } from "../utils";
 import { ButtonPrimary } from "./common";
 import countries from "./constants/countries";
-import { useStartPhoneVerificationMutation } from "../generated";
+import {
+  useStartPhoneVerificationMutation,
+  useCompletePhoneVerificationMutation,
+} from "../generated";
 
 type PhoneState = "VERIFICATION" | "START" | "COMPLETE";
 interface Phone {
@@ -27,6 +35,9 @@ interface Code {
 }
 export const SignUp = () => {
   const toast = useToast();
+
+  const [phoneState, setPhoneState] = useState<string>("");
+
   const {
     register,
     handleSubmit,
@@ -37,6 +48,7 @@ export const SignUp = () => {
     resolver: yupResolver(phoneSchema),
     mode: "onBlur",
   });
+
   const {
     register: verifyRegister,
     handleSubmit: verifyHandleSubmit,
@@ -46,11 +58,27 @@ export const SignUp = () => {
     mode: "onBlur",
   });
 
-  const [modalState, setModalState] = useState<PhoneState>("START");
   const [
-    onVerify,
-    { data, error, loading },
-  ] = useStartPhoneVerificationMutation({
+    onCompleteVerification,
+    { data: verificationResponse },
+  ] = useCompletePhoneVerificationMutation({
+    onCompleted: ({ isPhoneVerified }) => {
+      if (isPhoneVerified.ok) {
+        toast({
+          title: "Verification Code Verification successfully",
+          status: "success",
+          duration: 1000,
+          isClosable: true,
+        });
+      } else {
+        setVerificationError(isPhoneVerified.error);
+      }
+    },
+  });
+
+  const [modalState, setModalState] = useState<PhoneState>("START");
+  const [verificationError, setVerificationError] = useState("");
+  const [onVerify, { data }] = useStartPhoneVerificationMutation({
     onCompleted: ({ startPhoneVerification }) => {
       if (startPhoneVerification.ok) {
         toast({
@@ -59,16 +87,25 @@ export const SignUp = () => {
           duration: 1000,
           isClosable: true,
         });
+        setModalState("VERIFICATION");
       }
     },
   });
-  const onVerifyCode = (data) => {
-    console.log(data);
+
+  const onVerifyCode = (data: Code) => {
+    onCompleteVerification({
+      variables: {
+        phoneNumber: phoneState,
+        verificationCode: data.verificationCode,
+      },
+    });
   };
 
   const onSubmit = (inputData: Phone) => {
+    const phoneNumber = `${inputData.countryCode}${inputData.phone}`;
+    setPhoneState(phoneNumber);
     onVerify({
-      variables: { phoneNumber: `${inputData.countryCode}${inputData.phone}` },
+      variables: { phoneNumber },
     });
   };
 
@@ -126,12 +163,25 @@ export const SignUp = () => {
             <FormErrorMessage>
               {verifyErrors?.verificationCode?.message}
             </FormErrorMessage>
-            <ButtonPrimary type="submit" w="100%" my={6}>
-              Verify
-            </ButtonPrimary>
-            Didn't receive your Code?{" "}
-            <Button variant="link">Resend it here</Button>
           </FormControl>
+          {verificationError ? (
+            <Alert my={4} borderRadius={4} status="error">
+              <AlertIcon />
+              <AlertTitle mr={2}>Your Verification Code is Invalid</AlertTitle>
+
+              <CloseButton
+                onClick={() => setVerificationError("")}
+                position="absolute"
+                right="8px"
+                top="8px"
+              />
+            </Alert>
+          ) : null}
+          <ButtonPrimary type="submit" w="100%" mb={4}>
+            Verify
+          </ButtonPrimary>
+          Didn't receive your Code?{" "}
+          <Button variant="link">Resend it here</Button>
         </VStack>
       ) : null}
       <Text> OR</Text>

@@ -426,6 +426,20 @@ export type GetRoomsQuery = (
   ) }
 );
 
+export type CompletePhoneVerificationMutationVariables = Exact<{
+  phoneNumber: Scalars['String'];
+  verificationCode: Scalars['String'];
+}>;
+
+
+export type CompletePhoneVerificationMutation = (
+  { __typename?: 'Mutation' }
+  & { isPhoneVerified: (
+    { __typename?: 'completePhoneVerificationResponse' }
+    & Pick<CompletePhoneVerificationResponse, 'ok' | 'error'>
+  ) }
+);
+
 export type EmailLoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -628,6 +642,43 @@ export function useGetRoomsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetRoomsQueryHookResult = ReturnType<typeof useGetRoomsQuery>;
 export type GetRoomsLazyQueryHookResult = ReturnType<typeof useGetRoomsLazyQuery>;
 export type GetRoomsQueryResult = Apollo.QueryResult<GetRoomsQuery, GetRoomsQueryVariables>;
+export const CompletePhoneVerificationDocument = gql`
+    mutation completePhoneVerification($phoneNumber: String!, $verificationCode: String!) {
+  isPhoneVerified: completePhoneVerification(
+    key: $verificationCode
+    phoneNumber: $phoneNumber
+  ) {
+    ok
+    error
+  }
+}
+    `;
+export type CompletePhoneVerificationMutationFn = Apollo.MutationFunction<CompletePhoneVerificationMutation, CompletePhoneVerificationMutationVariables>;
+
+/**
+ * __useCompletePhoneVerificationMutation__
+ *
+ * To run a mutation, you first call `useCompletePhoneVerificationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCompletePhoneVerificationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [completePhoneVerificationMutation, { data, loading, error }] = useCompletePhoneVerificationMutation({
+ *   variables: {
+ *      phoneNumber: // value for 'phoneNumber'
+ *      verificationCode: // value for 'verificationCode'
+ *   },
+ * });
+ */
+export function useCompletePhoneVerificationMutation(baseOptions?: Apollo.MutationHookOptions<CompletePhoneVerificationMutation, CompletePhoneVerificationMutationVariables>) {
+        return Apollo.useMutation<CompletePhoneVerificationMutation, CompletePhoneVerificationMutationVariables>(CompletePhoneVerificationDocument, baseOptions);
+      }
+export type CompletePhoneVerificationMutationHookResult = ReturnType<typeof useCompletePhoneVerificationMutation>;
+export type CompletePhoneVerificationMutationResult = Apollo.MutationResult<CompletePhoneVerificationMutation>;
+export type CompletePhoneVerificationMutationOptions = Apollo.BaseMutationOptions<CompletePhoneVerificationMutation, CompletePhoneVerificationMutationVariables>;
 export const EmailLoginDocument = gql`
     mutation emailLogin($email: String!, $password: String!) {
   emailSignIn(email: $email, password: $password) {

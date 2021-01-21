@@ -1,0 +1,12 @@
+mutation completePhoneVerification(
+  $phoneNumber: String!
+  $verificationCode: String!
+) {
+  isPhoneVerified: completePhoneVerification(
+    key: $verificationCode
+    phoneNumber: $phoneNumber
+  ) {
+    ok
+    error
+  }
+}
