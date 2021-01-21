@@ -202,13 +202,14 @@ export const SignUp = () => {
       ) : null}
 
       <Text>or</Text>
-      <Button>Continue With Email</Button>
+      <Button onClick={() => setModalState("VERIFIED")}>
+        Continue With Email
+      </Button>
     </>
   );
 };
 
 interface SignUpForm {
-  phone?: string;
   email: string;
   password: string;
   name: string;
@@ -219,6 +220,7 @@ interface SignUpProps {
   phoneNumber: string;
 }
 
+<<<<<<< HEAD
 interface SignUpEmail {
   variables: CreateUserViaEmailMutationVariables;
 }
@@ -233,6 +235,8 @@ interface B {
 }
 type C = A | B;
 
+=======
+>>>>>>> 552076aa5593f8601a0951a8163a519926466d21
 const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
   const toast = useToast();
 
