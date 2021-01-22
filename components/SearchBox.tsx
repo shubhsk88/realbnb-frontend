@@ -1,4 +1,4 @@
-import { Input } from "@chakra-ui/react";
+import { Input, InputProps } from "@chakra-ui/react";
 import { createConnector } from "react-instantsearch-dom";
 
 const connectWithQuery = createConnector({
@@ -35,29 +35,28 @@ const connectWithQuery = createConnector({
   },
 });
 
-const MySearchBox = ({ currentRefinement, refine, setIsPopOpen }: any) => {
-  const onFocusChange = (e) => {
-    if (e.target.value.length > 0) {
-      setIsPopOpen(true);
-    }
-  };
-  const onBlur = () => {
-    setIsPopOpen(false);
-  };
-  const onChange = (e) => {
+interface MySearchBoxProps extends InputProps {
+  currentRefinement: any;
+  refine: any;
+}
+
+const MySearchBox = ({
+  currentRefinement,
+  refine,
+  onChange,
+  ...props
+}: MySearchBoxProps) => {
+  const handleChange = (e) => {
     refine(e.currentTarget.value);
-    if (e.target.value.length) {
-      setIsPopOpen(true);
-    }
+    if (onChange) onChange(e);
   };
 
   return (
     <Input
       type="input"
-      onBlur={onBlur}
-      onFocus={onFocusChange}
       value={currentRefinement}
-      onChange={onChange}
+      {...props}
+      onChange={(e) => handleChange(e)}
     />
   );
 };

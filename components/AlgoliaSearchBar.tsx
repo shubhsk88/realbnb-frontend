@@ -1,21 +1,14 @@
-import {
-  Box,
-  Input,
-  VStack,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-} from "@chakra-ui/react";
+import { Popover, PopoverTrigger, PopoverContent, Box } from "@chakra-ui/react";
 import algoliasearch from "algoliasearch/lite";
-import { InstantSearch, SearchBox, Hits } from "react-instantsearch-dom";
+import {
+  InstantSearch,
+  SearchBox,
+  Hits,
+  Configure,
+} from "react-instantsearch-dom";
 import { HitComponent } from "./common/HitComponent";
 import { AlgoliaSearchBox } from "./SearchBox";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import styled from "@emotion/styled";
 
 const searchClient = algoliasearch(
@@ -28,24 +21,61 @@ const StyledHits = styled(Hits)`
     list-style: none;
   }
 `;
-export const AlgoliaSearchBar = () => {
-  const [isFocus, setIsFocus] = useState(false);
+
+export const AlgoliaSearchBar = (): ReactElement => {
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleInputFocus = (e) => {
+    if (e.currentTarget.value.length > 0) {
+      setIsInputFocused(true);
+      setIsOpen(true);
+    }
+  };
+
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
+
+  const handleBlur = () => {
+    if (!isInputFocused) {
+      setIsOpen(false);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    if (!isOpen && e.currentTarget.value.length > 0) {
+      setIsOpen(true);
+    } else if (isOpen && e.currentTarget.value.length <= 0) {
+      setIsOpen(false);
+    }
+  };
 
   return (
     <InstantSearch searchClient={searchClient} indexName="dev_realbnb">
-      <Popover
-        autoFocus={false}
-        closeOnBlur={true}
-        isOpen={isFocus}
-        placement="bottom"
-      >
-        <PopoverTrigger>
-          <AlgoliaSearchBox setIsPopOpen={setIsFocus} />
-        </PopoverTrigger>
-        <PopoverContent>
-          <StyledHits hitComponent={HitComponent} />
-        </PopoverContent>
-      </Popover>
+      <Configure hitsPerPage={4} />
+
+      <Box>
+        <Popover
+          autoFocus={false}
+          closeOnBlur={true}
+          isOpen={isOpen}
+          onClose={handleBlur}
+          closeDelay={2000}
+          placement="bottom-end"
+        >
+          <PopoverTrigger>
+            <AlgoliaSearchBox
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              onChange={(e) => handleInputChange(e)}
+            />
+          </PopoverTrigger>
+          <PopoverContent top={8} left={30}>
+            <StyledHits hitComponent={HitComponent} />
+          </PopoverContent>
+        </Popover>
+      </Box>
     </InstantSearch>
   );
 };

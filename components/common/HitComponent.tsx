@@ -1,14 +1,14 @@
+import { ReactElement } from "react";
 import { Box, HStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import Image from "next/image";
-import React from "react";
 import { Room } from "../../generated";
 
 interface Hit {
   hit: Room;
 }
-export const HitComponent = ({ hit }: Hit) => {
-  console.log(hit);
+
+export const HitComponent = ({ hit }: Hit): ReactElement => {
   return (
     <Link href={`/rooms/${hit.id}`}>
       <a>
