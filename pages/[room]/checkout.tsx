@@ -4,9 +4,11 @@ import { BookingDetails } from "../../components/BookingDetails";
 
 const Checkout = () => {
   return (
-    <Flex justifyContent="space-between">
-      <BookingDetails />
-      <Box w="100%">Black</Box>
+    <Flex maxH="100%" overflow="hidden" justifyContent="space-between">
+      <Box flex={1}>
+        <BookingDetails />
+      </Box>
+      <Box flex={1}>Black</Box>
     </Flex>
   );
 };

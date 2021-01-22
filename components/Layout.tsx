@@ -11,7 +11,7 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps): ReactElement => (
   <>
     <Header />
-    <LayoutContainer my={16}>{children}</LayoutContainer>
+    <LayoutContainer mt={16}>{children}</LayoutContainer>
   </>
 );
 

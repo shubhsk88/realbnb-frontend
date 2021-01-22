@@ -26,42 +26,62 @@ export const BookingDetails = () => {
     },
   ];
   return (
-    <VStack divider={<StackDivider borderColor="gray.600" />} spacing={4}>
+    <VStack
+      align="stretch"
+      divider={<StackDivider borderColor="gray.200" />}
+      spacing={4}
+    >
       <Box>
-        <Heading fontSize="md">Booking Details</Heading>
-        <HStack>
-          <Image
-            src="https://via.placeholder.com/150"
-            width="100px"
-            height="100px"
-          />
-          <Box>
-            <Text>Hotel Room</Text>
-            <Text>Bright and dry</Text>
-            <Text>Address</Text>
-            <Box>
-              <IconPair icon={IoBedOutline} my={3}>
+        <Heading mb={16} fontSize="3xl" as="h2">
+          Booking Details
+        </Heading>
+        <HStack spacing={5} alignItems="center">
+          <Box borderRadius="md" h="100%" overflow="hidden">
+            <Image
+              src="https://via.placeholder.com/150"
+              width="200px"
+              height="100px"
+              objectFit="cover"
+            />
+          </Box>
+          <VStack align="stretch" spacing={1}>
+            <Text fontWeight="bold" color="gray.400">
+              Hotel Room
+            </Text>
+            <Text fontWeight="bold" fontSize="xl">
+              Bright and dry Bright and dryBright and dryBright and dryBright
+              and dry
+            </Text>
+            <Text fontWeight="semibold" color="gray.400">
+              Address
+            </Text>
+            <Box color="gray.400">
+              <IconPair icon={IoBedOutline} my={1}>
                 Beds
               </IconPair>
             </Box>
-          </Box>
+          </VStack>
         </HStack>
       </Box>
-      <Grid templateColumns="repeat(2,1fr)">
+      <Grid templateColumns="repeat(2,1fr)" gap={4}>
         {details.map((detail) => (
-          <Box key={detail.description}>
-            <Text>{detail.label}</Text>
+          <Box fontWeight="bold" key={detail.description}>
+            <Text my={1} color="gray.400">
+              {detail.label}
+            </Text>
             <Text>{detail.description}</Text>
           </Box>
         ))}
       </Grid>
-      <HStack spacing={6}>
-        <Text>$285 x 9</Text>
-        <Text>$2565</Text>
+      <HStack fontWeight="bold" fontSize="lg" >
+        <Text flex={1}>$285 x 9</Text>
+        <Text flex={1}>$2565</Text>
       </HStack>
-      <HStack spacing={6}>
-        <Text>Total</Text>
-        <Text>$2565</Text>
+      <HStack fontWeight="bold" fontSize="lg">
+        <Text flex={1}>Total</Text>
+        <Text flex={1} color="primary" fontSize="xl">
+          $2565
+        </Text>
       </HStack>
     </VStack>
   );
