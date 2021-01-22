@@ -220,23 +220,6 @@ interface SignUpProps {
   phoneNumber: string;
 }
 
-<<<<<<< HEAD
-interface SignUpEmail {
-  variables: CreateUserViaEmailMutationVariables;
-}
-interface A {
-  type: "A";
-  phone: string;
-  formData: CreateUserViaEmailMutationVariables;
-}
-interface B {
-  type: "B";
-  formData: CreateUserViaEmailMutationVariables;
-}
-type C = A | B;
-
-=======
->>>>>>> 552076aa5593f8601a0951a8163a519926466d21
 const PhoneSignUp = ({ phoneNumber = "" }: SignUpProps) => {
   const toast = useToast();
 
