@@ -55,8 +55,9 @@ const MySearchBox = ({
     <Input
       type="input"
       value={currentRefinement}
-      {...props}
       onChange={(e) => handleChange(e)}
+      focusBorderColor="primary"
+      {...props}
     />
   );
 };
