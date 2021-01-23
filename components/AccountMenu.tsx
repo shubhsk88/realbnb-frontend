@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   Button,
+  Icon,
   Menu,
   MenuButton,
   MenuItem,
@@ -54,7 +55,7 @@ export const AccountMenu = (): ReactElement => {
               src={data?.profile.user?.avatar}
             />
           }
-          rightIcon={<FiChevronDown />}
+          rightIcon={<Icon as={FiChevronDown} />}
         >
           {data?.profile.user?.name}
         </MenuButton>

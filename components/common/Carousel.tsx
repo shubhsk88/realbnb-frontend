@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useEmblaCarousel } from "embla-carousel/react";
 
-import { Box, Flex, IconButton } from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton } from "@chakra-ui/react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import Image from "next/image";
 
@@ -68,7 +68,7 @@ export const Carousel = () => {
         transform="translateY(-50%)"
         variant="ghost"
         aria-label="Next slide"
-        icon={<FaChevronLeft />}
+        icon={<Icon as={FaChevronLeft} />}
       />
 
       <IconButton
@@ -79,7 +79,7 @@ export const Carousel = () => {
         transform="translateY(-50%)"
         variant="ghost"
         aria-label="Next slide"
-        icon={<FaChevronRight />}
+        icon={<Icon as={FaChevronRight} />}
       />
     </Box>
   );

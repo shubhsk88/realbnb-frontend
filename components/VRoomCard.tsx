@@ -4,8 +4,12 @@ import styled from "@emotion/styled";
 import {
   Box,
   BoxProps,
+  Flex,
   Heading,
+  Icon,
   Skeleton,
+  Stat,
+  StatNumber,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -42,20 +46,17 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
         </Heading>
         <Text>{room.description}</Text>
 
-        <Box mt="auto">
-          <IconPair icon={IoBedOutline} my={3}>
-            {room.beds}
-          </IconPair>
+        <Flex flex={1}>
+          <Box mt="auto">
+            <IconPair icon={IoBedOutline} mb={1}>
+              {room.beds}
+            </IconPair>
 
-          {/* Current bug breaks StatNumber
-            <StatNumber color="primary">${room.price}</StatNumber>
-            */}
-
-          {/* FIXME: primary needs to be properly defined (ButtonPrimary -> Secondary) */}
-          <Text fontWeight="extrabold" fontSize="2xl" color="primary">
-            ${room.price}
-          </Text>
-        </Box>
+            <Stat>
+              <StatNumber color="primary">${room.price}</StatNumber>
+            </Stat>
+          </Box>
+        </Flex>
       </VStack>
     </VStack>
   );
@@ -67,35 +68,32 @@ interface ImageProps {
 
 const RoomImage = ({ photo }: ImageProps): ReactElement => {
   return (
-    <Skeleton isLoaded={!!photo}>
-      <ImageWrapper>
-        {photo && (
-          <>
-            {/* TODO: image caption */}
-            <Image
-              src={photo.link}
-              alt={photo.caption}
-              layout="fill"
-              objectFit="cover"
-              loading="lazy"
-            />
+    <ImageSkeleton isLoaded={!!photo}>
+      {photo && (
+        <>
+          <Image
+            src={photo.link}
+            alt={photo.caption}
+            layout="fill"
+            objectFit="cover"
+            loading="lazy"
+          />
 
-            {/* TODO: add average rating data */}
-            <RatingButton rightIcon={<AiOutlineStar size="1.3rem" />}>
-              5.00
-            </RatingButton>
-            <HeartButton
-              aria-label="Save room"
-              icon={<AiOutlineHeart size="1.3rem" />}
-            />
-          </>
-        )}
-      </ImageWrapper>
-    </Skeleton>
+          {/* TODO: add average rating data */}
+          <RatingButton rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}>
+            5.00
+          </RatingButton>
+          <HeartButton
+            aria-label="Save room"
+            icon={<Icon as={AiOutlineHeart} boxSize={5} />}
+          />
+        </>
+      )}
+    </ImageSkeleton>
   );
 };
 
-const ImageWrapper = styled(Box)`
+const ImageSkeleton = styled(Skeleton)`
   position: relative;
   width: 100%;
   height: 200px;

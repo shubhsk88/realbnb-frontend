@@ -12,6 +12,7 @@ import {
   Text,
   Button,
   SimpleGrid,
+  Icon,
 } from "@chakra-ui/react";
 
 import Image from "next/image";
@@ -95,11 +96,11 @@ const RoomDetails = (): ReactElement => {
           <HStack position="absolute" spacing={2} top={2} left={4}>
             <IconButtonOpaque
               aria-label="Share listing"
-              icon={<FiShare size="1.3rem" />}
+              icon={<Icon as={FiShare} boxSize={5} />}
             />
             <IconButtonOpaque
               aria-label="Save listing"
-              icon={<AiOutlineHeart size="1.3rem" />}
+              icon={<Icon as={AiOutlineHeart} boxSize={5} />}
             />
           </HStack>
         </GridItem>
@@ -115,7 +116,7 @@ const RoomDetails = (): ReactElement => {
       </Grid>
       <Stack direction="row" spacing="30px">
         <Info flexGrow={1}>
-          <CarouselModal></CarouselModal>
+          <CarouselModal />
 
           <Text size="sm" fontWeight="medium" color="gray.400">
             Room Type
@@ -137,7 +138,7 @@ const RoomDetails = (): ReactElement => {
               ))}
             </SimpleGrid>
 
-            <Button my={10} rightIcon={<BsList />} mx="15rem">
+            <Button my={10} rightIcon={<Icon as={BsList} />} mx="15rem">
               Show More
             </Button>
           </Section>

@@ -1,7 +1,7 @@
 import { ElementType, ReactElement, ReactNode } from "react";
-import { Flex, FlexProps, Icon } from "@chakra-ui/react";
+import { HStack, Icon, StackProps, Text } from "@chakra-ui/react";
 
-interface IconPairProps extends FlexProps {
+interface IconPairProps extends StackProps {
   icon: ElementType;
   children: ReactNode;
 }
@@ -11,8 +11,8 @@ export const IconPair = ({
   children,
   ...props
 }: IconPairProps): ReactElement => (
-  <Flex color="gray.400" fontSize="md" alignItems="center" {...props}>
-    <Icon as={icon} h={6} w={6} mr="0.5rem" />
-    <p>{children}</p>
-  </Flex>
+  <HStack color="gray.400" align="center" spacing={2} {...props}>
+    <Icon as={icon} boxSize={6} />
+    <Text fontSize="md">{children}</Text>
+  </HStack>
 );
