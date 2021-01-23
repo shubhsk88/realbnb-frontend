@@ -8,11 +8,7 @@ import { GetRoomsDocument, useGetRoomsQuery } from "../generated";
 import { initializeApollo } from "../lib/apolloClient";
 import { VRoomCard } from "../components";
 
-export interface PageProps {
-  data: Record<string, unknown>;
-}
-
-const IndexPage = (props: PageProps): ReactElement => {
+const IndexPage = (): ReactElement => {
   const { loading, data, error } = useGetRoomsQuery();
   if (loading) return <div>Loading</div>;
   if (error) return <div>Error: {JSON.stringify(error)}</div>;

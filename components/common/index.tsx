@@ -5,3 +5,4 @@ export * from "./IconPair";
 export * from "./TextSummary";
 export * from "./ErrorDialog";
 export * from "./Wrapper";
+export * from "./Image";

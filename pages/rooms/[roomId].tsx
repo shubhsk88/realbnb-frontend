@@ -1,7 +1,5 @@
-import { ReactElement, ReactNode, useMemo } from "react";
+import { ReactElement, useMemo } from "react";
 import { useRouter } from "next/router";
-import styled from "@emotion/styled";
-
 import {
   Box,
   Stack,
@@ -13,38 +11,25 @@ import {
   Button,
   SimpleGrid,
   Icon,
+  GridProps,
+  GridItemProps,
+  VStack,
 } from "@chakra-ui/react";
-
-import Image from "next/image";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 import { IoBedOutline } from "react-icons/io5";
 import { BsList } from "react-icons/bs";
 
-import { useGetRoomQuery } from "../../generated";
+import { Photo, useGetRoomQuery } from "../../generated";
 import { BookingCard, Review } from "../../components";
 import {
   ButtonOpaque,
   IconButtonOpaque,
   IconPair,
+  Image,
   TextSummary,
 } from "../../components/common";
 import { CarouselModal } from "../../components/CarouselModal";
-import { DateRangePickerComponent } from "../../components/DatePicker";
-interface SectionProps {
-  name: string;
-  children: ReactNode;
-}
-
-const Section = ({ name, children }: SectionProps) => (
-  <Box mt={20}>
-    <hr />
-    <Heading as="h2" fontWeight="bold" my={4} size="md">
-      {name}
-    </Heading>
-    {children}
-  </Box>
-);
 
 const RoomDetails = (): ReactElement => {
   const router = useRouter();
@@ -74,48 +59,15 @@ const RoomDetails = (): ReactElement => {
 
   return (
     <>
-      <Grid
-        gap={2}
-        borderRadius="xl"
-        overflow="hidden"
+      <ImageGrid
         h="50vh"
         mb={20}
-        templateColumns="repeat(6, 1fr)"
-        templateRows="repeat(3, 1fr)"
-      >
-        <GridItem overflow="hidden" colSpan={4} rowSpan={3} position="relative">
-          <Image layout="fill" src={room.photos[0].link} />
-          <ButtonOpaque
-            position="absolute"
-            left={6}
-            bottom={6}
-            rightIcon={<AiOutlineStar />}
-          >
-            {overallRating}
-          </ButtonOpaque>
-          <HStack position="absolute" spacing={2} top={2} left={4}>
-            <IconButtonOpaque
-              aria-label="Share listing"
-              icon={<Icon as={FiShare} boxSize={5} />}
-            />
-            <IconButtonOpaque
-              aria-label="Save listing"
-              icon={<Icon as={AiOutlineHeart} boxSize={5} />}
-            />
-          </HStack>
-        </GridItem>
-        <GridItem overflow="hidden" colSpan={2} rowSpan={1} position="relative">
-          <Image layout="fill" src={room.photos[1].link} />
-        </GridItem>
+        photos={room.photos}
+        overallRating={overallRating}
+      />
 
-        {room.photos.slice(2, 6).map((photo) => (
-          <GridItem overflow="hidden" key={photo.id} position="relative">
-            <Image layout="fill" src={photo.link} />
-          </GridItem>
-        ))}
-      </Grid>
       <Stack direction="row" spacing="30px">
-        <Info flexGrow={1}>
+        <VStack flexGrow={1} align="stretch" spacing={3}>
           <CarouselModal />
 
           <Text size="sm" fontWeight="medium" color="gray.400">
@@ -142,7 +94,7 @@ const RoomDetails = (): ReactElement => {
               Show More
             </Button>
           </Section>
-        </Info>
+        </VStack>
 
         <BookingCard />
       </Stack>
@@ -155,8 +107,78 @@ const RoomDetails = (): ReactElement => {
 
 export default RoomDetails;
 
-const Info = styled(Box)`
-  & > * {
-    padding-bottom: 0.75rem;
-  }
-`;
+interface ImageGridProps extends GridProps {
+  photos: Photo[];
+  overallRating: number;
+}
+
+const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => (
+  <Grid
+    templateColumns="repeat(6, 1fr)"
+    templateRows="repeat(3, 1fr)"
+    gap={2}
+    borderRadius="xl"
+    overflow="hidden"
+    {...props}
+  >
+    <GridImage colSpan={4} rowSpan={3} photo={photos[0]}>
+      <ButtonOpaque
+        position="absolute"
+        left={6}
+        bottom={6}
+        rightIcon={<AiOutlineStar />}
+      >
+        {overallRating}
+      </ButtonOpaque>
+
+      <HStack position="absolute" spacing={2} top={2} left={4}>
+        <IconButtonOpaque
+          aria-label="Share listing"
+          icon={<Icon as={FiShare} boxSize={5} />}
+        />
+        <IconButtonOpaque
+          aria-label="Save listing"
+          icon={<Icon as={AiOutlineHeart} boxSize={5} />}
+        />
+      </HStack>
+    </GridImage>
+
+    <GridImage colSpan={2} rowSpan={1} photo={photos[1]} />
+
+    {photos
+      .slice(2, 6)
+      .concat(Array(6 - photos.length || 0).fill(null))
+      .map((photo, idx) => (
+        <GridImage key={photo?.id ?? idx} photo={photo} />
+      ))}
+  </Grid>
+);
+
+interface GridImageProps extends GridItemProps {
+  photo: Photo;
+  children?: JSX.Element | JSX.Element[];
+}
+
+const GridImage = ({ photo, children, ...props }: GridImageProps) => {
+  return (
+    <GridItem overflow="hidden" position="relative" {...props}>
+      <Image photo={photo} />
+      {children}
+    </GridItem>
+  );
+};
+
+interface SectionProps {
+  name: string;
+  children: JSX.Element | JSX.Element[];
+}
+
+const Section = ({ name, children }: SectionProps) => (
+  <Box mt={20}>
+    <hr />
+    <Heading as="h2" fontWeight="bold" my={4} size="md">
+      {name}
+    </Heading>
+    {children}
+  </Box>
+);
