@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import {
@@ -22,22 +22,24 @@ import {
   useCompletePhoneVerificationMutation,
   useCreateUserViaPhoneMutation,
   useCreateUserViaEmailMutation,
-  CreateUserViaEmailMutationVariables,
-} from "../generated";
-import { isLoggedInVar } from "../lib/cache";
-import { phoneSchema, phoneSignUp, verificationCode } from "../utils";
-import { ButtonPrimary } from "./common";
-import countries from "./constants/countries";
+} from "../../generated";
+import { isLoggedInVar } from "../../lib/cache";
+import { phoneSchema, phoneSignUp, verificationCode } from "../../utils";
+import { ButtonPrimary } from "../common";
+import countries from "../constants/countries";
 
 type PhoneState = "START" | "VERIFY" | "VERIFIED";
+
 interface Phone {
   countryCode: string;
   phone: string;
 }
+
 interface Code {
   verificationCode: string;
 }
-export const SignUp = () => {
+
+export const SignUp = (): ReactElement => {
   const toast = useToast();
 
   const [phoneState, setPhoneState] = useState<string>("");

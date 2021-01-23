@@ -1,19 +1,19 @@
 import { ReactElement } from "react";
-import { Link, BoxProps, Stack, HStack, IconButton } from "@chakra-ui/react";
+import { Link, Stack, HStack, StackProps } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { AlgoliaSearch } from "./Algolia/AlgoliaSearch";
 
 import { useLoggedIn } from "../utils";
 import { LayoutContainer } from "./Layout";
-import { AccountMenu, Login } from "./index";
-import { ModalComponent } from "./common/ModalComponent";
+import { AccountMenu } from "./index";
+import { AuthModal } from "./Auth/AuthModal";
 
-export const Header = (props: BoxProps): ReactElement => {
+export const Header = (props: StackProps): ReactElement => {
   const { isLoggedIn, loading } = useLoggedIn();
 
   return (
-    <LayoutContainer shadow="lg" {...props}>
-      <HStack py={4} justify="space-between">
+    <LayoutContainer shadow="lg">
+      <HStack py={4} justify="space-between" {...props}>
         <AlgoliaSearch />
 
         <Stack direction="row" align="center" spacing={8} fontWeight="bold">
@@ -23,7 +23,7 @@ export const Header = (props: BoxProps): ReactElement => {
           <NextLink href="#">
             <Link>Saved</Link>
           </NextLink>
-          {isLoggedIn ? <AccountMenu /> : <ModalComponent />}
+          {isLoggedIn ? <AccountMenu /> : <AuthModal />}
         </Stack>
       </HStack>
     </LayoutContainer>
