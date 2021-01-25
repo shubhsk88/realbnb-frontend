@@ -1,15 +1,20 @@
 import { ReactElement } from "react";
-import { Box, Flex } from "@chakra-ui/react";
-import { BookingDetails } from "../../components";
+import { Box, Stack } from "@chakra-ui/react";
+import { BookingDetails, PaymentCard } from "../../components";
+import { StripeWrapper } from "../../components/common";
 
 const Checkout = (): ReactElement => {
   return (
-    <Flex maxH="100%" overflow="hidden" justifyContent="space-between">
+    <Stack direction="row" spacing={10} justify="space-between">
       <Box flexBasis="100%">
         <BookingDetails />
       </Box>
-      <Box flexBasis="100%">Black</Box>
-    </Flex>
+      <Box flexBasis="100%">
+        <StripeWrapper>
+          <PaymentCard />
+        </StripeWrapper>
+      </Box>
+    </Stack>
   );
 };
 

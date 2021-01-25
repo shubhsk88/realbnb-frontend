@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import {
   Box,
   Grid,
@@ -9,11 +10,10 @@ import {
 } from "@chakra-ui/react";
 import format from "date-fns/format";
 import Image from "next/image";
-import React from "react";
 import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
-export const BookingDetails = () => {
+export const BookingDetails = (): ReactElement => {
   const details = [
     { label: "Check-In", description: format(new Date(), "d LLLL, EEEE") },
     { label: "Check-Out", description: format(new Date(), "d LLLL, EEEE") },

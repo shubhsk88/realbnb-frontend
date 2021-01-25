@@ -9,3 +9,4 @@ export * from "./Image";
 export * from "./Icons";
 export * from "./ReviewCard";
 export * from "./ReviewScore";
+export * from "./StripeWrapper";
