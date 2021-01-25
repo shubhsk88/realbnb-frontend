@@ -9,14 +9,19 @@ import {
   VStack,
   Select,
   StackProps,
+  useToast,
 } from "@chakra-ui/react";
+
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
+import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import { DateRangePickerComponent } from "./DatePicker";
+
 import { Room } from "../generated";
 import { isLoggedInVar } from "../lib/cache";
 
 import { AuthModal } from "./Auth/AuthModal";
+import { usePaymentDetails } from "./context/PaymentContext";
 
 export interface RangeProps {
   start: Date | null;
@@ -33,7 +38,10 @@ export const BookingCard = ({
 }: BookingCardProps): ReactElement => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [isLogin, setIsLogin] = useState(false);
-  console.log(isLoggedIn);
+  const toast = useToast();
+  const router = useRouter();
+  const [paymentDetails, setPaymentDetails] = usePaymentDetails();
+
   const [rangeDates, setRangesDate] = useState<RangeProps>({
     start: null,
     end: null,
@@ -47,6 +55,27 @@ export const BookingCard = ({
   }, [rangeDates]);
 
   const onBooking = (e) => {
+    if (isLoggedIn) {
+      setPaymentDetails((prev) => ({
+        ...prev,
+        room,
+        reservation: {
+          checkIn: rangeDates.start,
+          checkOut: rangeDates.end,
+          days: numDays,
+          guest,
+          total: 200,
+        },
+      }));
+    }
+    toast({
+      title: "You've been directed to payment hell",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+    setTimeout(() => router.push(`/${room.id}/checkout`), 2000);
+
     if (!isLoggedIn) setIsLogin(!isLoggedIn);
   };
   const onClose = () => setIsLogin(false);
@@ -95,7 +124,7 @@ export const BookingCard = ({
             >
               <Text>$200 x {numDays} nights</Text>
               <Stat flexGrow={0} size="xl">
-                <StatNumber color="primary">${numDays * 200}</StatNumber>
+                <StatNumber color="primary">${numDays * 20}</StatNumber>
               </Stat>
             </HStack>
             <Button w="100%" onClick={onBooking} colorScheme="gray">

@@ -46,7 +46,6 @@ export const AuthModal = ({
 
           <ModalFooter>
             <Button
-              
               variant="link"
               mx="auto"
               onClick={() => setSwitchLogin((prev) => !prev)}
