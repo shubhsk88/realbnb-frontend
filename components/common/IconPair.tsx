@@ -11,8 +11,8 @@ export const IconPair = ({
   children,
   ...props
 }: IconPairProps): ReactElement => (
-  <HStack color="gray.400" align="center" spacing={2} {...props}>
+  <HStack textStyle="labelLight" align="center" spacing={2} {...props}>
     <Icon as={icon} boxSize={6} />
-    <Text fontSize="md">{children}</Text>
+    <Text>{children}</Text>
   </HStack>
 );

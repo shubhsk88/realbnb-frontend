@@ -1,26 +1,35 @@
-import { Avatar, Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  BoxProps,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  Text,
+} from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
 import { Review } from "../../generated";
 
-interface CardProps {
+interface CardProps extends BoxProps {
   review: Review;
 }
 
-export const ReviewCard = ({ review }: CardProps): ReactElement => {
+export const ReviewCard = ({ review, ...props }: CardProps): ReactElement => {
   const [isTruncated, setIsTruncated] = useState<boolean>(true);
   const user = review.User;
 
   return (
-    <Box my={10}>
-      <Flex alignItems="center" my={6}>
+    <Box>
+      <HStack spacing={4} mb={4}>
         <Avatar name={user.name} src={user.avatar} />
-        <Box mx={4}>
+        <div>
           <Heading as="h5" size="md">
             {user.name}
           </Heading>
-          <Text color="gray.400">{review.updated}</Text>
-        </Box>
-      </Flex>
+          <Text textStyle="labelLight">{review.updated}</Text>
+        </div>
+      </HStack>
       <Text noOfLines={isTruncated ? 3 : 0}>{review.content}</Text>
       {isTruncated ? (
         <Button

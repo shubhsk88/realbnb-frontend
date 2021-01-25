@@ -38,9 +38,7 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
       <RoomImage photo={room.photos[0]} />
 
       <VStack as="section" flexGrow={1} align="stretch" spacing={2} p={4}>
-        <Text size="xs" fontWeight="medium" color="gray.400">
-          {room.roomType.name}
-        </Text>
+        <Text textStyle="label">{room.roomType.name}</Text>
         <Heading as="h3" size="md">
           {room.name}
         </Heading>

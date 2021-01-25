@@ -4,7 +4,7 @@ import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
 
 import { useGoogleAuthMutation } from "../../generated";
 import { isLoggedInVar } from "../../lib/cache";
-import { GoogleIcon } from "../../styles/theme";
+import { GoogleIcon } from "../common";
 
 export const GoogleSignIn = (): ReactElement => {
   const toast = useToast();
