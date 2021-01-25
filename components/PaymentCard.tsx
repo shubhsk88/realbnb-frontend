@@ -83,12 +83,12 @@ export const PaymentCard = (props: BoxProps): ReactElement => {
               <Icon size="lg" as={FaCcMastercard} />
             </HStack>
             <FormControl id="first">
-              <FormLabel>Email address</FormLabel>
-              <Input type="text" />
+              <FormLabel>First Name</FormLabel>
+              <Input type="text" focusBorderColor="primary" />
             </FormControl>
             <FormControl id="last">
-              <FormLabel>Email address</FormLabel>
-              <Input type="text" />
+              <FormLabel>Last Name</FormLabel>
+              <Input type="text" focusBorderColor="primary" />
             </FormControl>
             <Box>
               <Text py={2} fontWeight="bold">
