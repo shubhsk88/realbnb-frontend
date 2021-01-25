@@ -32,9 +32,10 @@ export const BookingDetails = () => {
       spacing={4}
     >
       <Box>
-        <Heading mb={16} fontSize="3xl" as="h2">
+        <Heading mb={14} fontSize="3xl" as="h2">
           Booking Details
         </Heading>
+
         <HStack spacing={5} alignItems="center">
           <Box borderRadius="md" h="100%" overflow="hidden">
             <Image
@@ -63,6 +64,7 @@ export const BookingDetails = () => {
           </VStack>
         </HStack>
       </Box>
+
       <Grid templateColumns="repeat(2,1fr)" gap={4}>
         {details.map((detail) => (
           <Box fontWeight="bold" key={detail.description}>
@@ -73,10 +75,12 @@ export const BookingDetails = () => {
           </Box>
         ))}
       </Grid>
-      <HStack fontWeight="bold" fontSize="lg" >
+
+      <HStack fontWeight="bold" fontSize="lg">
         <Text flex={1}>$285 x 9</Text>
         <Text flex={1}>$2565</Text>
       </HStack>
+
       <HStack fontWeight="bold" fontSize="lg">
         <Text flex={1}>Total</Text>
         <Text flex={1} color="primary" fontSize="xl">
