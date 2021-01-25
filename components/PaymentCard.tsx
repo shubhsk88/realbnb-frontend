@@ -9,6 +9,7 @@ import {
 } from "@stripe/react-stripe-js";
 import {
   Alert,
+  Input,
   AlertDialog,
   AlertDialogBody,
   AlertDialogContent,
@@ -23,6 +24,9 @@ import {
   Icon,
   Text,
   VStack,
+  FormLabel,
+  FormControl,
+  Flex,
 } from "@chakra-ui/react";
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
 
@@ -75,13 +79,48 @@ export const PaymentCard = (props: BoxProps): ReactElement => {
             </HStack>
 
             <HStack>
-              <Icon as={FaCcVisa} />
-              <Icon as={FaCcMastercard} />
+              <Icon size="lg" as={FaCcVisa} />
+              <Icon size="lg" as={FaCcMastercard} />
             </HStack>
+            <FormControl id="first">
+              <FormLabel>Email address</FormLabel>
+              <Input type="text" />
+            </FormControl>
+            <FormControl id="last">
+              <FormLabel>Email address</FormLabel>
+              <Input type="text" />
+            </FormControl>
+            <Box>
+              <Text py={2} fontWeight="bold">
+                Card Number
+              </Text>
+              <Box
+                as={CardNumberElement}
+                p={3}
+                borderRadius="md"
+                border="1px"
+                borderColor="gray.300"
+              />
+            </Box>
 
-            <CardNumberElement />
-            <CardExpiryElement />
-            <CardCvcElement />
+            <HStack spacing={2} as="div">
+              <Box
+                as={CardExpiryElement}
+                w="50%"
+                p={3}
+                borderRadius="md"
+                border="1px"
+                borderColor="gray.300"
+              />
+              <Box
+                as={CardCvcElement}
+                w="50%"
+                p={3}
+                borderRadius="md"
+                border="1px"
+                borderColor="gray.300"
+              />
+            </HStack>
 
             {errorMsg ? (
               <Alert status="error" borderRadius="md">
