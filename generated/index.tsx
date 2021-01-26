@@ -15,14 +15,21 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type CreateRoomResponse = {
-  __typename?: 'createRoomResponse';
+export type CreatePaymentResponse = {
+  __typename?: 'CreatePaymentResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
+  clientSecret?: Maybe<Scalars['String']>;
+};
+
+export type ReservationInput = {
+  price: Scalars['Float'];
+  room: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createPayment: CreatePaymentResponse;
   createRoom: CreateRoomResponse;
   completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
@@ -31,6 +38,12 @@ export type Mutation = {
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
   startPhoneVerification: StartPhoneVerificationResponse;
+};
+
+
+export type MutationCreatePaymentArgs = {
+  reservation: ReservationInput;
+  currency: Scalars['String'];
 };
 
 
@@ -96,6 +109,12 @@ export type MutationGoogleSignInArgs = {
 
 export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
+};
+
+export type CreateRoomResponse = {
+  __typename?: 'createRoomResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };
 
 export type GetRoomResponse = {
@@ -308,6 +327,7 @@ export type Reservation = {
   created: Scalars['DateTime'];
   updated: Scalars['DateTime'];
   guest?: Maybe<User>;
+  price: Scalars['String'];
   Room?: Maybe<Room>;
 };
 
@@ -500,7 +520,7 @@ export type GetUserQuery = (
     & Pick<GetUserProfileResponse, 'ok' | 'error'>
     & { user?: Maybe<(
       { __typename?: 'User' }
-      & Pick<User, 'name' | 'avatar'>
+      & Pick<User, 'name' | 'avatar' | 'email'>
     )> }
   ) }
 );
@@ -848,6 +868,7 @@ export const GetUserDocument = gql`
     user {
       name
       avatar
+      email
     }
   }
 }

@@ -13,13 +13,12 @@ import Image from "next/image";
 import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
-import { usePaymentDetails } from "../components/context/PaymentContext";
 import { useGetUserQuery } from "../generated";
 
-export const BookingDetails = (): ReactElement => {
+export const BookingDetails = ({ paymentDetails }): ReactElement => {
   const { data, error, loading } = useGetUserQuery();
-  const [paymentDetails, _] = usePaymentDetails();
 
+  if (!paymentDetails) return <div>error</div>;
   return (
     <VStack
       align="stretch"

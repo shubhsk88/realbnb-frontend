@@ -5,10 +5,12 @@ import { StripeWrapper } from "../../components/common";
 import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 import { isLoggedInVar } from "../../lib/cache";
+import { usePaymentDetails } from "../../components/context/PaymentContext";
 
 const Checkout = (): ReactElement => {
   const router = useRouter();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [paymentDetails, _] = usePaymentDetails();
 
   useEffect(() => {
     if (!isLoggedIn) router.push("/");
@@ -17,11 +19,11 @@ const Checkout = (): ReactElement => {
   return (
     <Stack direction="row" spacing={10} justify="space-between">
       <Box flexBasis="100%">
-        <BookingDetails />
+        <BookingDetails paymentDetails={paymentDetails} />
       </Box>
       <Box flexBasis="100%">
         <StripeWrapper>
-          <PaymentCard />
+          <PaymentCard paymentDetails={paymentDetails} />
         </StripeWrapper>
       </Box>
     </Stack>

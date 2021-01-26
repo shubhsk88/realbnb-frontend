@@ -5,6 +5,7 @@ query getUser {
     user {
       name
       avatar
+      email
     }
   }
 }

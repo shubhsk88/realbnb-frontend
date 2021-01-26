@@ -17,7 +17,7 @@ export interface Reservation {
   total: number;
 }
 export const PaymentContext = createContext(null);
-interface PaymentProviderProps {
+export interface PaymentProviderProps {
   reservation: Reservation | null;
   room: Room | null;
 }

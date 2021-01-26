@@ -47,3 +47,8 @@ export const phoneSignUp = yup.object().shape({
       (val) => differenceInCalendarYears(new Date(), new Date(val)) >= 18
     ),
 });
+
+export const paymentSchema = yup.object().shape({
+  firstName: yup.string().required("First Name is required"),
+  lastName: yup.string().required("Last Name is required"),
+});

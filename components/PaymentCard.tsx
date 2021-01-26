@@ -26,30 +26,49 @@ import {
   VStack,
   FormLabel,
   FormControl,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
-
+import { PaymentProviderProps } from "./context/PaymentContext";
 import { ButtonPrimary } from "./common";
+import { useForm } from "react-hook-form";
 
-export const PaymentCard = (props: BoxProps): ReactElement => {
+import { yupResolver } from "@hookform/resolvers/yup";
+import { paymentSchema } from "../utils";
+import { useGetUserQuery } from "../generated";
+
+interface PaymentPortalInput {
+  firstName: string;
+  lastName: string;
+}
+
+export const PaymentCard = ({
+  paymentDetails,
+}: {
+  paymentDetails: PaymentProviderProps;
+}): ReactElement => {
   const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
+  const { register, handleSubmit, errors } = useForm<PaymentPortalInput>({
+    mode: "onBlur",
+    resolver: yupResolver(paymentSchema),
+  });
 
   const [errorMsg, setErrorMsg] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const cancelRef = useRef();
+  const { data: user, error, loading } = useGetUserQuery();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const onSubmitPayment = async (data: PaymentPortalInput) => {
     // Use your card Element with other Stripe.js APIs
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
+
+    const { error, paymentMethod } = await stripe.createPaymentMeth({
       type: "card",
       card: elements.getElement(CardNumberElement),
       billing_details: {
-        name: "John Doe",
-        email: "johndoe@gmail.com",
+        name: data.firstName + data.lastName,
+        email: user.profile.user.email,
       },
     });
 
@@ -67,27 +86,36 @@ export const PaymentCard = (props: BoxProps): ReactElement => {
 
   return (
     <>
-      <Box {...props}>
-        <form onSubmit={handleSubmit}>
+      <Box>
+        <form onSubmit={handleSubmit(onSubmitPayment)}>
           <VStack align="stretch" spacing={4}>
             <Heading as="h2">Payment</Heading>
 
             <HStack>
-              <Text color="primary">$3032</Text>
-              <Text textStyle="labelLight">/ night</Text>
+              <Icon w={10} h={10} as={FaCcVisa} />
+              <Icon w={10} h={10} as={FaCcMastercard} />
             </HStack>
-
-            <HStack>
-              <Icon size="lg" as={FaCcVisa} />
-              <Icon size="lg" as={FaCcMastercard} />
-            </HStack>
-            <FormControl id="first">
+            <FormControl id="first" isRequired isInvalid={!!errors?.firstName}>
               <FormLabel>First Name</FormLabel>
-              <Input type="text" focusBorderColor="primary" />
+              <Input
+                name="firstName"
+                required
+                ref={register({ required: true })}
+                type="text"
+                focusBorderColor="primary"
+              />
+              <FormErrorMessage>{errors?.firstName?.message}</FormErrorMessage>
             </FormControl>
-            <FormControl id="last">
+            <FormControl isRequired id="last" isInvalid={!!errors?.lastName}>
               <FormLabel>Last Name</FormLabel>
-              <Input type="text" focusBorderColor="primary" />
+              <Input
+                type="text"
+                name="lastName"
+                required
+                ref={register({ required: true })}
+                focusBorderColor="primary"
+              />
+              <FormErrorMessage>{errors?.lastName?.message}</FormErrorMessage>
             </FormControl>
             <Box>
               <Text py={2} fontWeight="bold">
