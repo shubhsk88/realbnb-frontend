@@ -37,6 +37,10 @@ query getRoom($id: String!) {
         checkIn
         value
       }
+      address {
+        id
+        address
+      }
       roomType {
         name
       }

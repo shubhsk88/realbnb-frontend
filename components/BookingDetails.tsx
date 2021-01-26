@@ -14,23 +14,12 @@ import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
 import { usePaymentDetails } from "../components/context/PaymentContext";
+import { useGetUserQuery } from "../generated";
 
 export const BookingDetails = (): ReactElement => {
+  const { data, error, loading } = useGetUserQuery();
   const [paymentDetails, _] = usePaymentDetails();
 
-  console.log(paymentDetails);
-
-  const details = [
-    { label: "Check-In", description: format(new Date(), "d LLLL, EEEE") },
-    { label: "Check-Out", description: format(new Date(), "d LLLL, EEEE") },
-    { label: "First Name", description: "Same" },
-    { label: "Last name", description: "Swift" },
-    { label: "Email", description: "same@swift.com" },
-    {
-      label: "Phone Number",
-      description: "+124354241",
-    },
-  ];
   return (
     <VStack
       align="stretch"
@@ -53,14 +42,13 @@ export const BookingDetails = (): ReactElement => {
           </Box>
           <VStack align="stretch" spacing={1}>
             <Text fontWeight="bold" color="gray.400">
-              Hotel Room
+              {paymentDetails.room.roomType.name}
             </Text>
             <Text fontWeight="bold" fontSize="xl">
-              Bright and dry Bright and dryBright and dryBright and dryBright
-              and dry
+              {paymentDetails.room.name}
             </Text>
             <Text fontWeight="semibold" color="gray.400">
-              Address
+              {paymentDetails.room.address.address}
             </Text>
             <Box color="gray.400">
               <IconPair icon={IoBedOutline} my={1}>
@@ -72,25 +60,43 @@ export const BookingDetails = (): ReactElement => {
       </Box>
 
       <Grid templateColumns="repeat(2,1fr)" gap={4}>
-        {details.map((detail) => (
-          <Box fontWeight="bold" key={detail.description}>
-            <Text my={1} color="gray.400">
-              {detail.label}
-            </Text>
-            <Text>{detail.description}</Text>
-          </Box>
-        ))}
+        <Box fontWeight="bold">
+          <Text my={1} color="gray.400">
+            Check-In
+          </Text>
+          <Text>
+            {format(paymentDetails.reservation.checkIn, "d LLLL, EEEE")}
+          </Text>
+        </Box>
+
+        <Box fontWeight="bold">
+          <Text my={1} color="gray.400">
+            Check-Out
+          </Text>
+          <Text>
+            {format(paymentDetails.reservation.checkOut, "d LLLL, EEEE")}
+          </Text>
+        </Box>
+
+        <Box fontWeight="bold">
+          <Text my={1} color="gray.400">
+            Name
+          </Text>
+          <Text>{data.profile.user.name.split(" ")[0]}</Text>
+        </Box>
       </Grid>
 
       <HStack fontWeight="bold" fontSize="lg">
-        <Text flex={1}>$285 x 9</Text>
-        <Text flex={1}>$2565</Text>
+        <Text flex={1}>
+          ${paymentDetails.room.price} x {paymentDetails.reservation.days}
+        </Text>
+        <Text flex={1}>${paymentDetails.reservation.total}</Text>
       </HStack>
 
       <HStack fontWeight="bold" fontSize="lg">
         <Text flex={1}>Total</Text>
         <Text flex={1} color="primary" fontSize="xl">
-          $2565
+          ${paymentDetails.reservation.total}
         </Text>
       </HStack>
     </VStack>

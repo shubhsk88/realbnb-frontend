@@ -31,8 +31,8 @@ export const AuthModal = ({
   const [switchLogin, setSwitchLogin] = useState(true);
 
   const onCloseAll = () => {
-    onClose();
     onLoginClose();
+    onClose();
   };
 
   return (

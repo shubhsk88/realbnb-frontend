@@ -55,19 +55,26 @@ export const BookingCard = ({
     setNumDays(start && end ? differenceInCalendarDays(end, start) : 0);
   }, [rangeDates]);
 
+  console.log(room);
+
+  const goToCheckout = () => {
+    setPaymentDetails((prev) => ({
+      ...prev,
+      room,
+      reservation: {
+        checkIn: rangeDates.start,
+        checkOut: rangeDates.end,
+        days: numDays,
+        guest,
+        total: 200,
+      },
+    }));
+    router.push(`/${room.id}/checkout`);
+  };
+
   const onBooking = () => {
     if (isLoggedIn) {
-      setPaymentDetails((prev) => ({
-        ...prev,
-        room,
-        reservation: {
-          checkIn: rangeDates.start,
-          checkOut: rangeDates.end,
-          days: numDays,
-          guest,
-          total: 200,
-        },
-      }));
+      goToCheckout();
     } else {
       setIsLoginOpen(!isLoggedIn);
     }
@@ -75,6 +82,9 @@ export const BookingCard = ({
 
   const onClose = () => {
     setIsLoginOpen(false);
+    goToCheckout();
+    // console.log("here", isLoggedIn);
+    // if (isLoggedIn) goToCheckout();
   };
 
   return (

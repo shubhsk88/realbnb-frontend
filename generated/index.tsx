@@ -384,6 +384,9 @@ export type GetRoomQuery = (
       )>>, averageRating: (
         { __typename?: 'AverageReviewRating' }
         & Pick<AverageReviewRating, 'accuracy' | 'location' | 'communication' | 'checkIn' | 'value'>
+      ), address: (
+        { __typename?: 'Address' }
+        & Pick<Address, 'id' | 'address'>
       ), roomType: (
         { __typename?: 'RoomType' }
         & Pick<RoomType, 'name'>
@@ -579,6 +582,10 @@ export const GetRoomDocument = gql`
         communication
         checkIn
         value
+      }
+      address {
+        id
+        address
       }
       roomType {
         name
