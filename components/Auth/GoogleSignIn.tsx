@@ -1,26 +1,23 @@
 import { ReactElement } from "react";
-import { Button, useToast } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
 
 import { useGoogleAuthMutation } from "../../generated";
-import { isLoggedInVar } from "../../lib/cache";
 import { GoogleIcon } from "../common";
 
-export const GoogleSignIn = (): ReactElement => {
-  const toast = useToast();
+interface GoogleProps {
+  onSuccess: (string) => void;
+  onError: (string) => void;
+}
 
+export const GoogleSignIn = ({
+  onSuccess,
+  onError,
+}: GoogleProps): ReactElement => {
+  // TODO: Pass up data & mutation errors, mutation loading state
   const [onGoogleLogin] = useGoogleAuthMutation({
     onCompleted: ({ googleAuth }) => {
-      if (typeof window !== "undefined" && googleAuth.token) {
-        localStorage.setItem("token", googleAuth.token as string);
-        isLoggedInVar(true);
-
-        toast({
-          title: "Successfully logged in",
-          status: "success",
-          duration: 4000,
-        });
-      }
+      onSuccess(googleAuth.token);
     },
   });
 
@@ -34,11 +31,6 @@ export const GoogleSignIn = (): ReactElement => {
         googleId,
       },
     });
-  };
-
-  // FIXME: properly handle success & error
-  const errorResponseGoogle = (response) => {
-    console.log(response);
   };
 
   return (
@@ -62,7 +54,7 @@ export const GoogleSignIn = (): ReactElement => {
         </Button>
       )}
       onSuccess={successResponseGoogle}
-      onFailure={errorResponseGoogle}
+      onFailure={({ error }) => onError(error)}
       cookiePolicy={"single_host_origin"}
     />
   );

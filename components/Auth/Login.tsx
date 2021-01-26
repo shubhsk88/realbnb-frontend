@@ -24,46 +24,59 @@ export interface LoginInputData {
   password: string;
 }
 
-export const Login = (): ReactElement => {
+interface LoginProps {
+  closeModal: () => void;
+}
+
+export const Login = ({ closeModal }: LoginProps): ReactElement => {
   const toast = useToast();
-  const {
-    register,
-    handleSubmit,
-    errors,
-    reset,
-    getValues,
-    formState: { isSubmitSuccessful },
-  } = useForm<LoginInputData>({
+  const { register, handleSubmit, errors, reset } = useForm<LoginInputData>({
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   });
 
-  const [submittedData, setSubmittedData] = useState<LoginInputData>(getValues);
+  const onSuccess = (token: string) => {
+    if (typeof window !== undefined && token) {
+      localStorage.setItem("token", token);
+      isLoggedInVar(true);
+
+      toast({
+        title: "Logged in successfully",
+        status: "success",
+        duration: 6000,
+        position: "bottom-left",
+      });
+
+      reset();
+      closeModal();
+    }
+  };
+
   const [onLogin, { data, error, loading }] = useEmailLoginMutation({
     onCompleted: ({ emailSignIn }) => {
-      if (typeof window !== "undefined" && emailSignIn.token) {
-        localStorage.setItem("token", emailSignIn.token as string);
-        isLoggedInVar(true);
-
-        toast({
-          title: "Successfully logged in",
-          status: "success",
-          duration: 4000,
-        });
-      }
+      onSuccess(emailSignIn.token);
     },
   });
 
-  useEffect(() => {
-    if (isSubmitSuccessful) {
-      reset({ ...submittedData });
-    }
-  }, [isSubmitSuccessful, submittedData, reset]);
-
   const onSubmit: SubmitHandler<LoginInputData> = (inputData) => {
-    setSubmittedData((prev) => ({ ...prev, inputData }));
     onLogin({ variables: inputData });
   };
+
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const onError = (msg: string) => {
+    setErrorMsg(msg);
+  };
+
+  useEffect(() => {
+    if (error?.message) {
+      setErrorMsg(error.message);
+    } else if (data?.emailSignIn?.error) {
+      setErrorMsg(data?.emailSignIn?.error);
+    } else {
+      setErrorMsg("");
+    }
+  }, [data, error]);
 
   return (
     <>
@@ -100,9 +113,7 @@ export const Login = (): ReactElement => {
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
 
-        {data?.emailSignIn?.error ? (
-          <ErrorDialog error={data.emailSignIn.error} />
-        ) : null}
+        {errorMsg ? <ErrorDialog error={errorMsg} /> : null}
 
         <ButtonPrimary
           isLoading={loading}
@@ -116,7 +127,7 @@ export const Login = (): ReactElement => {
 
       <VStack mt={3} spacing={3}>
         <Text>or</Text>
-        <GoogleSignIn />
+        <GoogleSignIn onSuccess={onSuccess} onError={onError} />
       </VStack>
     </>
   );

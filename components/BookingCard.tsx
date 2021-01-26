@@ -1,6 +1,5 @@
 import { ReactElement, useState, useEffect } from "react";
 import {
-  Box,
   Button,
   Stat,
   StatNumber,
@@ -36,25 +35,27 @@ export const BookingCard = ({
   room,
   ...props
 }: BookingCardProps): ReactElement => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const [isLogin, setIsLogin] = useState(false);
   const toast = useToast();
   const router = useRouter();
+
   const [paymentDetails, setPaymentDetails] = usePaymentDetails();
+
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const [rangeDates, setRangesDate] = useState<RangeProps>({
     start: null,
     end: null,
   });
+  const [numDays, setNumDays] = useState(0);
   const [guest, setGuest] = useState<string | undefined>();
 
-  const [numDays, setNumDays] = useState(0);
   useEffect(() => {
     const { start, end } = rangeDates;
     setNumDays(start && end ? differenceInCalendarDays(end, start) : 0);
   }, [rangeDates]);
 
-  const onBooking = (e) => {
+  const onBooking = () => {
     if (isLoggedIn) {
       setPaymentDetails((prev) => ({
         ...prev,
@@ -67,22 +68,21 @@ export const BookingCard = ({
           total: 200,
         },
       }));
+    } else {
+      setIsLoginOpen(!isLoggedIn);
     }
-    toast({
-      title: "You've been directed to payment hell",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
-    setTimeout(() => router.push(`/${room.id}/checkout`), 2000);
-
-    if (!isLoggedIn) setIsLogin(!isLoggedIn);
   };
-  const onClose = () => setIsLogin(false);
+
+  const onClose = () => {
+    setIsLoginOpen(false);
+  };
 
   return (
     <>
-      {isLogin ? <AuthModal isLogin={isLogin} onLoginClose={onClose} /> : null}
+      {isLoginOpen ? (
+        <AuthModal isLoginOpen={isLoginOpen} onLoginClose={onClose} />
+      ) : null}
+
       <VStack
         align="stretch"
         spacing={4}

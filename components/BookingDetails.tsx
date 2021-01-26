@@ -13,7 +13,13 @@ import Image from "next/image";
 import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
+import { usePaymentDetails } from "../components/context/PaymentContext";
+
 export const BookingDetails = (): ReactElement => {
+  const [paymentDetails, _] = usePaymentDetails();
+
+  console.log(paymentDetails);
+
   const details = [
     { label: "Check-In", description: format(new Date(), "d LLLL, EEEE") },
     { label: "Check-Out", description: format(new Date(), "d LLLL, EEEE") },

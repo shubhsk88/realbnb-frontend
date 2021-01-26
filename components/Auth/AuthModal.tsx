@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { ReactElement, useState } from "react";
+import { ReactElement, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -10,39 +10,45 @@ import {
   ModalCloseButton,
   useDisclosure,
   Button,
-  Center,
 } from "@chakra-ui/react";
 import { ButtonPrimary } from "../common/Buttons/Primary";
 import { Login } from "./Login";
 import { SignUp } from "./SignUp";
 
 interface AuthModalProps {
-  isLogin: boolean;
+  isLoginOpen: boolean;
   onLoginClose: () => void;
 }
+
 export const AuthModal = ({
-  isLogin = false,
+  isLoginOpen = false,
   onLoginClose = () => {},
 }: AuthModalProps): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure({
-    defaultIsOpen: isLogin,
+    defaultIsOpen: isLoginOpen,
   });
+
   const [switchLogin, setSwitchLogin] = useState(true);
-  const onResultClose = () => {
+
+  const onCloseAll = () => {
     onClose();
     onLoginClose();
   };
 
   return (
     <>
-      {isLogin ? null : <ButtonPrimary onClick={onOpen}>Login</ButtonPrimary>}
+      {isLoginOpen ? null : (
+        <ButtonPrimary onClick={onOpen}>Login</ButtonPrimary>
+      )}
 
-      <Modal isOpen={isOpen} onClose={onResultClose}>
+      <Modal isOpen={isOpen} onClose={onCloseAll}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{switchLogin ? "Login" : "Sign Up"}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{switchLogin ? <Login /> : <SignUp />}</ModalBody>
+          <ModalBody>
+            {switchLogin ? <Login closeModal={onCloseAll} /> : <SignUp />}
+          </ModalBody>
 
           <ModalFooter>
             <Button
