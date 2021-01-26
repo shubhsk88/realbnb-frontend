@@ -34,7 +34,7 @@ export const BookingDetails = (): ReactElement => {
         <HStack spacing={5} alignItems="center">
           <Box borderRadius="md" h="100%" overflow="hidden">
             <Image
-              src="https://via.placeholder.com/150"
+              src={paymentDetails.room.photos[0].link}
               width="200px"
               height="100px"
               objectFit="cover"

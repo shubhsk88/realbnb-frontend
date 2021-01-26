@@ -26,7 +26,6 @@ import {
   VStack,
   FormLabel,
   FormControl,
-  Flex,
 } from "@chakra-ui/react";
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
 
