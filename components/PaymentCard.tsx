@@ -1,4 +1,4 @@
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import {
   useStripe,
@@ -35,7 +35,7 @@ import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { paymentSchema } from "../utils";
-import { useGetUserQuery } from "../generated";
+import { useCreatePaymentMutation, useGetUserQuery } from "../generated";
 
 interface PaymentPortalInput {
   firstName: string;
@@ -56,31 +56,56 @@ export const PaymentCard = ({
   });
 
   const [errorMsg, setErrorMsg] = useState("");
+  const [succeeded, setSucceeded] = useState(false);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState("");
+  const [disabled, setDisabled] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const cancelRef = useRef();
-  const { data: user, error, loading } = useGetUserQuery();
+  const { data: user } = useGetUserQuery();
+  const [clientSecret, setClientSecret] = useState("");
+  const [onCreatePayment] = useCreatePaymentMutation({
+    onCompleted: ({ payment }) => {
+      if (payment.ok) {
+        setClientSecret(payment.clientSecret);
+      } else {
+        setError(payment.error);
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (paymentDetails) {
+      onCreatePayment({
+        variables: {
+          reservation: {
+            price: paymentDetails.reservation.total,
+            room: paymentDetails.room.id,
+          },
+        },
+      });
+    }
+  }, []);
+  console.log(clientSecret);
 
   const onSubmitPayment = async (data: PaymentPortalInput) => {
     // Use your card Element with other Stripe.js APIs
 
-    const { error, paymentMethod } = await stripe.createPaymentMeth({
-      type: "card",
-      card: elements.getElement(CardNumberElement),
-      billing_details: {
-        name: data.firstName + data.lastName,
-        email: user.profile.user.email,
+    setProcessing(true);
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardNumberElement),
+        
       },
     });
-
-    if (error) {
-      setErrorMsg(error.message);
+    console.log(payload);
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
     } else {
-      if (errorMsg) setErrorMsg("");
-      setIsDialogOpen(true);
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
-      // console.log("[PaymentMethod]", paymentMethod);
+      setError(null);
+      setProcessing(false);
+      setSucceeded(true);
     }
   };
 
