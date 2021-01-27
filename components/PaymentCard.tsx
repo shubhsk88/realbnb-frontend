@@ -28,12 +28,14 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
+import BeatLoader from "react-spinners/BeatLoader";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { ButtonPrimary } from "./common";
 import { paymentSchema } from "@/utils";
-import { useCreatePaymentMutation, useGetUserQuery } from "@/generated";
+import { useCreatePaymentMutation } from "@/generated";
+import { PaymentDetails } from "@/lib/cache";
 
 interface PaymentPortalInput {
   firstName: string;
@@ -43,7 +45,7 @@ interface PaymentPortalInput {
 export const PaymentCard = ({
   paymentDetails,
 }: {
-  paymentDetails: PaymentProviderProps;
+  paymentDetails: PaymentDetails;
 }): ReactElement => {
   const stripe = useStripe();
   const elements = useElements();
@@ -58,13 +60,14 @@ export const PaymentCard = ({
     return <div>error</div>;
   console.log(paymentDetails);
   const [errorMsg, setErrorMsg] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   // const [succeeded, setSucceeded] = useState(false);
   // const [disabled, setDisabled] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+  debugger;
   const [onCreatePayment] = useCreatePaymentMutation({
     onCompleted: ({ payment }) => {
       if (payment.ok) {
