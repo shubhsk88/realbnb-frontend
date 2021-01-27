@@ -17,7 +17,7 @@ import { useReactiveVar } from "@apollo/client";
 import { DateRangePickerComponent } from "./DatePicker";
 
 import { Room } from "../generated";
-import { isLoggedInVar } from "../lib/cache";
+import { isLoggedInVar, paymentDetailsVar } from "../lib/cache";
 
 import { AuthModal } from "./Auth/AuthModal";
 import { usePaymentDetails } from "./context/PaymentContext";
@@ -38,8 +38,6 @@ export const BookingCard = ({
   const toast = useToast();
   const router = useRouter();
 
-  const [paymentDetails, setPaymentDetails] = usePaymentDetails();
-
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
@@ -55,20 +53,18 @@ export const BookingCard = ({
     setNumDays(start && end ? differenceInCalendarDays(end, start) : 0);
   }, [rangeDates]);
 
-  console.log(room);
-
   const goToCheckout = () => {
-    setPaymentDetails((prev) => ({
-      ...prev,
+    paymentDetailsVar({
       room,
       reservation: {
         checkIn: rangeDates.start,
         checkOut: rangeDates.end,
         days: numDays,
-        guest,
+        guest: Number(guest),
         total: 200,
       },
-    }));
+    });
+
     router.push(`/${room.id}/checkout`);
   };
 
