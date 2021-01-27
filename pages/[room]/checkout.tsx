@@ -12,6 +12,8 @@ const Checkout = (): ReactElement => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [paymentDetails, _] = usePaymentDetails();
 
+  console.log(paymentDetails);
+
   useEffect(() => {
     if (!isLoggedIn) router.push("/");
   }, []);

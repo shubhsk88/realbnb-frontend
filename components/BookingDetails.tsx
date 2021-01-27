@@ -16,9 +16,12 @@ import { IconPair } from "./common";
 import { useGetUserQuery } from "../generated";
 
 export const BookingDetails = ({ paymentDetails }): ReactElement => {
+  if (!paymentDetails) return <div>error</div>;
+
   const { data, error, loading } = useGetUserQuery();
 
-  if (!paymentDetails) return <div>error</div>;
+  if (error || loading) return <div>loading</div>;
+
   return (
     <VStack
       align="stretch"
@@ -81,7 +84,7 @@ export const BookingDetails = ({ paymentDetails }): ReactElement => {
           <Text my={1} color="gray.400">
             Name
           </Text>
-          <Text>{data.profile.user.name.split(" ")[0]}</Text>
+          <Text>{data.profile.user.name}</Text>
         </Box>
       </Grid>
 
