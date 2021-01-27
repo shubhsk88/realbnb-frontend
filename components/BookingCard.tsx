@@ -34,6 +34,7 @@ export const BookingCard = ({
   const router = useRouter();
 
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const paymentDetails = useReactiveVar(paymentDetailsVar);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   const [rangeDates, setRangesDate] = useState<RangeProps>({
@@ -49,7 +50,8 @@ export const BookingCard = ({
   }, [rangeDates]);
 
   const goToCheckout = () => {
-    paymentDetailsVar({
+    const details = {
+      ...paymentDetails,
       room,
       reservation: {
         checkIn: rangeDates.start,
@@ -58,7 +60,9 @@ export const BookingCard = ({
         guest: Number(guest),
         total: 200,
       },
-    });
+    };
+    localStorage.setItem("paymentDetails", JSON.stringify(details));
+    paymentDetailsVar(details);
 
     router.push(`/rooms/${room.id}/checkout`);
   };

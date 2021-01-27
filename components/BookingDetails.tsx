@@ -14,11 +14,17 @@ import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
 import { useGetUserQuery } from "@/generated";
+import { PaymentDetails } from "@/lib/cache";
 
-export const BookingDetails = ({ paymentDetails }): ReactElement => {
+export const BookingDetails = ({
+  paymentDetails,
+}: {
+  paymentDetails: PaymentDetails;
+}): ReactElement => {
   const { data, error, loading } = useGetUserQuery();
 
-  if (!paymentDetails) return <div>error</div>;
+  if (!paymentDetails.room || !paymentDetails.reservation)
+    return <div>error</div>;
   return (
     <VStack
       align="stretch"

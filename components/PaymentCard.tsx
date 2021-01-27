@@ -52,7 +52,9 @@ export const PaymentCard = ({
     mode: "onBlur",
     resolver: yupResolver(paymentSchema),
   });
-
+  if (!paymentDetails.room || !paymentDetails.reservation)
+    return <div>error</div>;
+  console.log(paymentDetails);
   const [errorMsg, setErrorMsg] = useState("");
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
@@ -78,13 +80,12 @@ export const PaymentCard = ({
         variables: {
           reservation: {
             price: paymentDetails.reservation.total,
-            room: paymentDetails.room.id,
+            roomId: paymentDetails.room.id,
           },
         },
       });
     }
-  }, []);
-  console.log(clientSecret);
+  }, [paymentDetails]);
 
   const onSubmitPayment = async (data: PaymentPortalInput) => {
     // Use your card Element with other Stripe.js APIs

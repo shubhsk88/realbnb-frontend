@@ -14,9 +14,6 @@ export const PAYMENT_DETAILS = gql`
 `;
 
 const Checkout = (): ReactElement => {
-  const { data, loading, error } = useQuery(PAYMENT_DETAILS);
-
-  console.log("HIii", data, loading, error);
   const router = useRouter();
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
@@ -25,7 +22,6 @@ const Checkout = (): ReactElement => {
   useEffect(() => {
     if (!isLoggedIn) router.push("/");
   }, []);
-
   return (
     <Stack direction="row" spacing={10} justify="space-between">
       <Box flexBasis="100%">

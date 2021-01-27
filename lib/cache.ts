@@ -14,7 +14,11 @@ export interface PaymentDetails {
 export const isLoggedInVar = makeVar<boolean>(
   typeof window !== "undefined" && !!localStorage.getItem("token")
 );
-export const paymentDetailsVar = makeVar<PaymentDetails | null>(null);
+export const paymentDetailsVar = makeVar<PaymentDetails>(
+  typeof window !== "undefined" &&
+    localStorage.getItem("paymentDetails") &&
+    JSON.parse(localStorage.getItem("paymentDetails"))
+);
 
 export const clientCache: InMemoryCache = new InMemoryCache({
   typePolicies: {
