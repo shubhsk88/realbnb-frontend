@@ -45,9 +45,11 @@ export const PaymentCard = ({
 }: {
   paymentDetails: PaymentProviderProps;
 }): ReactElement => {
-  const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
+
+  const cancelRef = useRef();
+
   const { register, handleSubmit, errors } = useForm<PaymentPortalInput>({
     mode: "onBlur",
     resolver: yupResolver(paymentSchema),
@@ -58,12 +60,11 @@ export const PaymentCard = ({
   const [errorMsg, setErrorMsg] = useState("");
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
-  const [processing, setProcessing] = useState("");
-  const [disabled, setDisabled] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
+  // const [succeeded, setSucceeded] = useState(false);
+  // const [disabled, setDisabled] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const cancelRef = useRef();
-  const { data: user } = useGetUserQuery();
-  const [clientSecret, setClientSecret] = useState("");
+
   const [onCreatePayment] = useCreatePaymentMutation({
     onCompleted: ({ payment }) => {
       if (payment.ok) {
@@ -87,23 +88,21 @@ export const PaymentCard = ({
     }
   }, [paymentDetails]);
 
-  const onSubmitPayment = async (data: PaymentPortalInput) => {
-    // Use your card Element with other Stripe.js APIs
-
-    setProcessing(true);
+  const onSubmitPayment = async (inputData: PaymentPortalInput) => {
+    setIsProcessing(true);
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: elements.getElement(CardNumberElement),
       },
     });
-    console.log(payload);
+
     if (payload.error) {
       setError(`Payment failed ${payload.error.message}`);
-      setProcessing(false);
+      setIsProcessing(false);
     } else {
       setError(null);
-      setProcessing(false);
-      setSucceeded(true);
+
+      setIsProcessing(false);
     }
   };
 
@@ -172,14 +171,19 @@ export const PaymentCard = ({
               />
             </HStack>
 
-            {errorMsg ? (
+            {error ? (
               <Alert status="error" borderRadius="md">
                 <AlertIcon />
-                <AlertTitle mr={2}>{errorMsg}</AlertTitle>
+                <AlertTitle mr={2}>{error}</AlertTitle>
               </Alert>
             ) : null}
 
-            <ButtonPrimary type="submit" isDisabled={!stripe}>
+            <ButtonPrimary
+              type="submit"
+              isDisabled={!stripe}
+              isLoading={isProcessing}
+              spinner={<BeatLoader size={4} color="white" />}
+            >
               Confirm
             </ButtonPrimary>
           </VStack>

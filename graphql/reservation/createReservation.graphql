@@ -1,0 +1,16 @@
+mutation createReservation(
+  $checkIn: DateTime!
+  $checkOut: DateTime!
+  $price: Float!
+  $roomId: String!
+) {
+  reservation: createReservation(
+    checkIn: $checkIn
+    checkOut: $checkOut
+    price: $price
+    roomId: $roomId
+  ) {
+    ok
+    error
+  }
+}

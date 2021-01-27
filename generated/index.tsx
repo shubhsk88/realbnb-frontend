@@ -24,12 +24,13 @@ export type CreatePaymentResponse = {
 
 export type ReservationInput = {
   price: Scalars['Float'];
-  room: Scalars['String'];
+  roomId: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   createPayment: CreatePaymentResponse;
+  createReservation: CreateReservationResponse;
   createRoom: CreateRoomResponse;
   completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
@@ -44,6 +45,14 @@ export type Mutation = {
 export type MutationCreatePaymentArgs = {
   reservation: ReservationInput;
   currency?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationCreateReservationArgs = {
+  checkIn: Scalars['DateTime'];
+  checkOut: Scalars['DateTime'];
+  price: Scalars['Float'];
+  roomId: Scalars['String'];
 };
 
 
@@ -109,6 +118,12 @@ export type MutationGoogleSignInArgs = {
 
 export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
+};
+
+export type CreateReservationResponse = {
+  __typename?: 'CreateReservationResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };
 
 export type CreateRoomResponse = {
@@ -392,6 +407,22 @@ export type CreatePaymentMutation = (
   ) }
 );
 
+export type CreateReservationMutationVariables = Exact<{
+  checkIn: Scalars['DateTime'];
+  checkOut: Scalars['DateTime'];
+  price: Scalars['Float'];
+  roomId: Scalars['String'];
+}>;
+
+
+export type CreateReservationMutation = (
+  { __typename?: 'Mutation' }
+  & { reservation: (
+    { __typename?: 'CreateReservationResponse' }
+    & Pick<CreateReservationResponse, 'ok' | 'error'>
+  ) }
+);
+
 export type GetRoomQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -612,6 +643,47 @@ export function useCreatePaymentMutation(baseOptions?: Apollo.MutationHookOption
 export type CreatePaymentMutationHookResult = ReturnType<typeof useCreatePaymentMutation>;
 export type CreatePaymentMutationResult = Apollo.MutationResult<CreatePaymentMutation>;
 export type CreatePaymentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentMutation, CreatePaymentMutationVariables>;
+export const CreateReservationDocument = gql`
+    mutation createReservation($checkIn: DateTime!, $checkOut: DateTime!, $price: Float!, $roomId: String!) {
+  reservation: createReservation(
+    checkIn: $checkIn
+    checkOut: $checkOut
+    price: $price
+    roomId: $roomId
+  ) {
+    ok
+    error
+  }
+}
+    `;
+export type CreateReservationMutationFn = Apollo.MutationFunction<CreateReservationMutation, CreateReservationMutationVariables>;
+
+/**
+ * __useCreateReservationMutation__
+ *
+ * To run a mutation, you first call `useCreateReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReservationMutation, { data, loading, error }] = useCreateReservationMutation({
+ *   variables: {
+ *      checkIn: // value for 'checkIn'
+ *      checkOut: // value for 'checkOut'
+ *      price: // value for 'price'
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useCreateReservationMutation(baseOptions?: Apollo.MutationHookOptions<CreateReservationMutation, CreateReservationMutationVariables>) {
+        return Apollo.useMutation<CreateReservationMutation, CreateReservationMutationVariables>(CreateReservationDocument, baseOptions);
+      }
+export type CreateReservationMutationHookResult = ReturnType<typeof useCreateReservationMutation>;
+export type CreateReservationMutationResult = Apollo.MutationResult<CreateReservationMutation>;
+export type CreateReservationMutationOptions = Apollo.BaseMutationOptions<CreateReservationMutation, CreateReservationMutationVariables>;
 export const GetRoomDocument = gql`
     query getRoom($id: String!) {
   getRoom(id: $id) {

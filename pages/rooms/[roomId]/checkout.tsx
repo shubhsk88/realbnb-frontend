@@ -19,6 +19,8 @@ const Checkout = (): ReactElement => {
 
   const paymentDetails = useReactiveVar(paymentDetailsVar);
 
+  console.log(paymentDetails);
+
   useEffect(() => {
     if (!isLoggedIn) router.push("/");
   }, []);

@@ -87,7 +87,7 @@ export const BookingDetails = ({
           <Text my={1} color="gray.400">
             Name
           </Text>
-          <Text>{data.profile.user.name.split(" ")[0]}</Text>
+          <Text>{data.profile.user.name}</Text>
         </Box>
       </Grid>
 
