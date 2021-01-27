@@ -32,8 +32,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { ButtonPrimary } from "./common";
-import { paymentSchema } from "@/utils/";
-import { useCreatePaymentMutation, useGetUserQuery } from "@/generated/";
+import { paymentSchema } from "@/utils";
+import { useCreatePaymentMutation, useGetUserQuery } from "@/generated";
 
 interface PaymentPortalInput {
   firstName: string;

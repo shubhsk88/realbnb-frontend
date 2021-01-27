@@ -15,10 +15,14 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*", "components/index"],
-      "@/generated/*": ["generated/*", "generated/index"],
-      "@/lib/*": ["lib/*", "lib/index"],
-      "@/utils/*": ["utils/*", "utils/index"],
+      "@/components": ["components/index"],
+      "@/generated": ["generated/index"],
+
+      "@/components/*": ["components/*"],
+      "@/generated/*": ["generated/*"],
+      "@/lib/*": ["lib/*"],
+      "@/utils": ["utils/index"],
+      "@/utils/*": ["utils/*"],
       "@/styles/*": ["styles/*"]
     }
   },

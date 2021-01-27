@@ -15,7 +15,7 @@ import {
 import Image from "next/image";
 import { AiOutlineStar, AiOutlineHeart } from "react-icons/ai";
 import { IoBedOutline } from "react-icons/io5";
-import { Photo, Room } from "@/generated/";
+import { Photo, Room } from "@/generated";
 import { ButtonOpaque, IconButtonClear, IconPair } from "@/components/common";
 
 interface CardProps extends BoxProps {

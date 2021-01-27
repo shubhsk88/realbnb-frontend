@@ -4,9 +4,9 @@ import { GetStaticProps } from "next";
 import { SimpleGrid } from "@chakra-ui/react";
 import Link from "next/link";
 
-import { GetRoomsDocument, useGetRoomsQuery } from "@/generated/";
+import { GetRoomsDocument, useGetRoomsQuery } from "@/generated";
 import { initializeApollo } from "@/lib/apolloClient";
-import { VRoomCard } from "@/components/";
+import { VRoomCard } from "@/components";
 
 const IndexPage = (): ReactElement => {
   const { loading, data, error } = useGetRoomsQuery();

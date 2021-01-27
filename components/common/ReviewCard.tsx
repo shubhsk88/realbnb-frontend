@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import React, { ReactElement, useState } from "react";
 
-import { Review } from "@/generated/";
+import { Review } from "@/generated";
 
 interface CardProps extends BoxProps {
   review: Review;

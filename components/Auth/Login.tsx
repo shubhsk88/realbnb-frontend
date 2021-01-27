@@ -13,9 +13,9 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { useEmailLoginMutation } from "../../generated";
-import { isLoggedInVar } from "../../lib/cache";
-import { loginSchema } from "../../utils";
+import { useEmailLoginMutation } from "@/generated";
+import { isLoggedInVar } from "@/lib/cache";
+import { loginSchema } from "@/utils";
 import { GoogleSignIn } from "./GoogleSignIn";
 import { ButtonPrimary, ErrorDialog } from "./../common";
 

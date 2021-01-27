@@ -1,5 +1,5 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
-import { Room } from "../generated";
+import { Room } from "@/generated";
 export interface Reservation {
   checkIn: Date;
   checkOut: Date;

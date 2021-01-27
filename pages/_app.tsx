@@ -5,7 +5,7 @@ import { ReactElement } from "react";
 import { useApollo } from "@/lib/apolloClient";
 
 import theme from "@/styles/theme";
-import { Layout } from "@/components/";
+import { Layout } from "@/components";
 import { PaymentProvider } from "@/components/context/PaymentContext";
 
 export default function App({ Component, pageProps }: AppProps): ReactElement {

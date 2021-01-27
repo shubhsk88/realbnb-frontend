@@ -3,7 +3,7 @@ import { Box, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { gql, useReactiveVar, useQuery } from "@apollo/client";
 
-import { BookingDetails, PaymentCard } from "@/components/";
+import { BookingDetails, PaymentCard } from "@/components";
 import { StripeWrapper } from "@/components/common";
 import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
 

@@ -7,7 +7,7 @@ import {
   SetStateAction,
   Dispatch,
 } from "react";
-import { Room } from "../../generated";
+import { Room } from "@/generated";
 
 export interface Reservation {
   checkIn: Date;

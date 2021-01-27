@@ -14,7 +14,7 @@ import { useRouter } from "next/router";
 import { useReactiveVar } from "@apollo/client";
 
 import { DateRangePickerComponent } from "./DatePicker";
-import { Room } from "@/generated/";
+import { Room } from "@/generated";
 import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
 import { AuthModal } from "./Auth/AuthModal";
 
