@@ -15,8 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { FiChevronDown } from "react-icons/fi";
 
-import { isLoggedInVar } from "../lib/cache";
-import { useLoggedIn } from "../utils";
+import { isLoggedInVar } from "@/lib/cache";
+import { useLoggedIn } from "@/utils/";
 
 export const AccountMenu = (): ReactElement => {
   const client = useApolloClient();

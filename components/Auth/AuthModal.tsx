@@ -11,6 +11,7 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react";
+
 import { ButtonPrimary } from "../common/Buttons/Primary";
 import { Login } from "./Login";
 import { SignUp } from "./SignUp";

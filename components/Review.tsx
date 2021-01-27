@@ -1,9 +1,10 @@
 import React, { ReactElement, useMemo } from "react";
+import { AiOutlineStar } from "react-icons/ai";
 import { HStack, Icon, Text, Wrap, WrapItem } from "@chakra-ui/react";
+
 import { ReviewScore } from "./common/ReviewScore";
 import { ReviewCard } from "./common/ReviewCard";
-import { AiOutlineStar } from "react-icons/ai";
-import { Review as ReviewType, AverageReviewRating } from "../generated";
+import { Review as ReviewType, AverageReviewRating } from "@/generated/";
 
 interface ReviewProps {
   ratings: AverageReviewRating;

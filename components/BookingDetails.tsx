@@ -13,7 +13,7 @@ import Image from "next/image";
 import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
-import { useGetUserQuery } from "../generated";
+import { useGetUserQuery } from "@/generated/";
 
 export const BookingDetails = ({ paymentDetails }): ReactElement => {
   const { data, error, loading } = useGetUserQuery();

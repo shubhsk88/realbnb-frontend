@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import { Button } from "@chakra-ui/react";
 import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
 
-import { useGoogleAuthMutation } from "../../generated";
+import { useGoogleAuthMutation } from "@/generated/";
 import { GoogleIcon } from "../common";
 
 interface GoogleProps {

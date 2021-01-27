@@ -7,6 +7,7 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+
 import { Carousel } from "./common/Carousel";
 
 interface CarouselModalProps {

@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import { Link, Stack, HStack, StackProps } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { AlgoliaSearch } from "./Algolia/AlgoliaSearch";
 
-import { useLoggedIn } from "../utils";
+import { useLoggedIn } from "@/utils/";
+import { AlgoliaSearch } from "./Algolia/AlgoliaSearch";
 import { LayoutContainer } from "./Layout";
 import { AccountMenu } from "./index";
 import { AuthModal } from "./Auth/AuthModal";

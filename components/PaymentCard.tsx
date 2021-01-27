@@ -18,7 +18,6 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
-  BoxProps,
   Heading,
   HStack,
   Icon,
@@ -29,13 +28,12 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
-import { PaymentProviderProps } from "./context/PaymentContext";
-import { ButtonPrimary } from "./common";
 import { useForm } from "react-hook-form";
-
 import { yupResolver } from "@hookform/resolvers/yup";
-import { paymentSchema } from "../utils";
-import { useCreatePaymentMutation, useGetUserQuery } from "../generated";
+
+import { ButtonPrimary } from "./common";
+import { paymentSchema } from "@/utils/";
+import { useCreatePaymentMutation, useGetUserQuery } from "@/generated/";
 
 interface PaymentPortalInput {
   firstName: string;
@@ -95,7 +93,6 @@ export const PaymentCard = ({
     const payload = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: elements.getElement(CardNumberElement),
-        
       },
     });
     console.log(payload);
