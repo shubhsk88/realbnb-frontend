@@ -1,10 +1,10 @@
 import { ReactElement, useEffect } from "react";
 import { Box, Stack } from "@chakra-ui/react";
-import { BookingDetails, PaymentCard } from "../../components";
-import { StripeWrapper } from "../../components/common";
+import { BookingDetails, PaymentCard } from "../../../components";
+import { StripeWrapper } from "../../../components/common";
 import { useRouter } from "next/router";
 import { gql, useReactiveVar, useQuery } from "@apollo/client";
-import { isLoggedInVar, paymentDetailsVar } from "../../lib/cache";
+import { isLoggedInVar, paymentDetailsVar } from "../../../lib/cache";
 
 export const PAYMENT_DETAILS = gql`
   query PaymentDetails {
@@ -20,11 +20,11 @@ const Checkout = (): ReactElement => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   const paymentDetails = useReactiveVar(paymentDetailsVar);
-  console.log("bye", paymentDetails, paymentDetailsVar());
+
   useEffect(() => {
     if (!isLoggedIn) router.push("/");
   }, []);
-  return <div>hi</div>;
+
   return (
     <Stack direction="row" spacing={10} justify="space-between">
       <Box flexBasis="100%">

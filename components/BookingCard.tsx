@@ -8,7 +8,6 @@ import {
   VStack,
   Select,
   StackProps,
-  useToast,
 } from "@chakra-ui/react";
 
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
@@ -20,7 +19,6 @@ import { Room } from "../generated";
 import { isLoggedInVar, paymentDetailsVar } from "../lib/cache";
 
 import { AuthModal } from "./Auth/AuthModal";
-import { usePaymentDetails } from "./context/PaymentContext";
 
 export interface RangeProps {
   start: Date | null;
@@ -35,7 +33,6 @@ export const BookingCard = ({
   room,
   ...props
 }: BookingCardProps): ReactElement => {
-  const toast = useToast();
   const router = useRouter();
 
   const isLoggedIn = useReactiveVar(isLoggedInVar);
@@ -65,7 +62,7 @@ export const BookingCard = ({
       },
     });
 
-    router.push(`/${room.id}/checkout`);
+    router.push(`/rooms/${room.id}/checkout`);
   };
 
   const onBooking = () => {

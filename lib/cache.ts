@@ -25,7 +25,7 @@ export const clientCache: InMemoryCache = new InMemoryCache({
             return isLoggedInVar();
           },
         },
-        paymetnDetails: {
+        paymentDetails: {
           read() {
             return paymentDetailsVar();
           },
