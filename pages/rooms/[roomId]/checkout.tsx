@@ -1,10 +1,11 @@
 import { ReactElement, useEffect } from "react";
 import { Box, Stack } from "@chakra-ui/react";
-import { BookingDetails, PaymentCard } from "../../../components";
-import { StripeWrapper } from "../../../components/common";
 import { useRouter } from "next/router";
 import { gql, useReactiveVar, useQuery } from "@apollo/client";
-import { isLoggedInVar, paymentDetailsVar } from "../../../lib/cache";
+
+import { BookingDetails, PaymentCard } from "@/components/";
+import { StripeWrapper } from "@/components/common";
+import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
 
 export const PAYMENT_DETAILS = gql`
   query PaymentDetails {

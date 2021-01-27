@@ -1,6 +1,5 @@
 import { ReactElement } from "react";
 import styled from "@emotion/styled";
-
 import {
   Box,
   BoxProps,
@@ -14,11 +13,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { Photo, Room } from "../generated";
 import { AiOutlineStar, AiOutlineHeart } from "react-icons/ai";
 import { IoBedOutline } from "react-icons/io5";
-
-import { ButtonOpaque, IconButtonClear, IconPair } from "./common";
+import { Photo, Room } from "@/generated/";
+import { ButtonOpaque, IconButtonClear, IconPair } from "@/components/common";
 
 interface CardProps extends BoxProps {
   room: Room;
