@@ -5,6 +5,7 @@ import {
   Heading,
   HStack,
   StackDivider,
+  StackProps,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -14,8 +15,15 @@ import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
 import { useGetUserQuery } from "../generated";
+import { PaymentProviderProps } from "./context/PaymentContext";
 
-export const BookingDetails = ({ paymentDetails }): ReactElement => {
+interface BookingDetailsProps extends StackProps {
+  paymentDetails: PaymentProviderProps;
+}
+
+export const BookingDetails = ({
+  paymentDetails,
+}: BookingDetailsProps): ReactElement => {
   if (!paymentDetails) return <div>error</div>;
 
   const { data, error, loading } = useGetUserQuery();
