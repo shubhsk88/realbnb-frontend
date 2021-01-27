@@ -15,13 +15,11 @@ import {
 import { FiChevronDown } from "react-icons/fi";
 
 import { isLoggedInVar } from "../lib/cache";
-import { useLoggedIn } from "../utils";
 
 export const AccountMenu = (): ReactElement => {
   const client = useApolloClient();
   const toast = useToast();
 
-  const { isLoggedIn, loading: loadingLogin } = useLoggedIn();
   const { data, error, loading } = useGetUserQuery();
 
   const logout = () => {
@@ -36,12 +34,14 @@ export const AccountMenu = (): ReactElement => {
       title: "Successfully logged out",
       status: "success",
       duration: 4000,
+      position: "bottom-left",
     });
   };
 
+  console.log(data);
+
   if (error) return <div>{JSON.stringify(error)}</div>;
-  else if (!isLoggedIn) return null;
-  else if (loading || loadingLogin || !data) return <div>loading</div>;
+  else if (loading) return <div>loading</div>;
 
   return (
     <Box>
