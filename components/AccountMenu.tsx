@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { useApolloClient } from "@apollo/client";
 import { useGetUserQuery } from "../generated";
+import { useRouter } from "next/router";
 import {
   Avatar,
   Box,
@@ -23,7 +24,7 @@ export const AccountMenu = (): ReactElement => {
 
   const { isLoggedIn, loading: loadingLogin } = useLoggedIn();
   const { data, error, loading } = useGetUserQuery();
-
+  const router = useRouter();
   const logout = () => {
     client.cache.evict({ fieldName: "token" });
     client.cache.gc();
@@ -31,12 +32,12 @@ export const AccountMenu = (): ReactElement => {
     localStorage.removeItem("token");
     // Set the logged-in status to false
     isLoggedInVar(false);
-
     toast({
       title: "Successfully logged out",
       status: "success",
       duration: 4000,
     });
+    router.push("/");
   };
 
   if (error) return <div>{JSON.stringify(error)}</div>;
