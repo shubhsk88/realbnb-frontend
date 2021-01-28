@@ -184,9 +184,12 @@ interface ImageGridProps extends GridProps {
 const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
 
+  const onClose = () => {
+    setIsCarouselOpen(false);
+  };
   return (
     <>
-      <CarouselModal isOpen={isCarouselOpen} />
+      <CarouselModal isOpen={isCarouselOpen} onClose={onClose} />
 
       <Grid
         templateColumns="repeat(6, 1fr)"
