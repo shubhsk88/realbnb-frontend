@@ -1,4 +1,6 @@
 import { ReactElement, useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import {
   Button,
   Stat,
@@ -9,13 +11,13 @@ import {
   Select,
   StackProps,
 } from "@chakra-ui/react";
-import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
-import { useRouter } from "next/router";
+import BeatLoader from "react-spinners/BeatLoader";
+
+import { Room } from "@/generated";
+import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
 import { useReactiveVar } from "@apollo/client";
 
 import { DateRangePickerComponent } from "./DatePicker";
-import { Room } from "@/generated";
-import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
 import { AuthModal } from "./Auth/AuthModal";
 
 export interface RangeProps {
@@ -34,8 +36,9 @@ export const BookingCard = ({
   const router = useRouter();
 
   const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [rangeDates, setRangesDate] = useState<RangeProps>({
     start: null,
     end: null,
@@ -66,19 +69,14 @@ export const BookingCard = ({
     router.push(`/rooms/${room.id}/checkout`);
   };
 
-  const onBooking = () => {
-    if (isLoggedIn) {
-      goToCheckout();
-    } else {
-      setIsLoginOpen(!isLoggedIn);
-    }
+  const handleBooking = () => {
+    setIsLoading(true);
+    isLoggedInVar() ? goToCheckout() : setIsLoginOpen(true);
   };
 
   const onClose = () => {
     setIsLoginOpen(false);
-    goToCheckout();
-    // console.log("here", isLoggedIn);
-    // if (isLoggedIn) goToCheckout();
+    isLoggedInVar() ? goToCheckout() : setIsLoading(false);
   };
 
   return (
@@ -126,12 +124,20 @@ export const BookingCard = ({
               fontSize="xl"
               fontWeight="bold"
             >
-              <Text>$200 x {numDays} nights</Text>
+              <Text>
+                ${room.price} x {numDays} nights
+              </Text>
               <Stat flexGrow={0} size="xl">
                 <StatNumber color="primary">${numDays * 20}</StatNumber>
               </Stat>
             </HStack>
-            <Button w="100%" onClick={onBooking} colorScheme="gray">
+            <Button
+              w="100%"
+              colorScheme="gray"
+              onClick={handleBooking}
+              isLoading={isLoading}
+              spinner={<BeatLoader size={9} color="black" />}
+            >
               Book Now
             </Button>
           </>

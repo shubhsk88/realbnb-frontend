@@ -5,6 +5,7 @@ import {
   Heading,
   HStack,
   StackDivider,
+  StackProps,
   Text,
   VStack,
 } from "@chakra-ui/react";
