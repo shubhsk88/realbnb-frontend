@@ -1,4 +1,4 @@
-import { useState, useContext, createContext } from "react";
+import { useState, useContext, createContext, ReactElement, FC } from "react";
 import { useApolloClient } from "@apollo/client";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
@@ -10,12 +10,16 @@ import {
 import { isLoggedInVar } from "./cache";
 import { useToast } from "@chakra-ui/react";
 
-export function ProvideAuth({ children }) {
+export function ProvideAuth({
+  children,
+}: {
+  children: ReactElement;
+}): ReactElement {
   const auth = useProvideAuth();
   return <authContext.Provider value={auth}>{children}</authContext.Provider>;
 }
 export const authContext = createContext(null);
-export const useAuth = () => {
+export const useAuth = (): any => {
   return useContext(authContext);
 };
 
@@ -77,7 +81,6 @@ export function useProvideAuth() {
 
   const getUser = () => {
     const { data, error, loading } = useGetUserQuery();
-    console.log(data);
 
     return { user: data?.profile.user, error, loading };
   };

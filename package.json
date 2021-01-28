@@ -18,6 +18,7 @@
     "@stripe/stripe-js": "^1.11.0",
     "@types/react-dates": "^21.8.1",
     "algoliasearch": "^4.8.4",
+    "apollo-link-context": "^1.0.20",
     "date-fns": "^2.16.1",
     "deepmerge": "^4.2.2",
     "embla-carousel": "^4.1.3",

@@ -12,7 +12,7 @@ export interface PaymentDetails {
   reservation: Reservation | null;
   room: Room | null;
 }
-
+export const tokenVar = makeVar<string>(Cookies.get("token"));
 export const isLoggedInVar = makeVar<boolean>(!!Cookies.get("token"));
 
 export const paymentDetailsVar = makeVar<PaymentDetails>(
