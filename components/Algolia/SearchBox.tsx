@@ -53,7 +53,9 @@ const MySearchBox = ({
 
   return (
     <Input
+      placeholder="You can find a place to die"
       type="input"
+      flex={1}
       value={currentRefinement}
       onChange={(e) => handleChange(e)}
       focusBorderColor="primary"

@@ -24,7 +24,7 @@ export const CarouselModal = ({
       <ModalOverlay />
       <ModalContent minW="80vw" h="80vh">
         <ModalBody>
-          <ModalCloseButton />
+          <ModalCloseButton zIndex={1} />
           <Carousel />
         </ModalBody>
       </ModalContent>

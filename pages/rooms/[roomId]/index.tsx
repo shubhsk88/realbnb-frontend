@@ -41,7 +41,7 @@ const RoomDetails = (): ReactElement => {
   const { query } = router;
   const id = query.roomId as string;
   const { loading, data, error } = useGetRoomQuery({ variables: { id } });
-
+  const [showAmenities, setShowAmenities] = useState(false);
   const room = data?.getRoom.room;
 
   const averageReviews = () => {
@@ -64,7 +64,7 @@ const RoomDetails = (): ReactElement => {
 
   // FIXME: averageRating should be plural
   const avgRoomScores = Object.entries(room.averageRating).slice(1);
-
+  const totalAmenity = room.amenities.length;
   return (
     <>
       <ImageGrid
@@ -104,16 +104,25 @@ const RoomDetails = (): ReactElement => {
 
           <Section name="Amenities">
             <SimpleGrid columns={2} spacing={4}>
-              {room.amenities.slice(0, 5).map(({ id, name }) => (
-                <div key={id}>
-                  <Text casing="capitalize">{name}</Text>
-                </div>
-              ))}
+              {room.amenities
+                .slice(0, showAmenities ? totalAmenity : 5)
+                .map(({ id, name }) => (
+                  <div key={id}>
+                    <Text casing="capitalize">{name}</Text>
+                  </div>
+                ))}
             </SimpleGrid>
 
-            <Button mt={10} rightIcon={<Icon as={BsList} />}>
-              Show {room.amenities.length} More
-            </Button>
+            {totalAmenity > 5 ? (
+              <Button
+                mt={10}
+                mx="10rem"
+                rightIcon={<Icon as={BsList} />}
+                onClick={() => setShowAmenities((prev) => !prev)}
+              >
+                {!showAmenities ? `Show ${totalAmenity} More` : `Show Less`}
+              </Button>
+            ) : null}
           </Section>
         </VStack>
 
@@ -132,11 +141,11 @@ const RoomDetails = (): ReactElement => {
           </Text>
         </HStack>
 
-        <VStack spacing={3} mt={4} mb={12}>
+        <SimpleGrid columns={2} spacingX={6} my={12} spacingY={6}>
           {avgRoomScores.map(([name, score]) => (
             <ReviewScore key={name} name={name} rating={Number(score)} />
           ))}
-        </VStack>
+        </SimpleGrid>
 
         <SimpleGrid columns={2} spacingX={20} spacingY={12}>
           {room.reviews.map((review) => (
