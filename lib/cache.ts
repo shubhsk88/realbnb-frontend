@@ -16,9 +16,7 @@ export const tokenVar = makeVar<string>(Cookies.get("token"));
 export const isLoggedInVar = makeVar<boolean>(!!Cookies.get("token"));
 
 export const paymentDetailsVar = makeVar<PaymentDetails>(
-  typeof window !== "undefined" &&
-    localStorage.getItem("paymentDetails") &&
-    JSON.parse(localStorage.getItem("paymentDetails"))
+  Cookies.get("paymentDetails") && JSON.parse("paymentDetails")
 );
 
 export const clientCache: InMemoryCache = new InMemoryCache({

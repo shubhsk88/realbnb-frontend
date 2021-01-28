@@ -1,4 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import {
   useStripe,
   useElements,
@@ -33,7 +34,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { ButtonPrimary } from "./common";
 import { paymentSchema } from "@/utils";
-import { useCreatePaymentMutation } from "@/generated";
+import {
+  useCreatePaymentMutation,
+  useCreateReservationMutation,
+} from "@/generated";
 import { PaymentDetails } from "@/lib/cache";
 
 interface PaymentPortalInput {
@@ -46,6 +50,7 @@ export const PaymentCard = ({
 }: {
   paymentDetails: PaymentDetails;
 }): ReactElement => {
+  const router = useRouter();
   const stripe = useStripe();
   const elements = useElements();
 
@@ -75,6 +80,20 @@ export const PaymentCard = ({
     },
   });
 
+  const [onCreateReservation] = useCreateReservationMutation({
+    onCompleted: ({ reservation }) => {
+      if (reservation.ok) {
+        setIsDialogOpen(true);
+        setTimeout(() => {
+          setIsDialogOpen(false);
+          router.push("/");
+        }, 4000);
+      } else {
+        setError(reservation.error);
+      }
+    },
+  });
+
   useEffect(() => {
     console.log("payment");
     console.log(paymentDetails);
@@ -83,7 +102,7 @@ export const PaymentCard = ({
       onCreatePayment({
         variables: {
           reservation: {
-            price: paymentDetails.reservation.total,
+            price: paymentDetails.reservation.total * 100,
             roomId: paymentDetails.room.id,
           },
         },
@@ -103,8 +122,18 @@ export const PaymentCard = ({
       setError(`Payment failed ${payload.error.message}`);
       setIsProcessing(false);
     } else {
-      setError(null);
+      const { checkIn, checkOut, total } = paymentDetails.reservation;
 
+      onCreateReservation({
+        variables: {
+          checkIn,
+          checkOut,
+          price: total,
+          roomId: paymentDetails.room.id,
+        },
+      });
+
+      setError(null);
       setIsProcessing(false);
     }
   };
@@ -193,11 +222,7 @@ export const PaymentCard = ({
         </form>
       </Box>
 
-      <AlertDialog
-        isOpen={isDialogOpen}
-        leastDestructiveRef={cancelRef}
-        onClose={() => setIsDialogOpen(false)}
-      >
+      <AlertDialog isOpen={isDialogOpen} leastDestructiveRef={cancelRef}>
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
@@ -205,7 +230,7 @@ export const PaymentCard = ({
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              $3032 was charged to your account.
+              {paymentDetails.reservation.total} was charged to your account.
             </AlertDialogBody>
           </AlertDialogContent>
         </AlertDialogOverlay>

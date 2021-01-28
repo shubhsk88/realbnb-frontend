@@ -1,5 +1,6 @@
 import { ReactElement, useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import {
   Button,
@@ -15,7 +16,6 @@ import BeatLoader from "react-spinners/BeatLoader";
 
 import { Room } from "@/generated";
 import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
-import { useReactiveVar } from "@apollo/client";
 
 import { DateRangePickerComponent } from "./DatePicker";
 import { AuthModal } from "./Auth/AuthModal";
@@ -34,8 +34,6 @@ export const BookingCard = ({
   ...props
 }: BookingCardProps): ReactElement => {
   const router = useRouter();
-
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,11 +57,11 @@ export const BookingCard = ({
         checkOut: rangeDates.end,
         days: numDays,
         guest: Number(guest),
-        total: 200,
+        total: room.price * numDays,
       },
     };
 
-    localStorage.setItem("paymentDetails", JSON.stringify(details));
+    Cookies.set("paymentDetails", JSON.stringify(details));
     paymentDetailsVar(details);
 
     router.push(`/rooms/${room.id}/checkout`);
@@ -128,7 +126,7 @@ export const BookingCard = ({
                 ${room.price} x {numDays} nights
               </Text>
               <Stat flexGrow={0} size="xl">
-                <StatNumber color="primary">${numDays * 20}</StatNumber>
+                <StatNumber color="primary">${room.price * numDays}</StatNumber>
               </Stat>
             </HStack>
             <Button
