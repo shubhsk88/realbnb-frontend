@@ -6,6 +6,7 @@ import {
   NormalizedCacheObject,
   gql,
 } from "@apollo/client";
+import Cookies from 'js-cookie';
 
 import { useMemo } from "react";
 import { clientCache } from "./cache";
@@ -22,14 +23,12 @@ export const getApolloClient = (
   _ = null,
   initialState: NormalizedCacheObject = {}
 ) => {
+  const token = Cookies.get("token");
   const httpLink = createHttpLink({
     uri: "http://localhost:4000/graphql",
     fetch,
     headers: {
-      authorization:
-        typeof window !== "undefined" && !!localStorage.getItem("token")
-          ? `Bearer ${localStorage.getItem("token")}`
-          : "",
+      authorization: token ? `Bearer ${token}` : "",
     },
   });
 

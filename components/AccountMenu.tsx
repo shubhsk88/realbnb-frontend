@@ -16,12 +16,13 @@ import {
 import { FiChevronDown } from "react-icons/fi";
 
 import { isLoggedInVar } from "../lib/cache";
+import { useAuth } from "@/lib/auth";
 
 export const AccountMenu = (): ReactElement => {
   const client = useApolloClient();
   const toast = useToast();
 
-  const { data, error, loading } = useGetUserQuery();
+  const { user, error, loading } = useAuth().getUser();
   const router = useRouter();
   const logout = () => {
     client.cache.evict({ fieldName: "token" });
@@ -39,8 +40,6 @@ export const AccountMenu = (): ReactElement => {
     router.push("/");
   };
 
-  console.log(data);
-
   if (error) return <div>{JSON.stringify(error)}</div>;
   else if (loading) return <div>loading</div>;
 
@@ -49,16 +48,10 @@ export const AccountMenu = (): ReactElement => {
       <Menu placement="bottom-end">
         <MenuButton
           as={Button}
-          leftIcon={
-            <Avatar
-              size="sm"
-              name={data?.profile.user?.name}
-              src={data?.profile.user?.avatar}
-            />
-          }
+          leftIcon={<Avatar size="sm" name={user.name} src={user.avatar} />}
           rightIcon={<Icon as={FiChevronDown} />}
         >
-          {data?.profile.user?.name}
+          {user.name}
         </MenuButton>
         <MenuList>
           <MenuItem>Account</MenuItem>

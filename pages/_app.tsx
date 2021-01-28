@@ -13,14 +13,14 @@ export default function App({ Component, pageProps }: AppProps): ReactElement {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
-    <ProvideAuth>
-      <ChakraProvider theme={theme} resetCSS={true}>
-        <ApolloProvider client={apolloClient}>
+    <ChakraProvider theme={theme} resetCSS={true}>
+      <ApolloProvider client={apolloClient}>
+        <ProvideAuth>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </ApolloProvider>
-      </ChakraProvider>
-    </ProvideAuth>
+        </ProvideAuth>
+      </ApolloProvider>
+    </ChakraProvider>
   );
 }

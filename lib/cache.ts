@@ -1,5 +1,6 @@
 import { InMemoryCache, makeVar } from "@apollo/client";
 import { Room } from "@/generated";
+import Cookies from "js-cookie";
 export interface Reservation {
   checkIn: Date;
   checkOut: Date;
@@ -12,9 +13,7 @@ export interface PaymentDetails {
   room: Room | null;
 }
 
-export const isLoggedInVar = makeVar<boolean>(
-  typeof window !== "undefined" && !!localStorage.getItem("token")
-);
+export const isLoggedInVar = makeVar<boolean>(!!Cookies.get("token"));
 
 export const paymentDetailsVar = makeVar<PaymentDetails>(
   typeof window !== "undefined" &&

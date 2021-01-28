@@ -16,15 +16,15 @@ import { IconPair } from "./common";
 
 import { useGetUserQuery } from "@/generated";
 import { PaymentDetails } from "@/lib/cache";
+import { useAuth } from "@/lib/auth";
 
 export const BookingDetails = ({
   paymentDetails,
 }: {
   paymentDetails: PaymentDetails;
 }): ReactElement => {
-  console.log("booking details");
-
-  const { data, error, loading } = useGetUserQuery();
+  const { getUser } = useAuth();
+  const { user } = getUser();
 
   if (!paymentDetails.room || !paymentDetails.reservation)
     return <div>error</div>;
@@ -90,7 +90,7 @@ export const BookingDetails = ({
           <Text my={1} color="gray.400">
             Name
           </Text>
-          <Text>{data.profile.user.name}</Text>
+          <Text>{user.name}</Text>
         </Box>
       </Grid>
 

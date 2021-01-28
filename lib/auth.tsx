@@ -1,7 +1,13 @@
 import { useState, useContext, createContext } from "react";
-import { EmailLoginMutation, Exact, useEmailLoginMutation } from "@/generated";
+import {
+  EmailLoginMutation,
+  Exact,
+  useEmailLoginMutation,
+  useGetUserQuery,
+} from "@/generated";
 import { isLoggedInVar } from "./cache";
 import Cookies from "js-cookie";
+import { setupMaster } from "cluster";
 
 export function ProvideAuth({ children }) {
   const auth = useProvideAuth();
@@ -25,6 +31,7 @@ export interface SignInWithEmailReturn {
 }
 export function useProvideAuth() {
   const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
   const signInWithEmail = (callback: () => void): SignInWithEmailReturn => {
     const [onLogin, { error: serverError, loading }] = useEmailLoginMutation({
       onCompleted: ({ emailSignIn }) => {
@@ -41,5 +48,11 @@ export function useProvideAuth() {
 
     return { onLogin, error, loading };
   };
-  return { signInWithEmail };
+  const getUser = () => {
+    const { data, error, loading } = useGetUserQuery();
+
+    return { user: data?.profile.user, error, loading };
+  };
+
+  return { signInWithEmail, getUser };
 }
