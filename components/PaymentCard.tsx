@@ -1,5 +1,4 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
 import {
   useStripe,
   useElements,
@@ -56,12 +55,11 @@ export const PaymentCard = ({
     mode: "onBlur",
     resolver: yupResolver(paymentSchema),
   });
+
   if (!paymentDetails.room || !paymentDetails.reservation)
     return <div>error</div>;
-  console.log(paymentDetails);
-  const [errorMsg, setErrorMsg] = useState("");
+
   const [clientSecret, setClientSecret] = useState("");
-  const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   // const [succeeded, setSucceeded] = useState(false);
@@ -78,6 +76,9 @@ export const PaymentCard = ({
   });
 
   useEffect(() => {
+    console.log("payment");
+    console.log(paymentDetails);
+
     if (paymentDetails) {
       onCreatePayment({
         variables: {

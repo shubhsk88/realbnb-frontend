@@ -21,9 +21,11 @@ export const BookingDetails = ({
 }: {
   paymentDetails: PaymentDetails;
 }): ReactElement => {
+  console.log("booking details");
+
   const { data, error, loading } = useGetUserQuery();
 
-  if (!paymentDetails.room || !paymentDetails.reservation || error || loading)
+  if (!paymentDetails.room || !paymentDetails.reservation)
     return <div>error</div>;
 
   const checkIn = new Date(paymentDetails.reservation.checkIn);
