@@ -5,6 +5,7 @@ import {
   Heading,
   HStack,
   StackDivider,
+  StackProps,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -13,14 +14,23 @@ import Image from "next/image";
 import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
-import { useGetUserQuery } from "../generated";
+import { useGetUserQuery } from "@/generated";
+import { PaymentDetails } from "@/lib/cache";
+import { useAuth } from "@/lib/auth";
 
-export const BookingDetails = ({ paymentDetails }): ReactElement => {
-  if (!paymentDetails) return <div>error</div>;
+export const BookingDetails = ({
+  paymentDetails,
+}: {
+  paymentDetails: PaymentDetails;
+}): ReactElement => {
+  const { getUser } = useAuth();
+  const { user } = getUser();
 
-  const { data, error, loading } = useGetUserQuery();
+  if (!paymentDetails.room || !paymentDetails.reservation)
+    return <div>error</div>;
 
-  if (error || loading) return <div>loading</div>;
+  const checkIn = new Date(paymentDetails.reservation.checkIn);
+  const checkOut = new Date(paymentDetails.reservation.checkOut);
 
   return (
     <VStack
@@ -66,25 +76,21 @@ export const BookingDetails = ({ paymentDetails }): ReactElement => {
           <Text my={1} color="gray.400">
             Check-In
           </Text>
-          <Text>
-            {format(paymentDetails.reservation.checkIn, "d LLLL, EEEE")}
-          </Text>
+          <Text>{format(checkIn, "d LLLL, EEEE")}</Text>
         </Box>
 
         <Box fontWeight="bold">
           <Text my={1} color="gray.400">
             Check-Out
           </Text>
-          <Text>
-            {format(paymentDetails.reservation.checkOut, "d LLLL, EEEE")}
-          </Text>
+          <Text>{format(checkOut, "d LLLL, EEEE")}</Text>
         </Box>
 
         <Box fontWeight="bold">
           <Text my={1} color="gray.400">
             Name
           </Text>
-          <Text>{data.profile.user.name}</Text>
+          <Text>{user.name}</Text>
         </Box>
       </Grid>
 

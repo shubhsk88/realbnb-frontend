@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import NextImage from "next/image";
 import { Skeleton, SkeletonProps } from "@chakra-ui/react";
 
-import { Photo } from "../../generated";
+import { Photo } from "@/generated";
 
 interface ImageProps extends SkeletonProps {
   photo: Photo;

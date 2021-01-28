@@ -22,9 +22,9 @@ import {
   useCompletePhoneVerificationMutation,
   useCreateUserViaPhoneMutation,
   useCreateUserViaEmailMutation,
-} from "../../generated";
-import { isLoggedInVar } from "../../lib/cache";
-import { phoneSchema, phoneSignUp, verificationCode } from "../../utils";
+} from "@/generated";
+import { isLoggedInVar } from "@/lib/cache";
+import { phoneSchema, phoneSignUp, verificationCode } from "@/utils";
 import { ButtonPrimary } from "../common";
 import countries from "../constants/countries";
 

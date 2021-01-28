@@ -7,19 +7,22 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+
 import { Carousel } from "./common/Carousel";
 
 interface CarouselModalProps {
   isOpen: boolean;
+  onClose: () => void;
 }
 
-export const CarouselModal = ({ isOpen }: CarouselModalProps): ReactElement => {
-  const { onClose } = useDisclosure();
-
+export const CarouselModal = ({
+  isOpen,
+  onClose,
+}: CarouselModalProps): ReactElement => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent minW="60vw" h="70vh">
+      <ModalContent minW="80vw" h="80vh">
         <ModalBody>
           <ModalCloseButton />
           <Carousel />

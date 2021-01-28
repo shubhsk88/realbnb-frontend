@@ -13,11 +13,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 
-import { useEmailLoginMutation } from "../../generated";
-import { isLoggedInVar } from "../../lib/cache";
-import { loginSchema } from "../../utils";
+import { useEmailLoginMutation } from "@/generated";
+import { isLoggedInVar } from "@/lib/cache";
+import { loginSchema } from "@/utils";
 import { GoogleSignIn } from "./GoogleSignIn";
 import { ButtonPrimary, ErrorDialog } from "./../common";
+import { useAuth } from "@/lib/auth";
 
 export interface LoginInputData {
   email: string;
@@ -35,28 +36,20 @@ export const Login = ({ closeModal }: LoginProps): ReactElement => {
     mode: "onBlur",
   });
 
-  const onSuccess = (token: string) => {
-    if (typeof window !== undefined && token) {
-      localStorage.setItem("token", token);
-      isLoggedInVar(true);
+  const { signInWithEmail } = useAuth();
 
-      toast({
-        title: "Logged in successfully",
-        status: "success",
-        duration: 6000,
-        position: "bottom-left",
-      });
+  const onSuccess = () => {
+    toast({
+      title: "Logged in successfully",
+      status: "success",
+      duration: 6000,
+      position: "bottom-left",
+    });
 
-      reset();
-      closeModal();
-    }
+    reset();
+    closeModal();
   };
-
-  const [onLogin, { data, error, loading }] = useEmailLoginMutation({
-    onCompleted: ({ emailSignIn }) => {
-      onSuccess(emailSignIn.token);
-    },
-  });
+  const { onLogin, error, loading } = signInWithEmail(onSuccess);
 
   const onSubmit: SubmitHandler<LoginInputData> = (inputData) => {
     onLogin({ variables: inputData });
@@ -67,16 +60,6 @@ export const Login = ({ closeModal }: LoginProps): ReactElement => {
   const onError = (msg: string) => {
     setErrorMsg(msg);
   };
-
-  useEffect(() => {
-    if (error?.message) {
-      setErrorMsg(error.message);
-    } else if (data?.emailSignIn?.error) {
-      setErrorMsg(data?.emailSignIn?.error);
-    } else {
-      setErrorMsg("");
-    }
-  }, [data, error]);
 
   return (
     <>
@@ -113,7 +96,7 @@ export const Login = ({ closeModal }: LoginProps): ReactElement => {
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
 
-        {errorMsg ? <ErrorDialog error={errorMsg} /> : null}
+        {error ? <div>{error}</div> : null}
 
         <ButtonPrimary
           isLoading={loading}

@@ -15,9 +15,10 @@ import {
   Modifiers,
 } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
-import { RangeProps } from "./BookingCard";
 import { HStack, Input } from "@chakra-ui/react";
-import { checkDisableDate, dateRanges } from "../utils/dateUtils";
+
+import { RangeProps } from "./BookingCard";
+import { checkDisableDate, dateRanges } from "@/utils/dateUtils";
 import { Wrapper } from "./common";
 
 export function DateRangePickerComponent({

@@ -11,13 +11,15 @@ import {
   useDisclosure,
   Button,
 } from "@chakra-ui/react";
+
 import { ButtonPrimary } from "../common/Buttons/Primary";
 import { Login } from "./Login";
 import { SignUp } from "./SignUp";
 
+// FIXME: onLoginClose should be required if isLoginOpen is used
 interface AuthModalProps {
-  isLoginOpen: boolean;
-  onLoginClose: () => void;
+  isLoginOpen?: boolean;
+  onLoginClose?: () => void;
 }
 
 export const AuthModal = ({

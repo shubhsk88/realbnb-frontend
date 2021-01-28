@@ -23,8 +23,8 @@ import { IoBedOutline } from "react-icons/io5";
 import { BsList } from "react-icons/bs";
 import { HiOutlinePhotograph } from "react-icons/hi";
 
-import { Photo, useGetRoomQuery } from "../../generated";
-import { BookingCard, CarouselModal } from "../../components";
+import { Photo, useGetRoomQuery } from "@/generated";
+import { BookingCard, CarouselModal } from "@/components";
 import {
   ButtonOpaque,
   ButtonPrimary,
@@ -34,7 +34,7 @@ import {
   TextSummary,
   ReviewCard,
   ReviewScore,
-} from "../../components/common";
+} from "@/components/common";
 
 const RoomDetails = (): ReactElement => {
   const router = useRouter();
@@ -184,9 +184,12 @@ interface ImageGridProps extends GridProps {
 const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
 
+  const onClose = () => {
+    setIsCarouselOpen(false);
+  };
   return (
     <>
-      <CarouselModal isOpen={isCarouselOpen} />
+      <CarouselModal isOpen={isCarouselOpen} onClose={onClose} />
 
       <Grid
         templateColumns="repeat(6, 1fr)"

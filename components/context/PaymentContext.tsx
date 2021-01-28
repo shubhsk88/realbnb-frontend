@@ -7,7 +7,7 @@ import {
   SetStateAction,
   Dispatch,
 } from "react";
-import { Room } from "../../generated";
+import { Room } from "@/generated";
 
 export interface Reservation {
   checkIn: Date;
@@ -16,6 +16,7 @@ export interface Reservation {
   guest: number;
   total: number;
 }
+
 export const PaymentContext = createContext(null);
 export interface PaymentProviderProps {
   reservation: Reservation | null;
@@ -36,6 +37,7 @@ export function PaymentProvider({
     <PaymentContext.Provider value={value}>{children}</PaymentContext.Provider>
   );
 }
+
 export function usePaymentDetails(): [
   PaymentProviderProps,
   Dispatch<SetStateAction<PaymentProviderProps>>

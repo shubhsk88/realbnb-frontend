@@ -5,7 +5,7 @@ import { Box, HStack, Skeleton, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Room } from "../../generated";
+import { Room } from "@/generated";
 
 interface Hit {
   hit: Room;

@@ -1,5 +1,4 @@
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
 import {
   useStripe,
   useElements,
@@ -18,7 +17,6 @@ import {
   AlertIcon,
   AlertTitle,
   Box,
-  BoxProps,
   Heading,
   HStack,
   Icon,
@@ -29,17 +27,14 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
-import { PaymentProviderProps } from "./context/PaymentContext";
-import { ButtonPrimary } from "./common";
-import { useForm } from "react-hook-form";
 import BeatLoader from "react-spinners/BeatLoader";
-
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { paymentSchema } from "../utils";
-import {
-  useCreatePaymentMutation,
-  useCreateReservationMutation,
-} from "../generated";
+
+import { ButtonPrimary } from "./common";
+import { paymentSchema } from "@/utils";
+import { useCreatePaymentMutation } from "@/generated";
+import { PaymentDetails } from "@/lib/cache";
 
 interface PaymentPortalInput {
   firstName: string;
@@ -49,7 +44,7 @@ interface PaymentPortalInput {
 export const PaymentCard = ({
   paymentDetails,
 }: {
-  paymentDetails: PaymentProviderProps;
+  paymentDetails: PaymentDetails;
 }): ReactElement => {
   const stripe = useStripe();
   const elements = useElements();
@@ -61,14 +56,15 @@ export const PaymentCard = ({
     resolver: yupResolver(paymentSchema),
   });
 
-  const [clientSecret, setClientSecret] = useState("");
+  if (!paymentDetails.room || !paymentDetails.reservation)
+    return <div>error</div>;
 
+  const [clientSecret, setClientSecret] = useState("");
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   // const [succeeded, setSucceeded] = useState(false);
   // const [disabled, setDisabled] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   const [onCreatePayment] = useCreatePaymentMutation({
     onCompleted: ({ payment }) => {
       if (payment.ok) {
@@ -80,15 +76,20 @@ export const PaymentCard = ({
   });
 
   useEffect(() => {
-    onCreatePayment({
-      variables: {
-        reservation: {
-          price: paymentDetails.reservation.total,
-          roomId: paymentDetails.room.id,
+    console.log("payment");
+    console.log(paymentDetails);
+
+    if (paymentDetails) {
+      onCreatePayment({
+        variables: {
+          reservation: {
+            price: paymentDetails.reservation.total,
+            roomId: paymentDetails.room.id,
+          },
         },
-      },
-    });
-  }, []);
+      });
+    }
+  }, [paymentDetails]);
 
   const onSubmitPayment = async (inputData: PaymentPortalInput) => {
     setIsProcessing(true);
@@ -103,8 +104,6 @@ export const PaymentCard = ({
       setIsProcessing(false);
     } else {
       setError(null);
-
-      const reservationResponse = await useCreateReservationMutation();
 
       setIsProcessing(false);
     }
