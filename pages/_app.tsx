@@ -6,13 +6,14 @@ import { useApollo } from "@/lib/apolloClient";
 
 import theme from "@/styles/theme";
 import { Layout } from "@/components";
-import { PaymentProvider } from "@/components/context/PaymentContext";
+
+import { ProvideAuth } from "@/lib/auth";
 
 export default function App({ Component, pageProps }: AppProps): ReactElement {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
-    <PaymentProvider>
+    <ProvideAuth>
       <ChakraProvider theme={theme} resetCSS={true}>
         <ApolloProvider client={apolloClient}>
           <Layout>
@@ -20,6 +21,6 @@ export default function App({ Component, pageProps }: AppProps): ReactElement {
           </Layout>
         </ApolloProvider>
       </ChakraProvider>
-    </PaymentProvider>
+    </ProvideAuth>
   );
 }

@@ -1,4 +1,5 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
+
 import { Box, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { gql, useReactiveVar } from "@apollo/client";
