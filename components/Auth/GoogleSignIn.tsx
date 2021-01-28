@@ -4,6 +4,7 @@ import GoogleLogin, { GoogleLoginResponse } from "react-google-login";
 
 import { useGoogleAuthMutation } from "@/generated";
 import { GoogleIcon } from "../common";
+import { useAuth } from "@/lib/auth";
 
 interface GoogleProps {
   onSuccess: (string) => void;
@@ -14,12 +15,9 @@ export const GoogleSignIn = ({
   onSuccess,
   onError,
 }: GoogleProps): ReactElement => {
-  // TODO: Pass up data & mutation errors, mutation loading state
-  const [onGoogleLogin] = useGoogleAuthMutation({
-    onCompleted: ({ googleAuth }) => {
-      onSuccess(googleAuth.token);
-    },
-  });
+  const { onGoogleLogin, error, loading } = useAuth().signInWithGoogle(
+    onSuccess
+  );
 
   const successResponseGoogle = (response: GoogleLoginResponse) => {
     const { name, email, imageUrl, googleId } = response.profileObj;

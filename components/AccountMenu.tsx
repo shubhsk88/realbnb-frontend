@@ -1,7 +1,4 @@
-import { ReactElement } from "react";
-import { useApolloClient } from "@apollo/client";
-import { useGetUserQuery } from "../generated";
-import { useRouter } from "next/router";
+import { ReactElement, useEffect } from "react";
 import {
   Avatar,
   Box,
@@ -11,37 +8,34 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  useToast,
 } from "@chakra-ui/react";
 import { FiChevronDown } from "react-icons/fi";
 
-import { isLoggedInVar } from "../lib/cache";
 import { useAuth } from "@/lib/auth";
+import { useGetUserQuery } from "@/generated";
+import { isLoggedInVar } from "@/lib/cache";
 
 export const AccountMenu = (): ReactElement => {
-  const client = useApolloClient();
-  const toast = useToast();
+  const { getUser, logout } = useAuth();
 
-  const { user, error, loading } = useAuth().getUser();
-  const router = useRouter();
-  const logout = () => {
-    client.cache.evict({ fieldName: "token" });
-    client.cache.gc();
-    // Remove user details from localStorage
-    localStorage.removeItem("token");
-    // Set the logged-in status to false
-    isLoggedInVar(false);
-    toast({
-      title: "Successfully logged out",
-      status: "success",
-      duration: 4000,
-      position: "bottom-left",
-    });
-    router.push("/");
-  };
+  const { data, error, loading, refetch } = useGetUserQuery();
+
+  // useEffect(() => {
+  //   const { user, loading, error } = getUser();
+  // }, [isLoggedInVar]);
+
+  /* useEffect(() => {
+    refetch();
+  }, [isLoggedInVar]); */
+
+  console.log("loading", loading);
+  console.log("user", { ...data });
+  console.log("error", error);
 
   if (error) return <div>{JSON.stringify(error)}</div>;
-  else if (loading) return <div>loading</div>;
+  else if (loading || !data?.profile?.user) return <div>loading</div>;
+
+  const user = data?.profile?.user;
 
   return (
     <Box>
