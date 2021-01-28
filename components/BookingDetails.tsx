@@ -23,8 +23,12 @@ export const BookingDetails = ({
 }): ReactElement => {
   const { data, error, loading } = useGetUserQuery();
 
-  if (!paymentDetails.room || !paymentDetails.reservation)
+  if (!paymentDetails.room || !paymentDetails.reservation || error || loading)
     return <div>error</div>;
+
+  const checkIn = new Date(paymentDetails.reservation.checkIn);
+  const checkOut = new Date(paymentDetails.reservation.checkOut);
+
   return (
     <VStack
       align="stretch"
@@ -69,18 +73,14 @@ export const BookingDetails = ({
           <Text my={1} color="gray.400">
             Check-In
           </Text>
-          <Text>
-            {format(paymentDetails.reservation.checkIn, "d LLLL, EEEE")}
-          </Text>
+          <Text>{format(checkIn, "d LLLL, EEEE")}</Text>
         </Box>
 
         <Box fontWeight="bold">
           <Text my={1} color="gray.400">
             Check-Out
           </Text>
-          <Text>
-            {format(paymentDetails.reservation.checkOut, "d LLLL, EEEE")}
-          </Text>
+          <Text>{format(checkOut, "d LLLL, EEEE")}</Text>
         </Box>
 
         <Box fontWeight="bold">

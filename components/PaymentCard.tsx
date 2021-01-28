@@ -67,7 +67,6 @@ export const PaymentCard = ({
   // const [succeeded, setSucceeded] = useState(false);
   // const [disabled, setDisabled] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  debugger;
   const [onCreatePayment] = useCreatePaymentMutation({
     onCompleted: ({ payment }) => {
       if (payment.ok) {
