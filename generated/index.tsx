@@ -279,6 +279,7 @@ export type Room = {
   amenities: Array<Maybe<Amenity>>;
   houseRules: Array<Maybe<HouseRule>>;
   facilities: Array<Maybe<Facility>>;
+  isLiked?: Maybe<Scalars['Boolean']>;
   reviews: Array<Maybe<Review>>;
   reservations: Array<Maybe<Reservation>>;
   lists: Array<Maybe<List>>;
@@ -592,7 +593,7 @@ export type GetRoomsQuery = (
     & Pick<GetRoomsResponse, 'ok' | 'error'>
     & { rooms?: Maybe<Array<Maybe<(
       { __typename?: 'Room' }
-      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'price'>
+      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'isLiked' | 'price'>
       & { photos: Array<Maybe<(
         { __typename?: 'Photo' }
         & Pick<Photo, 'link' | 'caption'>
@@ -1040,6 +1041,7 @@ export const GetRoomsDocument = gql`
       name
       description
       beds
+      isLiked
       photos {
         link
         caption

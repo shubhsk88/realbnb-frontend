@@ -35,7 +35,7 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
       align="stretch"
       {...props}
     >
-      <RoomImage roomId={room.id} photo={room.photos[0]} />
+      <RoomImage roomId={room.id} liked={room.isLiked} photo={room.photos[0]} />
 
       <Link key={room.id} href={`/rooms/${room.id}`}>
         <a>
@@ -66,10 +66,13 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
 
 interface ImageProps {
   roomId: string;
+  liked: boolean;
   photo: Photo;
 }
 
-const RoomImage = ({ roomId, photo }: ImageProps): ReactElement => {
+const RoomImage = ({ roomId, liked, photo }: ImageProps): ReactElement => {
+  console.log(liked);
+
   return (
     <ImageSkeleton isLoaded={!!photo}>
       {photo && (
@@ -86,7 +89,13 @@ const RoomImage = ({ roomId, photo }: ImageProps): ReactElement => {
           <RatingButton rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}>
             5.00
           </RatingButton>
-          <SavedListModal roomId={roomId} pos="absolute" top={2} right={2} />
+          <SavedListModal
+            roomId={roomId}
+            liked={liked}
+            pos="absolute"
+            top={2}
+            right={2}
+          />
         </>
       )}
     </ImageSkeleton>

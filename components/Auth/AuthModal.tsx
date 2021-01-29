@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -18,12 +18,12 @@ import { SignUp } from "./SignUp";
 
 // FIXME: onLoginClose should be required if isLoginOpen is used
 interface AuthModalProps {
-  isLoginOpen?: boolean;
+  isLoginOpen?: boolean | null;
   onLoginClose?: () => void;
 }
 
 export const AuthModal = ({
-  isLoginOpen = false,
+  isLoginOpen = null,
   onLoginClose = () => {},
 }: AuthModalProps): ReactElement => {
   const { isOpen, onOpen, onClose } = useDisclosure({
@@ -31,6 +31,12 @@ export const AuthModal = ({
   });
 
   const [switchLogin, setSwitchLogin] = useState(true);
+  // const [isAllOpen, setIsAllOpen] = useState(isLoginOpen);
+
+  useEffect(() => {
+    if (isLoginOpen) onOpen();
+    else if (!isOpen) onCloseAll();
+  }, [isLoginOpen, isOpen]);
 
   const onCloseAll = () => {
     onLoginClose();
@@ -39,9 +45,9 @@ export const AuthModal = ({
 
   return (
     <>
-      {isLoginOpen ? null : (
+      {isLoginOpen === null ? (
         <ButtonPrimary onClick={onOpen}>Login</ButtonPrimary>
-      )}
+      ) : null}
 
       <Modal isOpen={isOpen} onClose={onCloseAll}>
         <ModalOverlay />
