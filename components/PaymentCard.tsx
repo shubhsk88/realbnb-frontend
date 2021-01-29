@@ -15,6 +15,7 @@ import {
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogOverlay,
+  AlertDialogFooter,
   AlertIcon,
   AlertTitle,
   Box,
@@ -26,6 +27,7 @@ import {
   FormLabel,
   FormControl,
   FormErrorMessage,
+  Button,
 } from "@chakra-ui/react";
 import { FaCcVisa, FaCcMastercard } from "react-icons/fa";
 import BeatLoader from "react-spinners/BeatLoader";
@@ -39,6 +41,7 @@ import {
   useCreateReservationMutation,
 } from "@/generated";
 import { PaymentDetails } from "@/lib/cache";
+import { CheckCircleIcon } from "@chakra-ui/icons";
 
 interface PaymentPortalInput {
   firstName: string;
@@ -84,10 +87,6 @@ export const PaymentCard = ({
     onCompleted: ({ reservation }) => {
       if (reservation.ok) {
         setIsDialogOpen(true);
-        setTimeout(() => {
-          setIsDialogOpen(false);
-          router.push("/");
-        }, 4000);
       } else {
         setError(reservation.error);
       }
@@ -138,6 +137,11 @@ export const PaymentCard = ({
     }
   };
 
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+    router.push("/");
+  };
+
   return (
     <>
       <Box>
@@ -146,8 +150,8 @@ export const PaymentCard = ({
             <Heading as="h2">Payment</Heading>
 
             <HStack>
-              <Icon w={10} h={10} as={FaCcVisa} />
-              <Icon w={10} h={10} as={FaCcMastercard} />
+              <Icon boxSize={10} as={FaCcVisa} />
+              <Icon boxSize={10} as={FaCcMastercard} />
             </HStack>
             <FormControl id="first" isRequired isInvalid={!!errors?.firstName}>
               <FormLabel>First Name</FormLabel>
@@ -222,16 +226,35 @@ export const PaymentCard = ({
         </form>
       </Box>
 
-      <AlertDialog isOpen={isDialogOpen} leastDestructiveRef={cancelRef}>
+      <AlertDialog
+        isOpen={isDialogOpen}
+        onClose={closeDialog}
+        leastDestructiveRef={cancelRef}
+      >
         <AlertDialogOverlay>
           <AlertDialogContent>
-            <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Payment was successful
+            <AlertDialogHeader
+              fontSize="lg"
+              fontWeight="medium"
+              textAlign="center"
+            >
+              Booking successful
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              {paymentDetails.reservation.total} was charged to your account.
+              <HStack spacing={4}>
+                <CheckCircleIcon color="green.500" boxSize={10} />
+                <Text>
+                  ${paymentDetails.reservation.total} was charged to your
+                  account.
+                </Text>
+              </HStack>
             </AlertDialogBody>
+            <AlertDialogFooter>
+              <Button colorScheme="green" onClick={closeDialog}>
+                Ok
+              </Button>
+            </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>

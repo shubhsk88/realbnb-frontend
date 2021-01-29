@@ -141,7 +141,7 @@ const RoomDetails = (): ReactElement => {
           </Text>
         </HStack>
 
-        <SimpleGrid columns={2} spacingX={6} my={12} spacingY={6}>
+        <SimpleGrid columns={2} spacingX={20} spacingY={6} my={12}>
           {avgRoomScores.map(([name, score]) => (
             <ReviewScore key={name} name={name} rating={Number(score)} />
           ))}

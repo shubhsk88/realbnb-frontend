@@ -3,7 +3,13 @@ import router from "next/router";
 import styled from "@emotion/styled";
 
 import algoliasearch from "algoliasearch/lite";
-import { Popover, PopoverTrigger, PopoverContent } from "@chakra-ui/react";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  BoxProps,
+  Box,
+} from "@chakra-ui/react";
 import {
   InstantSearch,
   Hits,
@@ -19,7 +25,7 @@ const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_ADMIN_KEY
 );
 
-export const AlgoliaSearch = (): ReactElement => {
+export const AlgoliaSearch = (props: BoxProps): ReactElement => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -35,7 +41,6 @@ export const AlgoliaSearch = (): ReactElement => {
   };
 
   const handleBlur = () => {
-    console.log("fired");
     if (!isInputFocused) {
       setIsOpen(false);
     }
@@ -67,7 +72,7 @@ export const AlgoliaSearch = (): ReactElement => {
   }, [isOpen]);
 
   return (
-    <div>
+    <Box {...props}>
       <InstantSearch searchClient={searchClient} indexName="dev_realbnb">
         <Configure hitsPerPage={4} />
 
@@ -79,7 +84,7 @@ export const AlgoliaSearch = (): ReactElement => {
           autoFocus={false}
           closeOnBlur
         >
-          <PopoverTrigger>
+          <PopoverTrigger w="80%">
             <div>
               <AlgoliaSearchBox
                 onFocus={handleInputFocus}
@@ -95,7 +100,7 @@ export const AlgoliaSearch = (): ReactElement => {
           </Results>
         </Popover>
       </InstantSearch>
-    </div>
+    </Box>
   );
 };
 

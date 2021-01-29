@@ -53,7 +53,7 @@ const MySearchBox = ({
 
   return (
     <Input
-      placeholder="You can find a place to die"
+      placeholder="Search Listings"
       type="input"
       flex={1}
       value={currentRefinement}
