@@ -235,7 +235,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
 
         {photos
           .slice(2, 6)
-          .concat(Array(Math.max(6 - photos.length, 0)).fill(null))
+          .concat(Array(4 - photos.length || 0).fill(null))
           .map((photo, idx) => (
             <GridImage key={photo?.id ?? idx} photo={photo} />
           ))}
