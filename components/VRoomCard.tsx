@@ -12,11 +12,13 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import Image from "next/image";
-import { AiOutlineStar, AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
 import { IoBedOutline } from "react-icons/io5";
 import { Photo, Room } from "@/generated";
-import { ButtonOpaque, IconButtonClear, IconPair } from "@/components/common";
+import { ButtonOpaque, IconPair } from "@/components/common";
+import { SavedListModal } from "./SavedListModal";
 
 interface CardProps extends BoxProps {
   room: Room;
@@ -33,36 +35,41 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
       align="stretch"
       {...props}
     >
-      <RoomImage photo={room.photos[0]} />
+      <RoomImage roomId={room.id} photo={room.photos[0]} />
 
-      <VStack as="section" flexGrow={1} align="stretch" spacing={2} p={4}>
-        <Text textStyle="label">{room.roomType.name}</Text>
-        <Heading as="h3" size="md">
-          {room.name}
-        </Heading>
-        <Text>{room.description}</Text>
+      <Link key={room.id} href={`/rooms/${room.id}`}>
+        <a>
+          <VStack as="section" flexGrow={1} align="stretch" spacing={2} p={4}>
+            <Text textStyle="label">{room.roomType.name}</Text>
+            <Heading as="h3" size="md">
+              {room.name}
+            </Heading>
+            <Text>{room.description}</Text>
 
-        <Flex flex={1}>
-          <Box mt="auto">
-            <IconPair icon={IoBedOutline} mb={1}>
-              {room.beds}
-            </IconPair>
+            <Flex flex={1}>
+              <Box mt="auto">
+                <IconPair icon={IoBedOutline} mb={1}>
+                  {room.beds}
+                </IconPair>
 
-            <Stat>
-              <StatNumber color="primary">${room.price}</StatNumber>
-            </Stat>
-          </Box>
-        </Flex>
-      </VStack>
+                <Stat>
+                  <StatNumber color="primary">${room.price}</StatNumber>
+                </Stat>
+              </Box>
+            </Flex>
+          </VStack>
+        </a>
+      </Link>
     </VStack>
   );
 };
 
 interface ImageProps {
+  roomId: string;
   photo: Photo;
 }
 
-const RoomImage = ({ photo }: ImageProps): ReactElement => {
+const RoomImage = ({ roomId, photo }: ImageProps): ReactElement => {
   return (
     <ImageSkeleton isLoaded={!!photo}>
       {photo && (
@@ -79,10 +86,7 @@ const RoomImage = ({ photo }: ImageProps): ReactElement => {
           <RatingButton rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}>
             5.00
           </RatingButton>
-          <HeartButton
-            aria-label="Save room"
-            icon={<Icon as={AiOutlineHeart} boxSize={5} />}
-          />
+          <SavedListModal roomId={roomId} pos="absolute" top={2} right={2} />
         </>
       )}
     </ImageSkeleton>
@@ -101,10 +105,4 @@ const RatingButton = styled(ButtonOpaque)`
   position: absolute;
   top: 0.4em;
   left: 0.4em;
-`;
-
-const HeartButton = styled(IconButtonClear)`
-  position: absolute;
-  top: 0.4em;
-  right: 0.4em;
 `;

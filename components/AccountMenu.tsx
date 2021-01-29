@@ -20,6 +20,8 @@ export const AccountMenu = (): ReactElement => {
 
   const { data, error, loading, refetch } = useGetUserQuery();
 
+  // FIXME: get JWT token to refresh correctly, likely requires apollo-link-context
+
   // useEffect(() => {
   //   const { user, loading, error } = getUser();
   // }, [isLoggedInVar]);
@@ -28,9 +30,9 @@ export const AccountMenu = (): ReactElement => {
     refetch();
   }, [isLoggedInVar]); */
 
-  console.log("loading", loading);
+  /* console.log("loading", loading);
   console.log("user", { ...data });
-  console.log("error", error);
+  console.log("error", error); */
 
   if (error) return <div>{JSON.stringify(error)}</div>;
   else if (loading || !data?.profile?.user) return <div>loading</div>;

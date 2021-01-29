@@ -1,0 +1,6 @@
+mutation deleteList($id: String!) {
+  deleteList(id: $id) {
+    ok
+    error
+  }
+}

@@ -1,0 +1,6 @@
+mutation updateList($id: String!, $roomId: String!) {
+  updateList(id: $id, roomId: $roomId) {
+    ok
+    error
+  }
+}

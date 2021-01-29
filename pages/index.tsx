@@ -21,11 +21,7 @@ const IndexPage = (): ReactElement => {
   return (
     <SimpleGrid w="100%" minChildWidth="320px" spacing={6}>
       {rooms.map((room) => (
-        <Link key={room.id} href={`/rooms/${room.id}`}>
-          <a>
-            <VRoomCard room={room} />
-          </a>
-        </Link>
+        <VRoomCard key={room.id} room={room} />
       ))}
     </SimpleGrid>
   );

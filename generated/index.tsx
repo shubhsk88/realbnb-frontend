@@ -15,20 +15,17 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type CreatePaymentResponse = {
-  __typename?: 'CreatePaymentResponse';
+export type CreateListResponse = {
+  __typename?: 'CreateListResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
-  clientSecret?: Maybe<Scalars['String']>;
-};
-
-export type ReservationInput = {
-  price: Scalars['Float'];
-  roomId: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createList: CreateListResponse;
+  deleteList: DeleteListResponse;
+  updateList: UpdateListResponse;
   createPayment: CreatePaymentResponse;
   createReservation: CreateReservationResponse;
   createRoom: CreateRoomResponse;
@@ -39,6 +36,23 @@ export type Mutation = {
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
   startPhoneVerification: StartPhoneVerificationResponse;
+};
+
+
+export type MutationCreateListArgs = {
+  name: Scalars['String'];
+  roomId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteListArgs = {
+  id: Scalars['String'];
+};
+
+
+export type MutationUpdateListArgs = {
+  id: Scalars['String'];
+  roomId: Scalars['String'];
 };
 
 
@@ -120,6 +134,51 @@ export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
 
+export type DeleteListResponse = {
+  __typename?: 'DeleteListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
+export type GetListResponse = {
+  __typename?: 'getListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  lists?: Maybe<Array<Maybe<List>>>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getList: GetListResponse;
+  getRoom: GetRoomResponse;
+  getRooms: GetRoomsResponse;
+  getUserProfile: GetUserProfileResponse;
+  hello?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetRoomArgs = {
+  id: Scalars['String'];
+};
+
+export type UpdateListResponse = {
+  __typename?: 'UpdateListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+};
+
+export type CreatePaymentResponse = {
+  __typename?: 'CreatePaymentResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  clientSecret?: Maybe<Scalars['String']>;
+};
+
+export type ReservationInput = {
+  price: Scalars['Float'];
+  roomId: Scalars['String'];
+};
+
 export type CreateReservationResponse = {
   __typename?: 'CreateReservationResponse';
   ok: Scalars['Boolean'];
@@ -137,19 +196,6 @@ export type GetRoomResponse = {
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   room?: Maybe<Room>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getRoom: GetRoomResponse;
-  getRooms: GetRoomsResponse;
-  getUserProfile: GetUserProfileResponse;
-  hello?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryGetRoomArgs = {
-  id: Scalars['String'];
 };
 
 export type GetRoomsResponse = {
@@ -393,6 +439,70 @@ export type Verification = {
   payload: Scalars['String'];
 };
 
+export type CreateListMutationVariables = Exact<{
+  name: Scalars['String'];
+  roomId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreateListMutation = (
+  { __typename?: 'Mutation' }
+  & { createList: (
+    { __typename?: 'CreateListResponse' }
+    & Pick<CreateListResponse, 'ok' | 'error'>
+  ) }
+);
+
+export type DeleteListMutationVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type DeleteListMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteList: (
+    { __typename?: 'DeleteListResponse' }
+    & Pick<DeleteListResponse, 'ok' | 'error'>
+  ) }
+);
+
+export type GetUserListsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserListsQuery = (
+  { __typename?: 'Query' }
+  & { getList: (
+    { __typename?: 'getListResponse' }
+    & Pick<GetListResponse, 'ok' | 'error'>
+    & { lists?: Maybe<Array<Maybe<(
+      { __typename?: 'List' }
+      & Pick<List, 'id' | 'name'>
+      & { rooms: Array<Maybe<(
+        { __typename?: 'Room' }
+        & Pick<Room, 'id'>
+        & { photos: Array<Maybe<(
+          { __typename?: 'Photo' }
+          & Pick<Photo, 'link'>
+        )>> }
+      )>> }
+    )>>> }
+  ) }
+);
+
+export type UpdateListMutationVariables = Exact<{
+  id: Scalars['String'];
+  roomId: Scalars['String'];
+}>;
+
+
+export type UpdateListMutation = (
+  { __typename?: 'Mutation' }
+  & { updateList: (
+    { __typename?: 'UpdateListResponse' }
+    & Pick<UpdateListResponse, 'ok' | 'error'>
+  ) }
+);
+
 export type CreatePaymentMutationVariables = Exact<{
   reservation: ReservationInput;
   currency?: Maybe<Scalars['String']>;
@@ -608,6 +718,150 @@ export type StartPhoneVerificationMutation = (
 );
 
 
+export const CreateListDocument = gql`
+    mutation createList($name: String!, $roomId: String) {
+  createList(name: $name, roomId: $roomId) {
+    ok
+    error
+  }
+}
+    `;
+export type CreateListMutationFn = Apollo.MutationFunction<CreateListMutation, CreateListMutationVariables>;
+
+/**
+ * __useCreateListMutation__
+ *
+ * To run a mutation, you first call `useCreateListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createListMutation, { data, loading, error }] = useCreateListMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useCreateListMutation(baseOptions?: Apollo.MutationHookOptions<CreateListMutation, CreateListMutationVariables>) {
+        return Apollo.useMutation<CreateListMutation, CreateListMutationVariables>(CreateListDocument, baseOptions);
+      }
+export type CreateListMutationHookResult = ReturnType<typeof useCreateListMutation>;
+export type CreateListMutationResult = Apollo.MutationResult<CreateListMutation>;
+export type CreateListMutationOptions = Apollo.BaseMutationOptions<CreateListMutation, CreateListMutationVariables>;
+export const DeleteListDocument = gql`
+    mutation deleteList($id: String!) {
+  deleteList(id: $id) {
+    ok
+    error
+  }
+}
+    `;
+export type DeleteListMutationFn = Apollo.MutationFunction<DeleteListMutation, DeleteListMutationVariables>;
+
+/**
+ * __useDeleteListMutation__
+ *
+ * To run a mutation, you first call `useDeleteListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteListMutation, { data, loading, error }] = useDeleteListMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteListMutation(baseOptions?: Apollo.MutationHookOptions<DeleteListMutation, DeleteListMutationVariables>) {
+        return Apollo.useMutation<DeleteListMutation, DeleteListMutationVariables>(DeleteListDocument, baseOptions);
+      }
+export type DeleteListMutationHookResult = ReturnType<typeof useDeleteListMutation>;
+export type DeleteListMutationResult = Apollo.MutationResult<DeleteListMutation>;
+export type DeleteListMutationOptions = Apollo.BaseMutationOptions<DeleteListMutation, DeleteListMutationVariables>;
+export const GetUserListsDocument = gql`
+    query getUserLists {
+  getList {
+    ok
+    error
+    lists {
+      id
+      name
+      rooms {
+        id
+        photos {
+          link
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetUserListsQuery__
+ *
+ * To run a query within a React component, call `useGetUserListsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserListsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserListsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserListsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserListsQuery, GetUserListsQueryVariables>) {
+        return Apollo.useQuery<GetUserListsQuery, GetUserListsQueryVariables>(GetUserListsDocument, baseOptions);
+      }
+export function useGetUserListsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserListsQuery, GetUserListsQueryVariables>) {
+          return Apollo.useLazyQuery<GetUserListsQuery, GetUserListsQueryVariables>(GetUserListsDocument, baseOptions);
+        }
+export type GetUserListsQueryHookResult = ReturnType<typeof useGetUserListsQuery>;
+export type GetUserListsLazyQueryHookResult = ReturnType<typeof useGetUserListsLazyQuery>;
+export type GetUserListsQueryResult = Apollo.QueryResult<GetUserListsQuery, GetUserListsQueryVariables>;
+export const UpdateListDocument = gql`
+    mutation updateList($id: String!, $roomId: String!) {
+  updateList(id: $id, roomId: $roomId) {
+    ok
+    error
+  }
+}
+    `;
+export type UpdateListMutationFn = Apollo.MutationFunction<UpdateListMutation, UpdateListMutationVariables>;
+
+/**
+ * __useUpdateListMutation__
+ *
+ * To run a mutation, you first call `useUpdateListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateListMutation, { data, loading, error }] = useUpdateListMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useUpdateListMutation(baseOptions?: Apollo.MutationHookOptions<UpdateListMutation, UpdateListMutationVariables>) {
+        return Apollo.useMutation<UpdateListMutation, UpdateListMutationVariables>(UpdateListDocument, baseOptions);
+      }
+export type UpdateListMutationHookResult = ReturnType<typeof useUpdateListMutation>;
+export type UpdateListMutationResult = Apollo.MutationResult<UpdateListMutation>;
+export type UpdateListMutationOptions = Apollo.BaseMutationOptions<UpdateListMutation, UpdateListMutationVariables>;
 export const CreatePaymentDocument = gql`
     mutation createPayment($reservation: ReservationInput!, $currency: String) {
   payment: createPayment(reservation: $reservation, currency: $currency) {

@@ -1,0 +1,16 @@
+query getUserLists {
+  getList {
+    ok
+    error
+    lists {
+      id
+      name
+      rooms {
+        id
+        photos {
+          link
+        }
+      }
+    }
+  }
+}
