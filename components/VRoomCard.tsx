@@ -1,12 +1,10 @@
 import { ReactElement } from "react";
 import {
   Box,
-  BoxProps,
   Flex,
   Heading,
   Icon,
-  Stat,
-  StatNumber,
+  StackProps,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -17,7 +15,7 @@ import { Room } from "@/generated";
 import { ButtonOpaque, IconPair, Image } from "@/components/common";
 import { SavedListModal } from "./SavedListModal";
 
-interface CardProps extends BoxProps {
+interface CardProps extends StackProps {
   room: Room;
 }
 
@@ -32,8 +30,7 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
       align="stretch"
       {...props}
     >
-      {/* TODO: flatten bottom left & right radius on img */}
-      <Image photo={room.photos[0]} h="200px" w="100%">
+      <Image photo={room.photos[0]} h="200px" w="full">
         {/* FIXME: add average rating data */}
         <ButtonOpaque
           rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}
@@ -51,31 +48,29 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
           right={2}
         />
       </Image>
+      <Box flexGrow={1}>
+        <Link href={`/rooms/${room.id}`}>
+          <a>
+            <VStack as="section" h="full" align="stretch" spacing={2} p={4}>
+              <Text textStyle="label">{room.roomType.name}</Text>
+              <Heading as="h3" size="md">
+                {room.name}
+              </Heading>
+              <Text>{room.description}</Text>
 
-      <Link key={room.id} href={`/rooms/${room.id}`}>
-        <a>
-          <VStack as="section" flexGrow={1} align="stretch" spacing={2} p={4}>
-            <Text textStyle="label">{room.roomType.name}</Text>
-            <Heading as="h3" size="md">
-              {room.name}
-            </Heading>
-            <Text>{room.description}</Text>
+              <Flex flex={1}>
+                <Box mt="auto">
+                  <IconPair icon={IoBedOutline} mb={1}>
+                    {room.beds}
+                  </IconPair>
 
-            <Flex flex={1}>
-              <Box mt="auto">
-                <IconPair icon={IoBedOutline} mb={1}>
-                  {room.beds}
-                </IconPair>
-
-                {/* TODO: Create price textStyle instead */}
-                <Stat>
-                  <StatNumber color="primary">${room.price}</StatNumber>
-                </Stat>
-              </Box>
-            </Flex>
-          </VStack>
-        </a>
-      </Link>
+                  <Text textStyle="monetary">${room.price}</Text>
+                </Box>
+              </Flex>
+            </VStack>
+          </a>
+        </Link>
+      </Box>
     </VStack>
   );
 };

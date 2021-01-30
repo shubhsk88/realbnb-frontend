@@ -14,8 +14,6 @@ import {
   GridProps,
   GridItemProps,
   VStack,
-  Stat,
-  StatNumber,
 } from "@chakra-ui/react";
 import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
@@ -81,15 +79,12 @@ const RoomDetails = (): ReactElement => {
               <Text textStyle="label" fontSize="lg">
                 {room.roomType.name}
               </Text>
-
-              <Stat flex={0}>
-                <StatNumber
-                  color="primary"
-                  display={{ base: "unset", xl: "none" }}
-                >
-                  ${room.price}
-                </StatNumber>
-              </Stat>
+              <Text
+                textStyle="monetary"
+                display={{ base: "unset", xl: "none" }}
+              >
+                ${room.price}
+              </Text>
             </HStack>
 
             <Heading as="h2" size="lg">

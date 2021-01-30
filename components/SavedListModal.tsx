@@ -57,7 +57,7 @@ export const SavedListModal = ({
     setIsOpen(false);
   };
 
-  const handleLike = () => {
+  const handleLike = (e) => {
     if (liked) {
       onUpdateList({ variables: { roomId } });
     } else setIsOpen(true);

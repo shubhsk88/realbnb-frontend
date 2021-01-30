@@ -29,6 +29,11 @@ const textStyles = {
     fontSize: "sm",
     color: "gray.700",
   },
+  monetary: {
+    fontSize: "2xl",
+    fontWeight: "medium",
+    color: "primary",
+  },
 };
 
 const theme = extendTheme({
