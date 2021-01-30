@@ -152,7 +152,7 @@ export const SignUp = (): ReactElement => {
             />
             <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
           </FormControl>
-          <ButtonPrimary type="submit" w="100%" my={6}>
+          <ButtonPrimary type="submit" w="100%" mt={6}>
             Continue
           </ButtonPrimary>
         </VStack>
@@ -203,10 +203,12 @@ export const SignUp = (): ReactElement => {
         <PhoneSignUp phoneNumber={phoneState} />
       ) : null}
 
-      <Text>or</Text>
-      <Button onClick={() => setModalState("VERIFIED")}>
-        Continue With Email
-      </Button>
+      <VStack mt={3} spacing={3}>
+        <Text>or</Text>
+        <Button w="full" onClick={() => setModalState("VERIFIED")}>
+          Continue With Email
+        </Button>
+      </VStack>
     </>
   );
 };

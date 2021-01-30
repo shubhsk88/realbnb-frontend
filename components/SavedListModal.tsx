@@ -57,10 +57,9 @@ export const SavedListModal = ({
     setIsOpen(false);
   };
 
-  const handleLike = (e) => {
-    if (liked) {
-      onUpdateList({ variables: { roomId } });
-    } else setIsOpen(true);
+  const handleLike = () => {
+    if (liked) onUpdateList({ variables: { roomId } });
+    else setIsOpen(true);
   };
 
   return (
@@ -79,7 +78,7 @@ export const SavedListModal = ({
       />
 
       {isLoggedIn ? (
-        <MyModal isOpen={isOpen} onClose={onClose} roomId={roomId} />
+        <MyModal roomId={roomId} isOpen={isOpen} onClose={onClose} />
       ) : (
         <AuthModal isLoginOpen={isOpen} onLoginClose={onClose} />
       )}
@@ -88,12 +87,12 @@ export const SavedListModal = ({
 };
 
 interface MyModalProps {
+  roomId: string;
   isOpen: boolean;
   onClose: () => void;
-  roomId: string;
 }
 
-const MyModal = ({ isOpen, onClose, roomId }: MyModalProps) => {
+const MyModal = ({ roomId, isOpen, onClose }: MyModalProps): ReactElement => {
   const { data, loading, error } = useGetUserListsQuery();
 
   const [isCreateList, setIsCreateList] = useState(false);
@@ -102,14 +101,19 @@ const MyModal = ({ isOpen, onClose, roomId }: MyModalProps) => {
     setIsCreateList((prev) => !prev);
   };
 
+  const onCloseReset = () => {
+    if (!isCreateList) toggleContent();
+    onClose();
+  };
+
   if (loading) return <div>loading</div>;
   if (error) return <div>{JSON.stringify(error)}</div>;
   if (!data.getList.ok) return <div>{data.getList.error}</div>;
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onCloseReset}>
       <ModalOverlay />
 
-      {!isCreateList ? (
+      {isCreateList ? (
         <ModalContentLists
           roomId={roomId}
           lists={data.getList.lists}
@@ -120,7 +124,7 @@ const MyModal = ({ isOpen, onClose, roomId }: MyModalProps) => {
         <ModalContentForm
           roomId={roomId}
           toggleContent={toggleContent}
-          onClose={onClose}
+          onClose={onCloseReset}
         />
       )}
     </Modal>
@@ -219,7 +223,6 @@ const ModalContentForm = ({
           status: "success",
           duration: 2000,
         });
-        toggleContent();
         onClose();
       } else {
         setFormError("An Unknown error occurred, please try again");
