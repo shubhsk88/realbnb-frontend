@@ -15,7 +15,6 @@ import {
   ModalContentProps,
   ModalHeader,
   ModalOverlay,
-  StackProps,
   Text,
   useToast,
   VStack,
@@ -35,7 +34,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { AuthModal } from "./Auth/AuthModal";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { useForm } from "react-hook-form";
-import { CardLi } from "./common/CardLi";
+import { CardLi } from "./common";
 
 interface SavedListProps extends ButtonProps {
   roomId: string;
@@ -288,7 +287,3 @@ const ModalContentForm = ({
     </ModalContent>
   );
 };
-
-interface ModalListItemProps extends StackProps {
-  children: JSX.Element | JSX.Element[];
-}

@@ -26,7 +26,12 @@ export const Image = ({
   >
     {photo ? (
       <>
-        <NextImage src={photo.link} layout="fill" objectFit="cover" />
+        <NextImage
+          src={photo.link}
+          layout="fill"
+          objectFit="cover"
+          alt={photo.caption}
+        />
         {children}
       </>
     ) : null}

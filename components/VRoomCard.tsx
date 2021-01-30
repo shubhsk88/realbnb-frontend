@@ -1,23 +1,20 @@
 import { ReactElement } from "react";
-import styled from "@emotion/styled";
 import {
   Box,
   BoxProps,
   Flex,
   Heading,
   Icon,
-  Skeleton,
   Stat,
   StatNumber,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import Image from "next/image";
 import { AiOutlineStar } from "react-icons/ai";
 import { IoBedOutline } from "react-icons/io5";
-import { Photo, Room } from "@/generated";
-import { ButtonOpaque, IconPair } from "@/components/common";
+import { Room } from "@/generated";
+import { ButtonOpaque, IconPair, Image } from "@/components/common";
 import { SavedListModal } from "./SavedListModal";
 
 interface CardProps extends BoxProps {
@@ -35,7 +32,25 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
       align="stretch"
       {...props}
     >
-      <RoomImage roomId={room.id} liked={room.isLiked} photo={room.photos[0]} />
+      {/* TODO: flatten bottom left & right radius on img */}
+      <Image photo={room.photos[0]} h="200px" w="100%">
+        {/* FIXME: add average rating data */}
+        <ButtonOpaque
+          rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}
+          pos="absolute"
+          top={2}
+          left={2}
+        >
+          5.00
+        </ButtonOpaque>
+        <SavedListModal
+          roomId={room.id}
+          liked={room.isLiked}
+          pos="absolute"
+          top={2}
+          right={2}
+        />
+      </Image>
 
       <Link key={room.id} href={`/rooms/${room.id}`}>
         <a>
@@ -52,6 +67,7 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
                   {room.beds}
                 </IconPair>
 
+                {/* TODO: Create price textStyle instead */}
                 <Stat>
                   <StatNumber color="primary">${room.price}</StatNumber>
                 </Stat>
@@ -63,51 +79,3 @@ export const VRoomCard = ({ room, ...props }: CardProps): ReactElement => {
     </VStack>
   );
 };
-
-interface ImageProps {
-  roomId: string;
-  liked: boolean;
-  photo: Photo;
-}
-
-const RoomImage = ({ roomId, liked, photo }: ImageProps): ReactElement => (
-  <ImageSkeleton isLoaded={!!photo}>
-    {photo && (
-      <>
-        <Image
-          src={photo.link}
-          alt={photo.caption}
-          layout="fill"
-          objectFit="cover"
-          loading="lazy"
-        />
-
-        {/* TODO: add average rating data */}
-        <RatingButton rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}>
-          5.00
-        </RatingButton>
-        <SavedListModal
-          roomId={roomId}
-          liked={liked}
-          pos="absolute"
-          top={2}
-          right={2}
-        />
-      </>
-    )}
-  </ImageSkeleton>
-);
-
-const ImageSkeleton = styled(Skeleton)`
-  position: relative;
-  width: 100%;
-  height: 200px;
-  border-radius: inherit;
-  overflow: hidden;
-`;
-
-const RatingButton = styled(ButtonOpaque)`
-  position: absolute;
-  top: 0.4em;
-  left: 0.4em;
-`;
