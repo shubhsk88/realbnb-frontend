@@ -21,6 +21,14 @@ const textStyles = {
     fontWeight: "regular",
     color: "gray.400",
   },
+  labelDark: {
+    fontSize: "md",
+    fontWeight: "medium",
+  },
+  labelMedium: {
+    fontSize: "sm",
+    color: "gray.700",
+  },
 };
 
 const theme = extendTheme({

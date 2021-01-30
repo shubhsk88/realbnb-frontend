@@ -31,7 +31,8 @@ export const CardLi = ({
         {image}
       </Box>
     ) : (
-      <Image boxSize={20} photo={photo} borderRadius="md" />
+      /* TODO: tune image props */
+      <Image boxSize={20} photo={photo} objectFit="cover" borderRadius="md" />
     )}
 
     <div>{children}</div>

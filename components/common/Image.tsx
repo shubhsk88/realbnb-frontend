@@ -9,6 +9,7 @@ interface ImageProps extends SkeletonProps {
   children?: JSX.Element | JSX.Element[];
 }
 
+/* FIXME: proper image load in */
 export const Image = ({
   photo,
   children,

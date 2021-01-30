@@ -5,7 +5,6 @@ import {
   FormControl,
   FormLabel,
   Heading,
-  HStack,
   Icon,
   IconButton,
   Input,
@@ -25,7 +24,7 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
 
 import { isLoggedInVar } from "@/lib/cache";
-import { ButtonPrimary, IconButtonOpaque, Image } from "@/components/common";
+import { ButtonPrimary, IconButtonOpaque } from "@/components/common";
 import {
   List,
   useCreateListMutation,
@@ -173,7 +172,7 @@ const ModalContentLists = ({
               />
             }
           >
-            <Heading as="h4" fontSize="md" fontWeight="medium">
+            <Heading as="h5" textStyle="labelDark">
               Create new list
             </Heading>
           </CardLi>
@@ -184,10 +183,10 @@ const ModalContentLists = ({
               photo={list.rooms[0]?.photos[0]}
               onClick={() => addToList(list.id)}
             >
-              <Heading as="h4" fontSize="md" fontWeight="medium">
+              <Heading as="h5" textStyle="labelDark">
                 {list.name}
               </Heading>
-              <Text>
+              <Text textStyled="labelMedium">
                 {list.rooms.length ? list.rooms.length : "Nothing Saved Yet"}
               </Text>
             </CardLi>
@@ -247,7 +246,6 @@ const ModalContentForm = ({
   return (
     <ModalContent {...props}>
       <ModalHeader textAlign="center">
-        {/* FIXME: IconButton sizing */}
         <Text>Name list</Text>
       </ModalHeader>
       <IconButton

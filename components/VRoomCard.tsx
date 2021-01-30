@@ -70,37 +70,33 @@ interface ImageProps {
   photo: Photo;
 }
 
-const RoomImage = ({ roomId, liked, photo }: ImageProps): ReactElement => {
-  console.log(liked);
+const RoomImage = ({ roomId, liked, photo }: ImageProps): ReactElement => (
+  <ImageSkeleton isLoaded={!!photo}>
+    {photo && (
+      <>
+        <Image
+          src={photo.link}
+          alt={photo.caption}
+          layout="fill"
+          objectFit="cover"
+          loading="lazy"
+        />
 
-  return (
-    <ImageSkeleton isLoaded={!!photo}>
-      {photo && (
-        <>
-          <Image
-            src={photo.link}
-            alt={photo.caption}
-            layout="fill"
-            objectFit="cover"
-            loading="lazy"
-          />
-
-          {/* TODO: add average rating data */}
-          <RatingButton rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}>
-            5.00
-          </RatingButton>
-          <SavedListModal
-            roomId={roomId}
-            liked={liked}
-            pos="absolute"
-            top={2}
-            right={2}
-          />
-        </>
-      )}
-    </ImageSkeleton>
-  );
-};
+        {/* TODO: add average rating data */}
+        <RatingButton rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}>
+          5.00
+        </RatingButton>
+        <SavedListModal
+          roomId={roomId}
+          liked={liked}
+          pos="absolute"
+          top={2}
+          right={2}
+        />
+      </>
+    )}
+  </ImageSkeleton>
+);
 
 const ImageSkeleton = styled(Skeleton)`
   position: relative;
