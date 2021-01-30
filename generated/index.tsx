@@ -51,7 +51,7 @@ export type MutationDeleteListArgs = {
 
 
 export type MutationUpdateListArgs = {
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
   roomId: Scalars['String'];
 };
 
@@ -491,7 +491,7 @@ export type GetUserListsQuery = (
 );
 
 export type UpdateListMutationVariables = Exact<{
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
   roomId: Scalars['String'];
 }>;
 
@@ -830,7 +830,7 @@ export type GetUserListsQueryHookResult = ReturnType<typeof useGetUserListsQuery
 export type GetUserListsLazyQueryHookResult = ReturnType<typeof useGetUserListsLazyQuery>;
 export type GetUserListsQueryResult = Apollo.QueryResult<GetUserListsQuery, GetUserListsQueryVariables>;
 export const UpdateListDocument = gql`
-    mutation updateList($id: String!, $roomId: String!) {
+    mutation updateList($id: String, $roomId: String!) {
   updateList(id: $id, roomId: $roomId) {
     ok
     error
