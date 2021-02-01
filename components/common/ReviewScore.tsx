@@ -17,7 +17,7 @@ export const ReviewScore = ({
         <Box w="8rem">
           <Progress colorScheme="teal" size="xs" value={ratingValue} />
         </Box>
-        <Text fontSize="xs">{rating}</Text>
+        <Text fontSize="xs">{rating.toFixed(2)}</Text>
       </Stack>
     </Flex>
   );
