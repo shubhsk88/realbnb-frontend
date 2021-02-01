@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { useRouter } from "next/router";
 import { ListDetailsCard } from "@/components/ListDetailsCard";
 import Link from "next/link";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { Heading, IconButton } from "@chakra-ui/react";
+import { Heading, IconButton, list } from "@chakra-ui/react";
+import { useGetUserListsQuery } from "@/generated";
 
 const SavedListRoom = () => {
   const router = useRouter();
   const { savedId } = router.query;
+  const { data, error, loading } = useGetUserListsQuery();
+  if (loading) return <div>Loading</div>;
+  if (error) return <div>Error</div>;
 
+  const list = data.getList?.lists.find((list) => list.id === savedId);
+  console.log(list);
   return (
     <div>
       <IconButton
@@ -22,10 +28,24 @@ const SavedListRoom = () => {
         icon={<IoChevronBackOutline size="40px" />}
         onClick={() => router.push("/saved")}
       />
-      <Heading fontSize="3xl" my={4} mx={4}>
-        List Name
-      </Heading>
-      <ListDetailsCard />
+      {list ? (
+        <>
+          <Heading fontSize="3xl" my={4} mx={4}>
+            {list.name}
+          </Heading>
+          {list.rooms.length > 0 ? (
+            list.rooms.map((room) => (
+              <Link href={`/rooms/${room.id}`} key={room.id}>
+                <a>
+                  <ListDetailsCard room={room} />
+                </a>
+              </Link>
+            ))
+          ) : (
+            <div> There is no favourites here</div>
+          )}
+        </>
+      ) : null}
     </div>
   );
 };

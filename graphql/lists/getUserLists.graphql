@@ -7,6 +7,13 @@ query getUserLists {
       name
       rooms {
         id
+        name
+        beds
+        description
+        price
+        roomType {
+          name
+        }
         photos {
           link
         }
