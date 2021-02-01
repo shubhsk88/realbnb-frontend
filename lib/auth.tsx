@@ -54,7 +54,7 @@ export function useProvideAuth() {
 
   const signInWithEmail = (callback: () => void): SignInWithEmailReturn => {
     const [onLogin, { error: serverError, loading }] = useEmailLoginMutation({
-      refetchQueries: ["getUser"],
+      refetchQueries: () => ["getUser"],
       onCompleted: ({ emailSignIn }) => {
         signIn(emailSignIn, callback);
       },
@@ -69,7 +69,7 @@ export function useProvideAuth() {
       onGoogleLogin,
       { error: serverError, loading },
     ] = useGoogleAuthMutation({
-      refetchQueries: ["getUser"],
+      refetchQueries: () => ["getUser"],
       onCompleted: ({ googleAuth }) => {
         signIn(googleAuth, callback);
       },

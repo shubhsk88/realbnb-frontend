@@ -11,6 +11,8 @@ import {
   useToast,
   Text,
   VStack,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
 import { useEmailLoginMutation } from "@/generated";
@@ -96,7 +98,12 @@ export const Login = ({ closeModal }: LoginProps): ReactElement => {
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
 
-        {error ? <div>{error}</div> : null}
+        {error ? (
+          <Alert status="error">
+            <AlertIcon />
+            {error}
+          </Alert>
+        ) : null}
 
         <ButtonPrimary
           isLoading={loading}
