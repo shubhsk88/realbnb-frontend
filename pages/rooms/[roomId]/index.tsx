@@ -197,7 +197,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
   const onClose = () => {
     setIsCarouselOpen(false);
   };
-  console.log(photos.length);
+  
   return (
     <>
       <CarouselModal isOpen={isCarouselOpen} onClose={onClose} />
