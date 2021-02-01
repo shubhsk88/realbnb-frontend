@@ -1,8 +1,11 @@
 import { ListCard } from "@/components";
+import { useGetUserListsQuery } from "@/generated";
 import {
   Box,
   Button,
   Heading,
+  HStack,
+  List,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -10,9 +13,16 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 
 const SavedLists = () => {
+  const { data, loading, error } = useGetUserListsQuery();
+  const lists = data?.getList.lists;
+  if (error || data?.getList?.error) return <div>Error</div>;
+  if (loading) return <div>Loading</div>;
+
   return (
     <>
       <Box
@@ -50,9 +60,17 @@ const SavedLists = () => {
           </PopoverContent>
         </Popover>
       </Box>
-      <Box>
-        <ListCard />
-      </Box>
+      {lists ? (
+        <Wrap spacing="30px">
+          {lists.map((list) => (
+            <WrapItem key={list.id}>
+              <ListCard list={list} />
+            </WrapItem>
+          ))}
+        </Wrap>
+      ) : (
+        <Box>Please Create List</Box>
+      )}
     </>
   );
 };
