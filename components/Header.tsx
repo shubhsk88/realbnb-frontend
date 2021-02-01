@@ -36,7 +36,7 @@ export const Header = (props: StackProps): ReactElement => {
           <NextLink href="#">
             <Link>Booking</Link>
           </NextLink>
-          <NextLink href="#">
+          <NextLink href="/saved">
             <Link>Saved</Link>
           </NextLink>
           {isLoggedIn ? <AccountMenu /> : <AuthModal />}
