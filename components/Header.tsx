@@ -33,12 +33,16 @@ export const Header = (props: StackProps): ReactElement => {
         </HStack>
 
         <Stack direction="row" align="center" spacing={8} fontWeight="bold">
-          <NextLink href="#">
-            <Link>Booking</Link>
-          </NextLink>
-          <NextLink href="/saved">
-            <Link>Saved</Link>
-          </NextLink>
+          {isLoggedIn ? (
+            <>
+              <NextLink href="#">
+                <Link>Booking</Link>
+              </NextLink>
+              <NextLink href="/saved">
+                <Link>Saved</Link>
+              </NextLink>
+            </>
+          ) : null}
           {isLoggedIn ? <AccountMenu /> : <AuthModal />}
         </Stack>
       </HStack>
