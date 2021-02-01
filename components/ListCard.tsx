@@ -1,8 +1,11 @@
 import { List } from "@/generated";
-import { Box, Heading, Text, VStack } from "@chakra-ui/react";
-import React from "react";
+import { Box, Grid, Heading, Text, VStack } from "@chakra-ui/react";
+import React, { ReactElement } from "react";
+import { Image } from "@/components/common";
 
-export const ListCard = ({ list }: { list: List }) => {
+export const ListCard = ({ list }: { list: List }): ReactElement => {
+  const image = list?.rooms[0]?.photos[0];
+
   return (
     <Box
       minH="300px"
@@ -11,7 +14,9 @@ export const ListCard = ({ list }: { list: List }) => {
       overflow="hidden"
       borderRadius="xl"
     >
-      <Box backgroundColor="gray.400" w="full" minH="200px"></Box>
+      <Box background="gray.400" overflow="hidden" w="full" minH="200px">
+        {image ? <Image photo={image} /> : null}
+      </Box>
       <VStack spacing={2} align="stretch" p={4}>
         <Text color="gray.600" fontSize="sm">
           Anytime
