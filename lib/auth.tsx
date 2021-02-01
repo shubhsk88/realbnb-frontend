@@ -55,12 +55,14 @@ export function useProvideAuth() {
   const signInWithEmail = (callback: () => void): SignInWithEmailReturn => {
     const [onLogin, { error: serverError, loading }] = useEmailLoginMutation({
       refetchQueries: () => ["getUser"],
+
       onCompleted: ({ emailSignIn }) => {
         signIn(emailSignIn, callback);
+        client.clearStore();
       },
     });
     if (serverError) setError("Unknown error occurred,Please Try again");
-
+    console.log(loading);
     return { onLogin, error, loading };
   };
 
@@ -70,10 +72,13 @@ export function useProvideAuth() {
       { error: serverError, loading },
     ] = useGoogleAuthMutation({
       refetchQueries: () => ["getUser"],
+
       onCompleted: ({ googleAuth }) => {
+        client.clearStore();
         signIn(googleAuth, callback);
       },
     });
+
     if (serverError) setError("Unknown error occurred,Please Try again");
 
     return { onGoogleLogin, error, loading };
@@ -86,6 +91,7 @@ export function useProvideAuth() {
   };
 
   const logout = () => {
+    client.clearStore();
     client.cache.evict({ fieldName: "token" });
     client.cache.gc();
 

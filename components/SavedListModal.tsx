@@ -121,7 +121,7 @@ const MyModal = ({ isOpen, onClose, roomId, liked }: MyModalProps) => {
         setFormError("An Unknown error occured.Please try again");
       }
     },
-    refetchQueries: ["getRooms", "getList"],
+    refetchQueries: () => ["getRooms", "getList"],
   });
 
   if (loading) return <div>loading</div>;
