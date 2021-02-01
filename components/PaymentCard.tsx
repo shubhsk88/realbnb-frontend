@@ -95,7 +95,7 @@ export const PaymentCard = ({
 
   useEffect(() => {
     console.log("payment");
-    console.log(paymentDetails);
+    
 
     if (paymentDetails) {
       onCreatePayment({

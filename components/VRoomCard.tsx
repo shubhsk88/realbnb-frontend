@@ -71,8 +71,6 @@ interface ImageProps {
 }
 
 const RoomImage = ({ roomId, liked, photo }: ImageProps): ReactElement => {
-  console.log(liked);
-
   return (
     <ImageSkeleton isLoaded={!!photo}>
       {photo && (

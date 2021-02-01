@@ -40,6 +40,7 @@ const RoomDetails = (): ReactElement => {
   const router = useRouter();
   const { query } = router;
   const id = query.roomId as string;
+
   const { loading, data, error } = useGetRoomQuery({ variables: { id } });
   const [showAmenities, setShowAmenities] = useState(false);
   const room = data?.getRoom.room;
@@ -196,6 +197,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
   const onClose = () => {
     setIsCarouselOpen(false);
   };
+  console.log(photos.length);
   return (
     <>
       <CarouselModal isOpen={isCarouselOpen} onClose={onClose} />
@@ -235,7 +237,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
 
         {photos
           .slice(2, 6)
-          .concat(Array(4 - photos.length || 0).fill(null))
+          .concat(Array(Math.abs(4 - photos.length) || 0).fill(null))
           .map((photo, idx) => (
             <GridImage key={photo?.id ?? idx} photo={photo} />
           ))}

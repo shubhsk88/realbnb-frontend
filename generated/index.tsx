@@ -51,7 +51,7 @@ export type MutationDeleteListArgs = {
 
 
 export type MutationUpdateListArgs = {
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
   roomId: Scalars['String'];
 };
 
