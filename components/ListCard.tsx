@@ -9,7 +9,7 @@ export const ListCard = ({ list }: { list: List }): ReactElement => {
   return (
     <Box
       minH="300px"
-      minW="400px"
+      minW="350px"
       shadow="xl"
       overflow="hidden"
       borderRadius="xl"

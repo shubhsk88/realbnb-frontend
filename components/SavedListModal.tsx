@@ -129,7 +129,6 @@ const MyModal = ({ isOpen, onClose, roomId, liked }: MyModalProps) => {
   if (!data.getList.ok) return <div>{data.getList.error}</div>;
 
   const lists = data.getList.lists;
-  console.log(lists);
 
   const addToList = (id: string) => {
     onUpdateList({ variables: { id, roomId } });

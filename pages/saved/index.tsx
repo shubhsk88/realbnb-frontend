@@ -1,10 +1,15 @@
 import { ListCard } from "@/components";
-import { List, useGetUserListsQuery } from "@/generated";
+import { ButtonPrimary } from "@/components/common";
+import { List, useCreateListMutation, useGetUserListsQuery } from "@/generated";
+import BeatLoader from "react-spinners/BeatLoader";
 
 import {
   Box,
   Button,
+  FormControl,
+  FormLabel,
   Heading,
+  Input,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -12,14 +17,52 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  useDisclosure,
+  useToast,
+  VStack,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 const SavedLists = () => {
   const { data, loading, error } = useGetUserListsQuery();
+  const { handleSubmit, register } = useForm();
+  const toast = useToast();
+  const { onOpen, onClose, isOpen } = useDisclosure();
+  const [
+    onCreateList,
+    { loading: createListLoading, error: createlistError },
+  ] = useCreateListMutation({
+    onCompleted: ({ createList }) => {
+      if (createList.ok) {
+        toast({
+          title: "Added to favourite successfully",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        onClose();
+      } else {
+        toast({
+          title: "Unknown error occured please try again ",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    },
+    refetchQueries: () => ["getUserLists"],
+  });
 
+  const onSubmit = ({ name }: { name: string }) => {
+    onCreateList({
+      variables: {
+        name,
+      },
+    });
+  };
   const lists = data?.getList.lists;
   if (error || data?.getList?.error) return <div>Error</div>;
   if (loading) return <div>Loading</div>;
@@ -35,7 +78,7 @@ const SavedLists = () => {
         <Heading as="h3" fontWeight="semibold" fontSize="2rem">
           Saved
         </Heading>
-        <Popover>
+        <Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
           <PopoverTrigger>
             <Button
               background="white"
@@ -56,7 +99,26 @@ const SavedLists = () => {
               Create List
             </PopoverHeader>
             <PopoverBody>
-              Are you sure you want to have that milkshake?
+              <VStack as="form" onSubmit={handleSubmit(onSubmit)} spacing={10}>
+                <FormControl id="name" isRequired>
+                  <FormLabel>Name</FormLabel>
+                  <Input
+                    ref={register}
+                    name="name"
+                    type="text"
+                    placeholder="Name"
+                    focusBorderColor="primary"
+                  />
+                </FormControl>
+                <ButtonPrimary
+                  isLoading={createListLoading}
+                  spinner={<BeatLoader size={8} color="white" />}
+                  type="submit"
+                  w="full"
+                >
+                  Create
+                </ButtonPrimary>
+              </VStack>
             </PopoverBody>
           </PopoverContent>
         </Popover>
