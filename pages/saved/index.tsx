@@ -1,11 +1,10 @@
 import { ListCard } from "@/components";
-import { useGetUserListsQuery } from "@/generated";
+import { List, useGetUserListsQuery } from "@/generated";
+
 import {
   Box,
   Button,
   Heading,
-  HStack,
-  List,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -16,6 +15,7 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
+import Link from "next/link";
 
 const SavedLists = () => {
   const { data, loading, error } = useGetUserListsQuery();
@@ -62,9 +62,13 @@ const SavedLists = () => {
       </Box>
       {lists ? (
         <Wrap spacing="30px">
-          {lists.map((list) => (
+          {lists.map((list: List) => (
             <WrapItem key={list.id}>
-              <ListCard list={list} />
+              <Link href={`/saved/${list.id}`}>
+                <a>
+                  <ListCard list={list} />
+                </a>
+              </Link>
             </WrapItem>
           ))}
         </Wrap>
