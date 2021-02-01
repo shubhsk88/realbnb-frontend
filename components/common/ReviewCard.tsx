@@ -23,7 +23,7 @@ export const ReviewCard = ({ review, ...props }: CardProps): ReactElement => {
   return (
     <Box>
       <HStack spacing={4} mb={4}>
-        <Avatar name={user.name} src={user.avatar} />
+        <Avatar name={user.name} src={`https://i.pravatar.cc/300`} />
         <div>
           <Heading as="h5" size="md">
             {user.name}

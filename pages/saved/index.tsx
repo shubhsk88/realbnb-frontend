@@ -19,7 +19,7 @@ import Link from "next/link";
 
 const SavedLists = () => {
   const { data, loading, error } = useGetUserListsQuery();
-  console.log(data, loading, error);
+
   const lists = data?.getList.lists;
   if (error || data?.getList?.error) return <div>Error</div>;
   if (loading) return <div>Loading</div>;

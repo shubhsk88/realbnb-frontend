@@ -197,7 +197,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
   const onClose = () => {
     setIsCarouselOpen(false);
   };
-  
+
   return (
     <>
       <CarouselModal isOpen={isCarouselOpen} onClose={onClose} />
@@ -229,7 +229,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
             left={4}
             rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}
           >
-            {overallRating}
+            {overallRating.toFixed(2)}
           </ButtonOpaque>
         </GridImage>
 
