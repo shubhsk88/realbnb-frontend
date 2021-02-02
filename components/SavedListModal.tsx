@@ -34,7 +34,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import { AuthModal } from "./Auth/AuthModal";
 import { IoChevronBackSharp } from "react-icons/io5";
 import { useForm } from "react-hook-form";
-import { CardLi } from "./common";
+import { ItemEntry } from "./common";
 
 interface SavedListProps extends ButtonProps {
   roomId: string;
@@ -48,7 +48,7 @@ export const SavedListModal = ({
 }: SavedListProps): ReactElement => {
   const isLoggedIn = useReactiveVar(isLoggedInVar);
   const [onUpdateList] = useUpdateListMutation({
-    refetchQueries: ["getRooms"],
+    refetchQueries: ["getRooms, getRoom"],
   });
 
   const [isOpen, setIsOpen] = useState(false);
@@ -146,10 +146,9 @@ const ModalContentLists = ({
   ...props
 }: ContentListsProps) => {
   const [onUpdateList] = useUpdateListMutation({
-    refetchQueries: ["getRooms"],
+    refetchQueries: ["getRooms", "getRoom"],
     onCompleted: () => {
       onClose();
-      toggleContent();
     },
   });
 
@@ -164,7 +163,8 @@ const ModalContentLists = ({
       <ModalBody px={0}>
         <VStack as="ul" align="stretch">
           {/* FIXME: dark gray color scheme of some sort */}
-          <CardLi
+          <ItemEntry
+            as="li"
             image={
               <IconButton
                 icon={<Icon as={HiPlus} boxSize={10} color="white" />}
@@ -178,11 +178,12 @@ const ModalContentLists = ({
             <Heading as="h5" textStyle="labelDark">
               Create new list
             </Heading>
-          </CardLi>
+          </ItemEntry>
 
           {lists.map((list) => (
-            <CardLi
+            <ItemEntry
               key={list.id}
+              as="li"
               photo={list.rooms[0]?.photos[0]}
               onClick={() => addToList(list.id)}
             >
@@ -192,7 +193,7 @@ const ModalContentLists = ({
               <Text textStyled="labelMedium">
                 {list.rooms.length ? list.rooms.length : "Nothing Saved Yet"}
               </Text>
-            </CardLi>
+            </ItemEntry>
           ))}
         </VStack>
       </ModalBody>
@@ -228,7 +229,7 @@ const ModalContentForm = ({
         setFormError("An Unknown error occurred, please try again");
       }
     },
-    refetchQueries: ["getRooms"],
+    refetchQueries: ["getRooms", "getRoom"],
   });
 
   const [formError, setFormError] = useState("");
@@ -242,7 +243,7 @@ const ModalContentForm = ({
     });
   };
 
-  //FIXME: should have maxHeight and scrolling (virtual?)
+  //TODO: should have maxHeight and virtual scrolling
   //TODO: ModalContent on outside for smoother transition?
 
   return (
@@ -266,7 +267,7 @@ const ModalContentForm = ({
       <ModalCloseButton />
 
       <ModalBody>
-        <VStack as="form" onSubmit={() => handleSubmit(onSubmit)} spacing={10}>
+        <VStack as="form" onSubmit={handleSubmit(onSubmit)} spacing={10}>
           <FormControl id="name" isRequired>
             <FormLabel>Name</FormLabel>
             <Input

@@ -10,4 +10,4 @@ export * from "./Icons";
 export * from "./ReviewCard";
 export * from "./ReviewScore";
 export * from "./StripeWrapper";
-export * from "./CardLi";
+export * from "./ItemEntry";

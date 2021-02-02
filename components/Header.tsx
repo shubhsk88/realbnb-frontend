@@ -1,14 +1,7 @@
 import { ReactElement } from "react";
 import { useReactiveVar } from "@apollo/client";
 import NextLink from "next/link";
-import {
-  Link,
-  Stack,
-  HStack,
-  StackProps,
-  Heading,
-  Box,
-} from "@chakra-ui/react";
+import { Link, Stack, HStack, StackProps, Heading } from "@chakra-ui/react";
 
 import { isLoggedInVar } from "../lib/cache";
 import { LayoutContainer } from "./Layout";

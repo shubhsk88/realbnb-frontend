@@ -10,6 +10,7 @@ query getRoom($id: String!) {
       bedrooms
       bathrooms
       price
+      isLiked
       host {
         name
       }

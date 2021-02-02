@@ -546,7 +546,7 @@ export type GetRoomQuery = (
     & Pick<GetRoomResponse, 'ok' | 'error'>
     & { room?: Maybe<(
       { __typename?: 'Room' }
-      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'bedrooms' | 'bathrooms' | 'price'>
+      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'bedrooms' | 'bathrooms' | 'price' | 'isLiked'>
       & { host: (
         { __typename?: 'User' }
         & Pick<User, 'name'>
@@ -952,6 +952,7 @@ export const GetRoomDocument = gql`
       bedrooms
       bathrooms
       price
+      isLiked
       host {
         name
       }

@@ -2,7 +2,6 @@ import { ReactElement } from "react";
 import { GetStaticProps } from "next";
 
 import { SimpleGrid } from "@chakra-ui/react";
-import Link from "next/link";
 
 import { GetRoomsDocument, useGetRoomsQuery } from "@/generated";
 import { initializeApollo } from "@/lib/apolloClient";

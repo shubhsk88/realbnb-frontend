@@ -15,7 +15,7 @@ import {
   GridItemProps,
   VStack,
 } from "@chakra-ui/react";
-import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 import { IoBedOutline } from "react-icons/io5";
 import { BsList } from "react-icons/bs";
@@ -55,8 +55,8 @@ const RoomDetails = (): ReactElement => {
     data?.getRoom.room.reviews,
   ]);
 
-  if (error) return <div>Error: {JSON.stringify(error)}</div>;
   if (loading) return <div>Loading</div>;
+  if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   //TODO: averageRating should be plural
   const avgRoomScores = Object.entries(room.averageRating).slice(1);
