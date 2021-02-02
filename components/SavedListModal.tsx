@@ -16,6 +16,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
+  toast,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -52,14 +53,21 @@ export const SavedListModal = ({
   });
 
   const [isOpen, setIsOpen] = useState(false);
+  const toast = useToast();
 
   const onClose = () => {
     setIsOpen(false);
   };
 
   const handleLike = () => {
-    if (liked) onUpdateList({ variables: { roomId } });
-    else setIsOpen(true);
+    if (liked) {
+      onUpdateList({ variables: { roomId } });
+      toast({
+        title: "Removed from favourite list successfully",
+        status: "success",
+        duration: 2000,
+      });
+    } else setIsOpen(true);
   };
 
   return (
@@ -94,7 +102,7 @@ interface MyModalProps {
 
 const MyModal = ({ roomId, isOpen, onClose }: MyModalProps): ReactElement => {
   const { data, loading, error } = useGetUserListsQuery();
-
+  console.log(data);
   const [isCreateList, setIsCreateList] = useState(false);
 
   const toggleContent = () => {
