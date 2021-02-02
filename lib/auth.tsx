@@ -41,10 +41,16 @@ export function useProvideAuth() {
   const client = useApolloClient();
   const router = useRouter();
   const toast = useToast();
+  const getUser = () => {
+    const { data, error, loading } = useGetUserQuery();
+
+    return { user: data?.profile.user, error, loading };
+  };
 
   const signIn = (resolver, callback: () => void) => {
     if (resolver.token) {
       Cookies.set("token", resolver.token);
+
       isLoggedInVar(true);
       callback();
     } else {
@@ -57,12 +63,12 @@ export function useProvideAuth() {
       refetchQueries: () => ["getUser"],
 
       onCompleted: ({ emailSignIn }) => {
-        signIn(emailSignIn, callback);
         client.clearStore();
+        signIn(emailSignIn, callback);
       },
     });
     if (serverError) setError("Unknown error occurred,Please Try again");
-    console.log(loading);
+
     return { onLogin, error, loading };
   };
 
@@ -82,12 +88,6 @@ export function useProvideAuth() {
     if (serverError) setError("Unknown error occurred,Please Try again");
 
     return { onGoogleLogin, error, loading };
-  };
-
-  const getUser = () => {
-    const { data, error, loading } = useGetUserQuery();
-
-    return { user: data?.profile.user, error, loading };
   };
 
   const logout = () => {

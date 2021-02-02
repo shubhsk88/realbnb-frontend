@@ -18,7 +18,9 @@ import { isLoggedInVar } from "@/lib/cache";
 export const AccountMenu = (): ReactElement => {
   const { getUser, logout } = useAuth();
 
-  const { data, error, loading, refetch } = useGetUserQuery();
+  const { data, error, loading, refetch } = useGetUserQuery({
+    fetchPolicy: "cache-and-network",
+  });
 
   // FIXME: get JWT token to refresh correctly, likely requires apollo-link-context
 

@@ -9,7 +9,9 @@ import { initializeApollo } from "@/lib/apolloClient";
 import { VRoomCard } from "@/components";
 
 const IndexPage = (): ReactElement => {
-  const { loading, data, error } = useGetRoomsQuery();
+  const { loading, data, error } = useGetRoomsQuery({
+    fetchPolicy: "cache-and-network",
+  });
   if (loading) return <div>Loading</div>;
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 

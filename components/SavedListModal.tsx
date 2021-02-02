@@ -101,7 +101,9 @@ interface MyModalProps {
 }
 
 const MyModal = ({ isOpen, onClose, roomId, liked }: MyModalProps) => {
-  const { data, loading, error } = useGetUserListsQuery();
+  const { data, loading, error } = useGetUserListsQuery({
+    fetchPolicy: "cache-and-network",
+  });
   const [isNewOpen, setIsNewOpen] = useState<boolean>(false);
   const toast = useToast();
   const [formError, setFormError] = useState<string>("");
