@@ -15,44 +15,46 @@ export type Scalars = {
   DateTime: any;
 };
 
-export type CreateListResponse = {
-  __typename?: 'CreateListResponse';
+export type Amenity = {
+  __typename?: 'Amenity';
+  id: Scalars['String'];
+  name: Scalars['String'];
+  room: Array<Maybe<Room>>;
+};
+
+export type CompletePhoneVerificationResponse = {
+  __typename?: 'completePhoneVerificationResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  completePhoneVerification: CompletePhoneVerificationResponse;
   createList: CreateListResponse;
-  deleteList: DeleteListResponse;
-  updateList: UpdateListResponse;
   createPayment: CreatePaymentResponse;
   createReservation: CreateReservationResponse;
   createRoom: CreateRoomResponse;
-  completePhoneVerification: CompletePhoneVerificationResponse;
   createUserViaPhone: CreateUserViaPhoneResponse;
+  deleteList: DeleteListResponse;
   editProfile: EditProfileResponse;
   emailSignIn: EmailSignInResponse;
   emailSignUp: EmailSignUpResponse;
   googleSignIn: GoogleSignInResponse;
   startPhoneVerification: StartPhoneVerificationResponse;
+  updateList: UpdateListResponse;
+};
+
+
+export type MutationCompletePhoneVerificationArgs = {
+  phoneNumber: Scalars['String'];
+  key: Scalars['String'];
 };
 
 
 export type MutationCreateListArgs = {
   name: Scalars['String'];
   roomId?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationDeleteListArgs = {
-  id: Scalars['String'];
-};
-
-
-export type MutationUpdateListArgs = {
-  id?: Maybe<Scalars['String']>;
-  roomId: Scalars['String'];
 };
 
 
@@ -82,18 +84,17 @@ export type MutationCreateRoomArgs = {
 };
 
 
-export type MutationCompletePhoneVerificationArgs = {
-  phoneNumber: Scalars['String'];
-  key: Scalars['String'];
-};
-
-
 export type MutationCreateUserViaPhoneArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
   name: Scalars['String'];
   phone: Scalars['String'];
   birthDate?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteListArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -134,35 +135,14 @@ export type MutationStartPhoneVerificationArgs = {
   phoneNumber: Scalars['String'];
 };
 
-export type DeleteListResponse = {
-  __typename?: 'DeleteListResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
+
+export type MutationUpdateListArgs = {
+  id?: Maybe<Scalars['String']>;
+  roomId: Scalars['String'];
 };
 
-export type GetListResponse = {
-  __typename?: 'getListResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  lists?: Maybe<Array<Maybe<List>>>;
-};
-
-export type Query = {
-  __typename?: 'Query';
-  getList: GetListResponse;
-  getRoom: GetRoomResponse;
-  getRooms: GetRoomsResponse;
-  getUserProfile: GetUserProfileResponse;
-  hello?: Maybe<Scalars['String']>;
-};
-
-
-export type QueryGetRoomArgs = {
-  id: Scalars['String'];
-};
-
-export type UpdateListResponse = {
-  __typename?: 'UpdateListResponse';
+export type CreateListResponse = {
+  __typename?: 'CreateListResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
 };
@@ -191,32 +171,18 @@ export type CreateRoomResponse = {
   error?: Maybe<Scalars['String']>;
 };
 
-export type GetRoomResponse = {
-  __typename?: 'getRoomResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  room?: Maybe<Room>;
-};
-
-export type GetRoomsResponse = {
-  __typename?: 'getRoomsResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  rooms?: Maybe<Array<Maybe<Room>>>;
-};
-
-export type CompletePhoneVerificationResponse = {
-  __typename?: 'completePhoneVerificationResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-};
-
 
 export type CreateUserViaPhoneResponse = {
   __typename?: 'createUserViaPhoneResponse';
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
+};
+
+export type DeleteListResponse = {
+  __typename?: 'DeleteListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };
 
 export type EditProfileResponse = {
@@ -239,6 +205,49 @@ export type EmailSignUpResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type GetListResponse = {
+  __typename?: 'getListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  lists?: Maybe<Array<Maybe<List>>>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  getList: GetListResponse;
+  getReservation: GetReservationResponse;
+  getRoom: GetRoomResponse;
+  getRooms: GetRoomsResponse;
+  getUserProfile: GetUserProfileResponse;
+  hello?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryGetRoomArgs = {
+  id: Scalars['String'];
+};
+
+export type GetReservationResponse = {
+  __typename?: 'GetReservationResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  reservation?: Maybe<Array<Maybe<Reservation>>>;
+};
+
+export type GetRoomResponse = {
+  __typename?: 'getRoomResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  room?: Maybe<Room>;
+};
+
+export type GetRoomsResponse = {
+  __typename?: 'getRoomsResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  rooms?: Maybe<Array<Maybe<Room>>>;
+};
+
 export type GetUserProfileResponse = {
   __typename?: 'getUserProfileResponse';
   ok: Scalars['Boolean'];
@@ -251,20 +260,6 @@ export type GoogleSignInResponse = {
   ok: Scalars['Boolean'];
   error?: Maybe<Scalars['String']>;
   token?: Maybe<Scalars['String']>;
-};
-
-export type StartPhoneVerificationResponse = {
-  __typename?: 'startPhoneVerificationResponse';
-  ok: Scalars['Boolean'];
-  error?: Maybe<Scalars['String']>;
-  token?: Maybe<Scalars['String']>;
-};
-
-export type Amenity = {
-  __typename?: 'Amenity';
-  id: Scalars['String'];
-  name: Scalars['String'];
-  room: Array<Maybe<Room>>;
 };
 
 export type Room = {
@@ -438,6 +433,19 @@ export type Verification = {
   id: Scalars['String'];
   key?: Maybe<Scalars['String']>;
   payload: Scalars['String'];
+};
+
+export type StartPhoneVerificationResponse = {
+  __typename?: 'startPhoneVerificationResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
+  token?: Maybe<Scalars['String']>;
+};
+
+export type UpdateListResponse = {
+  __typename?: 'UpdateListResponse';
+  ok: Scalars['Boolean'];
+  error?: Maybe<Scalars['String']>;
 };
 
 export type CreateListMutationVariables = Exact<{

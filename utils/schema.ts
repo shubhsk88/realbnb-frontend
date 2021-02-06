@@ -4,11 +4,7 @@ import { phoneNumberValidation } from "../components/constants/regex";
 
 // Validators
 const phoneError = "Phone number is not valid";
-const phoneNumber = yup
-  .string()
-  .required("Phone Number is Required")
-  .min(10, phoneError)
-  .matches(phoneNumberValidation, phoneError);
+const phoneNumber = yup.string().required("Phone Number is Required");
 
 const email = yup
   .string()
