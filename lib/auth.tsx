@@ -52,6 +52,7 @@ export function useProvideAuth() {
       Cookies.set("token", resolver.token);
 
       isLoggedInVar(true);
+      router.reload();
       callback();
     } else {
       setError(resolver.error);
@@ -63,7 +64,7 @@ export function useProvideAuth() {
       refetchQueries: () => ["getUser"],
 
       onCompleted: ({ emailSignIn }) => {
-        client.clearStore();
+        client.cache.reset();
         signIn(emailSignIn, callback);
       },
     });
