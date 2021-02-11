@@ -2,7 +2,6 @@ import { ReactElement, useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import {
   Box,
-  Button,
   ButtonProps,
   Divider,
   FormControl,
@@ -26,16 +25,12 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { HiPlus } from "react-icons/hi";
 
 import { isLoggedInVar } from "@/lib/cache";
-import {
-  ButtonPrimary,
-  IconButtonClear,
-  IconButtonOpaque,
-  Image,
-} from "@/components/common";
+import { ButtonPrimary, IconButtonOpaque, Image } from "@/components/common";
 import {
   useCreateListMutation,
   useGetUserListsQuery,
   useUpdateListMutation,
+  Photo,
 } from "@/generated";
 import BeatLoader from "react-spinners/BeatLoader";
 import { AuthModal } from "./Auth/AuthModal";
@@ -202,7 +197,7 @@ const MyModal = ({ isOpen, onClose, roomId, liked }: MyModalProps) => {
                     <Image
                       w={20}
                       h={20}
-                      photo={list.rooms[0]?.photos[0]}
+                      photo={list.rooms[0]?.photos[0] as Photo}
                       borderRadius="md"
                     />
                     <div>

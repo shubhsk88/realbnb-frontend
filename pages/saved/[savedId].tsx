@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useRouter } from "next/router";
 import { ListDetailsCard } from "@/components/ListDetailsCard";
 import Link from "next/link";
 import { IoChevronBackOutline } from "react-icons/io5";
-import { Heading, IconButton, list } from "@chakra-ui/react";
-import { useGetUserListsQuery } from "@/generated";
+import { Heading, IconButton } from "@chakra-ui/react";
+import { Room, useGetUserListsQuery } from "@/generated";
 
 const SavedListRoom = () => {
   const router = useRouter();
@@ -37,7 +37,7 @@ const SavedListRoom = () => {
             list.rooms.map((room) => (
               <Link href={`/rooms/${room.id}`} key={room.id}>
                 <a>
-                  <ListDetailsCard room={room} />
+                  <ListDetailsCard room={room as Room} />
                 </a>
               </Link>
             ))

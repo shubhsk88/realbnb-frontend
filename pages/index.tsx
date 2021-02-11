@@ -2,9 +2,8 @@ import { ReactElement } from "react";
 import { GetStaticProps } from "next";
 
 import { SimpleGrid } from "@chakra-ui/react";
-import Link from "next/link";
 
-import { GetRoomsDocument, useGetRoomsQuery } from "@/generated";
+import { GetRoomsDocument, Room, useGetRoomsQuery } from "@/generated";
 import { initializeApollo } from "@/lib/apolloClient";
 import { VRoomCard } from "@/components";
 
@@ -23,7 +22,7 @@ const IndexPage = (): ReactElement => {
   return (
     <SimpleGrid w="100%" minChildWidth="320px" spacing={6}>
       {rooms.map((room) => (
-        <VRoomCard key={room.id} room={room} />
+        <VRoomCard key={room.id} room={room as Room} />
       ))}
     </SimpleGrid>
   );

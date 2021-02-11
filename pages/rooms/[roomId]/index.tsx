@@ -23,7 +23,7 @@ import { IoBedOutline } from "react-icons/io5";
 import { BsList } from "react-icons/bs";
 import { HiOutlinePhotograph } from "react-icons/hi";
 
-import { Photo, useGetRoomQuery } from "@/generated";
+import { Photo, useGetRoomQuery, Review, Room } from "@/generated";
 import { BookingCard, CarouselModal } from "@/components";
 import {
   ButtonOpaque,
@@ -130,7 +130,7 @@ const RoomDetails = (): ReactElement => {
         <BookingCard
           w="400px"
           display={{ base: "none", xl: "unset" }}
-          room={room}
+          room={room as Room}
         />
       </Stack>
 
@@ -150,7 +150,7 @@ const RoomDetails = (): ReactElement => {
 
         <SimpleGrid columns={2} spacingX={20} spacingY={12}>
           {room.reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
+            <ReviewCard key={review.id} review={review as Review} />
           ))}
         </SimpleGrid>
       </Section>
