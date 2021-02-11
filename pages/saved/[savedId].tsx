@@ -14,7 +14,7 @@ const SavedListRoom = () => {
   if (error) return <div>Error</div>;
 
   const list = data.getList?.lists.find((list) => list.id === savedId);
-  console.log(list);
+
   return (
     <div>
       <IconButton
