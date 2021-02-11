@@ -57,7 +57,7 @@ export const BookingCard = ({
         checkOut: rangeDates.end,
         days: numDays,
         guest: Number(guest),
-        total: room.price * numDays,
+        total: Number((room.price * numDays).toFixed(2)),
       },
     };
 
@@ -126,7 +126,9 @@ export const BookingCard = ({
                 ${room.price} x {numDays} nights
               </Text>
               <Stat flexGrow={0} size="xl">
-                <StatNumber color="primary">${room.price * numDays}</StatNumber>
+                <StatNumber color="primary">
+                  ${(room.price * numDays).toFixed(2)}
+                </StatNumber>
               </Stat>
             </HStack>
             <Button
