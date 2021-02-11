@@ -1,0 +1,17 @@
+mutation createUserViaEmail(
+  $email: String!
+  $password: String!
+  $name: String!
+  $birthDate: String!
+) {
+  emailSignUp(
+    email: $email
+    password: $password
+    name: $name
+    birthDate: $birthDate
+  ) {
+    ok
+    error
+    token
+  }
+}

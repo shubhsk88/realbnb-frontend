@@ -1,0 +1,6 @@
+mutation createList($name: String!, $roomId: String) {
+  createList(name: $name, roomId: $roomId) {
+    ok
+    error
+  }
+}

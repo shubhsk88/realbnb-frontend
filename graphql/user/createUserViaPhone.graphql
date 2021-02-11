@@ -1,0 +1,19 @@
+mutation createUserViaPhone(
+  $email: String!
+  $password: String!
+  $name: String!
+  $phone: String!
+  $birthDate: String!
+) {
+  createUserViaPhone(
+    email: $email
+    password: $password
+    name: $name
+    phone: $phone
+    birthDate: $birthDate
+  ) {
+    ok
+    error
+    token
+  }
+}

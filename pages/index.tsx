@@ -1,34 +1,43 @@
-import App from '../components/App'
-import InfoBox from '../components/InfoBox'
-import Header from '../components/Header'
-import Submit from '../components/Submit'
-import PostList, {
-  ALL_POSTS_QUERY,
-  allPostsQueryVars,
-} from '../components/PostList'
-import { initializeApollo, addApolloState } from '../lib/apolloClient'
+import { ReactElement } from "react";
+import { GetStaticProps } from "next";
 
-const IndexPage = () => (
-  <App>
-    <Header />
-    <InfoBox>ℹ️ This page shows how to use SSG with Apollo.</InfoBox>
-    <Submit />
-    <PostList />
-  </App>
-)
+import { SimpleGrid } from "@chakra-ui/react";
 
-export async function getStaticProps() {
-  const apolloClient = initializeApollo()
+import { GetRoomsDocument, Room, useGetRoomsQuery } from "@/generated";
+import { initializeApollo } from "@/lib/apolloClient";
+import { VRoomCard } from "@/components";
 
+const IndexPage = (): ReactElement => {
+  const { loading, data, error } = useGetRoomsQuery({
+    fetchPolicy: "cache-and-network",
+  });
+  if (loading) return <div>Loading</div>;
+  if (error) return <div>Error: {JSON.stringify(error)}</div>;
+
+  const {
+    getRooms: { rooms, error: serverError },
+  } = data;
+  if (serverError) return <div> {serverError}</div>;
+
+  return (
+    <SimpleGrid w="100%" minChildWidth="320px" spacing={6}>
+      {rooms.map((room) => (
+        <VRoomCard key={room.id} room={room as Room} />
+      ))}
+    </SimpleGrid>
+  );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const apolloClient = initializeApollo();
   await apolloClient.query({
-    query: ALL_POSTS_QUERY,
-    variables: allPostsQueryVars,
-  })
+    query: GetRoomsDocument,
+  });
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
+  };
+};
 
-  return addApolloState(apolloClient, {
-    props: {},
-    revalidate: 1,
-  })
-}
-
-export default IndexPage
+export default IndexPage;

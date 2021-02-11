@@ -1,0 +1,11 @@
+query getUser {
+  profile: getUserProfile {
+    ok
+    error
+    user {
+      name
+      avatar
+      email
+    }
+  }
+}

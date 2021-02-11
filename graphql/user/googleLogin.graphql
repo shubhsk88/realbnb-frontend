@@ -1,0 +1,17 @@
+mutation googleAuth(
+  $name: String!
+  $email: String!
+  $googleId: String!
+  $imageUrl: String!
+) {
+  googleAuth: googleSignIn(
+    name: $name
+    email: $email
+    googleId: $googleId
+    avatar: $imageUrl
+  ) {
+    ok
+    error
+    token
+  }
+}

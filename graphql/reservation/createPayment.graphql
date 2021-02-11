@@ -1,0 +1,7 @@
+mutation createPayment($reservation: ReservationInput!, $currency: String) {
+  payment: createPayment(reservation: $reservation, currency: $currency) {
+    ok
+    error
+    clientSecret
+  }
+}
