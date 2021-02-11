@@ -11,11 +11,15 @@ import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
 const Checkout = (): ReactElement => {
   const router = useRouter();
 
-  const paymentDetails = useReactiveVar(paymentDetailsVar);
+  const details = router.query?.details as string;
+
+  if (!details) return <div>Error While Fetching data</div>;
+
+  const paymentDetails = JSON.parse(details);
 
   useEffect(() => {
     if (!isLoggedInVar()) router.push("/");
-  }, []);
+  }, [isLoggedInVar]);
   return (
     <Stack direction="row" spacing={10} justify="space-between">
       <Box flexBasis="100%">

@@ -26,7 +26,7 @@ export const BookingDetails = ({
   const { getUser } = useAuth();
   const { user } = getUser();
 
-  if (!paymentDetails.room || !paymentDetails.reservation)
+  if (!paymentDetails?.room || !paymentDetails?.reservation)
     return <div>error</div>;
 
   const checkIn = new Date(paymentDetails.reservation.checkIn);
@@ -38,7 +38,7 @@ export const BookingDetails = ({
       divider={<StackDivider borderColor="gray.200" />}
       spacing={4}
     >
-      {paymentDetails.room ? (
+      {paymentDetails?.room ? (
         <>
           <Box>
             <Heading mb={14} fontSize="3xl" as="h2">

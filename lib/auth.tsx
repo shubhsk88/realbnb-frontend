@@ -1,6 +1,6 @@
 import { useState, useContext, createContext, ReactElement, FC } from "react";
 import { useApolloClient } from "@apollo/client";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import {
   useEmailLoginMutation,
@@ -91,8 +91,13 @@ export function useProvideAuth() {
   };
 
   const logout = () => {
-    client.clearStore();
+    client.clearStore().then(() => {
+      client.cache.reset();
+      Router.push("/");
+    });
+
     client.cache.evict({ fieldName: "token" });
+    client.cache.evict({ fieldName: "getUserProfile" });
     client.cache.gc();
 
     Cookies.remove("token");
