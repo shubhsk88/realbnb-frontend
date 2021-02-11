@@ -96,9 +96,10 @@ export function useProvideAuth() {
       client.cache.reset();
       Router.push("/");
     });
+    router.reload();
 
     client.cache.evict({ fieldName: "token" });
-    client.cache.evict({ fieldName: "getUserProfile" });
+    client.cache.evict({ fieldName: "getList" });
     client.cache.gc();
 
     Cookies.remove("token");
