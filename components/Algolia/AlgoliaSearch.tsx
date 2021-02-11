@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import { ReactElement, useEffect, useState } from "react";
 import router from "next/router";
 import styled from "@emotion/styled";
@@ -84,7 +86,7 @@ export const AlgoliaSearch = (props: BoxProps): ReactElement => {
           autoFocus={false}
           closeOnBlur
         >
-          <PopoverTrigger w="80%">
+          <PopoverTrigger>
             <div>
               <AlgoliaSearchBox
                 onFocus={handleInputFocus}

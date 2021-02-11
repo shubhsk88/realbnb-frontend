@@ -6,13 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Room } from "@/generated";
-
-interface Hit {
-  hit: Room;
-}
+import { Hit as HitType } from "react-instantsearch-core";
 
 //TODO: items should be a focusable link wrapper
-export const Hit = ({ hit }: Hit): ReactElement => {
+export const Hit = ({ hit }: { hit: HitType<Room> }): ReactElement => {
   const photo = hit.photos[0];
 
   return (
