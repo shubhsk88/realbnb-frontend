@@ -23,7 +23,7 @@ export const Image = ({
     isLoaded={!!photo}
     {...props}
   >
-    {photo.link ? (
+    {photo ? (
       <>
         <NextImage src={photo.link} layout="fill" objectFit="cover" />
         {children}

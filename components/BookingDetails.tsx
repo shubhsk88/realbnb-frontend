@@ -38,75 +38,79 @@ export const BookingDetails = ({
       divider={<StackDivider borderColor="gray.200" />}
       spacing={4}
     >
-      <Box>
-        <Heading mb={14} fontSize="3xl" as="h2">
-          Booking Details
-        </Heading>
+      {paymentDetails.room ? (
+        <>
+          <Box>
+            <Heading mb={14} fontSize="3xl" as="h2">
+              Booking Details
+            </Heading>
 
-        <HStack spacing={5} alignItems="center">
-          <Box borderRadius="md" h="100%" overflow="hidden">
-            <Image
-              src={paymentDetails.room.photos[0].link}
-              width="200px"
-              height="100px"
-              objectFit="cover"
-            />
+            <HStack spacing={5} alignItems="center">
+              <Box borderRadius="md" h="100%" overflow="hidden">
+                <Image
+                  src={paymentDetails.room.photos[0].link}
+                  width="200px"
+                  height="100px"
+                  objectFit="cover"
+                />
+              </Box>
+              <VStack align="stretch" spacing={1}>
+                <Text fontWeight="bold" color="gray.400">
+                  {paymentDetails.room.roomType.name}
+                </Text>
+                <Text fontWeight="bold" fontSize="xl">
+                  {paymentDetails.room.name}
+                </Text>
+                <Text fontWeight="semibold" color="gray.400">
+                  {paymentDetails.room.address.address}
+                </Text>
+                <Box color="gray.400">
+                  <IconPair icon={IoBedOutline} my={1}>
+                    Beds
+                  </IconPair>
+                </Box>
+              </VStack>
+            </HStack>
           </Box>
-          <VStack align="stretch" spacing={1}>
-            <Text fontWeight="bold" color="gray.400">
-              {paymentDetails.room.roomType.name}
-            </Text>
-            <Text fontWeight="bold" fontSize="xl">
-              {paymentDetails.room.name}
-            </Text>
-            <Text fontWeight="semibold" color="gray.400">
-              {paymentDetails.room.address.address}
-            </Text>
-            <Box color="gray.400">
-              <IconPair icon={IoBedOutline} my={1}>
-                Beds
-              </IconPair>
+
+          <Grid templateColumns="repeat(2,1fr)" gap={4}>
+            <Box fontWeight="bold">
+              <Text my={1} color="gray.400">
+                Check-In
+              </Text>
+              <Text>{format(checkIn, "d LLLL, EEEE")}</Text>
             </Box>
-          </VStack>
-        </HStack>
-      </Box>
 
-      <Grid templateColumns="repeat(2,1fr)" gap={4}>
-        <Box fontWeight="bold">
-          <Text my={1} color="gray.400">
-            Check-In
-          </Text>
-          <Text>{format(checkIn, "d LLLL, EEEE")}</Text>
-        </Box>
+            <Box fontWeight="bold">
+              <Text my={1} color="gray.400">
+                Check-Out
+              </Text>
+              <Text>{format(checkOut, "d LLLL, EEEE")}</Text>
+            </Box>
 
-        <Box fontWeight="bold">
-          <Text my={1} color="gray.400">
-            Check-Out
-          </Text>
-          <Text>{format(checkOut, "d LLLL, EEEE")}</Text>
-        </Box>
+            <Box fontWeight="bold">
+              <Text my={1} color="gray.400">
+                Name
+              </Text>
+              <Text>{user.name}</Text>
+            </Box>
+          </Grid>
 
-        <Box fontWeight="bold">
-          <Text my={1} color="gray.400">
-            Name
-          </Text>
-          <Text>{user.name}</Text>
-        </Box>
-      </Grid>
+          <HStack fontWeight="bold" fontSize="lg">
+            <Text flex={1}>
+              ${paymentDetails.room.price} x {paymentDetails.reservation.days}
+            </Text>
+            <Text flex={1}>${paymentDetails.reservation.total}</Text>
+          </HStack>
 
-      <HStack fontWeight="bold" fontSize="lg">
-        <Text flex={1}>
-          ${paymentDetails.room.price} x {paymentDetails.reservation.days}
-        </Text>
-        <Text flex={1}>${paymentDetails.reservation.total}</Text>
-      </HStack>
-
-      <HStack fontWeight="bold" fontSize="lg">
-        <Text flex={1}>Total</Text>
-        <Text flex={1} color="primary" fontSize="xl">
-          ${paymentDetails.reservation.total}
-        </Text>
-      </HStack>
+          <HStack fontWeight="bold" fontSize="lg">
+            <Text flex={1}>Total</Text>
+            <Text flex={1} color="primary" fontSize="xl">
+              ${paymentDetails.reservation.total}
+            </Text>
+          </HStack>
+        </>
+      ) : null}
     </VStack>
   );
 };
