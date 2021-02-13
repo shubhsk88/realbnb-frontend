@@ -9,10 +9,16 @@ import { VRoomCard } from "@/components";
 import { ListCardEmpty } from "@/components/ListCardEmpty";
 
 const IndexPage = (): ReactElement => {
-  const { loading, data, error } = useGetRoomsQuery({
-    fetchPolicy: "cache-and-network",
-  });
-
+  const { loading, data, error } = useGetRoomsQuery();
+  if (loading)
+    return (
+      <SimpleGrid w="100%" minChildWidth="300px" spacing={14}>
+        {" "}
+        {Array.from(Array(5).keys()).map((emptyState) => (
+          <ListCardEmpty key={emptyState} />
+        ))}
+      </SimpleGrid>
+    );
   if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
   const {
@@ -22,14 +28,6 @@ const IndexPage = (): ReactElement => {
 
   return (
     <>
-      {loading ? (
-        <SimpleGrid w="100%" minChildWidth="300px" spacing={14}>
-          {" "}
-          {Array.from(Array(5).keys()).map((emptyState) => (
-            <ListCardEmpty key={emptyState} />
-          ))}
-        </SimpleGrid>
-      ) : null}
       <SimpleGrid w="100%" minChildWidth="320px" spacing={6}>
         {rooms.map((room) => (
           <VRoomCard key={room.id} room={room as Room} />
