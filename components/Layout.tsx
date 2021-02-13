@@ -2,7 +2,7 @@ import { Box, BoxProps } from "@chakra-ui/react";
 import React, { ElementType, ReactElement, ReactNode } from "react";
 import { Header } from "./Header";
 
-const maxW = "1200px";
+const maxW = "1024px";
 
 interface LayoutProps {
   children: ReactNode;
