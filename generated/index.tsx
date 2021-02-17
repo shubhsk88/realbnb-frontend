@@ -480,8 +480,11 @@ export type GetUserListsQuery = (
       & Pick<List, 'id' | 'name'>
       & { rooms: Array<Maybe<(
         { __typename?: 'Room' }
-        & Pick<Room, 'id'>
-        & { photos: Array<Maybe<(
+        & Pick<Room, 'id' | 'name' | 'beds' | 'description' | 'price'>
+        & { roomType: (
+          { __typename?: 'RoomType' }
+          & Pick<RoomType, 'name'>
+        ), photos: Array<Maybe<(
           { __typename?: 'Photo' }
           & Pick<Photo, 'link'>
         )>> }
@@ -796,6 +799,13 @@ export const GetUserListsDocument = gql`
       name
       rooms {
         id
+        name
+        beds
+        description
+        price
+        roomType {
+          name
+        }
         photos {
           link
         }

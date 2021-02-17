@@ -2,26 +2,24 @@ import { ReactElement, useEffect } from "react";
 
 import { Box, Stack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { gql, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 
 import { BookingDetails, PaymentCard } from "@/components";
 import { StripeWrapper } from "@/components/common";
 import { isLoggedInVar, paymentDetailsVar } from "@/lib/cache";
 
-export const PAYMENT_DETAILS = gql`
-  query PaymentDetails {
-    paymentDetails @client
-  }
-`;
-
 const Checkout = (): ReactElement => {
   const router = useRouter();
 
-  const paymentDetails = useReactiveVar(paymentDetailsVar);
+  const details = router.query?.details as string;
+
+  if (!details) return <div>Error While Fetching data</div>;
+
+  const paymentDetails = JSON.parse(details);
 
   useEffect(() => {
     if (!isLoggedInVar()) router.push("/");
-  }, []);
+  }, [isLoggedInVar]);
   return (
     <Stack direction="row" spacing={10} justify="space-between">
       <Box flexBasis="100%">

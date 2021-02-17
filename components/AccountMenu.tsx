@@ -6,6 +6,7 @@ import {
   Icon,
   Menu,
   MenuButton,
+  Skeleton,
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
@@ -18,7 +19,9 @@ import { isLoggedInVar } from "@/lib/cache";
 export const AccountMenu = (): ReactElement => {
   const { getUser, logout } = useAuth();
 
-  const { data, error, loading, refetch } = useGetUserQuery();
+  const { data, error, loading, refetch } = useGetUserQuery({
+    fetchPolicy: "cache-and-network",
+  });
 
   // FIXME: get JWT token to refresh correctly, likely requires apollo-link-context
 
@@ -34,26 +37,32 @@ export const AccountMenu = (): ReactElement => {
   console.log("user", { ...data });
   console.log("error", error); */
 
-  if (error) return <div>{JSON.stringify(error)}</div>;
-  else if (loading || !data?.profile?.user) return <div>loading</div>;
+  if (error) {
+    return <div>{JSON.stringify(error)}</div>;
+  }
+  if (loading) {
+    return <div>loading</div>;
+  }
 
   const user = data?.profile?.user;
 
   return (
     <Box>
-      <Menu placement="bottom-end">
-        <MenuButton
-          as={Button}
-          leftIcon={<Avatar size="sm" name={user.name} src={user.avatar} />}
-          rightIcon={<Icon as={FiChevronDown} />}
-        >
-          {user.name}
-        </MenuButton>
-        <MenuList>
-          <MenuItem>Account</MenuItem>
-          <MenuItem onClick={logout}>Logout</MenuItem>
-        </MenuList>
-      </Menu>
+      <Skeleton isLoaded={loading || !!user}>
+        <Menu placement="bottom-end">
+          <MenuButton
+            as={Button}
+            leftIcon={<Avatar size="sm" name={user.name} src={user.avatar} />}
+            rightIcon={<Icon as={FiChevronDown} />}
+          >
+            {user.name}
+          </MenuButton>
+          <MenuList>
+            <MenuItem>Account</MenuItem>
+            <MenuItem onClick={logout}>Logout</MenuItem>
+          </MenuList>
+        </Menu>
+      </Skeleton>
     </Box>
   );
 };

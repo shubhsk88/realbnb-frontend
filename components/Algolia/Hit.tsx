@@ -4,9 +4,10 @@ import { Heading, Text } from "@chakra-ui/react";
 
 import { Room } from "@/generated";
 import { ItemEntry } from "../common";
+import { Hit as HitType } from "react-instantsearch-core";
 
 interface HitProps {
-  hit: Room;
+  hit: HitType<Room>;
 }
 
 //TODO: items should be a focusable link wrapper

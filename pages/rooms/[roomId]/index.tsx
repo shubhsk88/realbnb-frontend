@@ -20,7 +20,6 @@ import { FiShare } from "react-icons/fi";
 import { IoBedOutline } from "react-icons/io5";
 import { BsList } from "react-icons/bs";
 import { HiOutlinePhotograph } from "react-icons/hi";
-
 import { Photo, Room, useGetRoomQuery } from "@/generated";
 import { BookingCard, CarouselModal } from "@/components";
 import {
@@ -47,6 +46,7 @@ const RoomDetails = (): ReactElement => {
   const router = useRouter();
   const { query } = router;
   const id = query.roomId as string;
+
   const { loading, data, error } = useGetRoomQuery({ variables: { id } });
   const [showAmenities, setShowAmenities] = useState(false);
   const room = data?.getRoom.room;
@@ -122,7 +122,7 @@ const RoomDetails = (): ReactElement => {
         <BookingCard
           w="400px"
           display={{ base: "none", xl: "unset" }}
-          room={room}
+          room={room as Room}
         />
       </Stack>
 
@@ -142,7 +142,7 @@ const RoomDetails = (): ReactElement => {
 
         <SimpleGrid columns={2} spacingX={20} spacingY={12}>
           {room.reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} />
+            <ReviewCard key={review.id} review={review as Review} />
           ))}
         </SimpleGrid>
       </Section>
@@ -220,7 +220,7 @@ const ImageGrid = ({ room, overallRating, ...props }: ImageGridProps) => {
             left={4}
             rightIcon={<Icon as={AiOutlineStar} boxSize={5} />}
           >
-            {overallRating}
+            {overallRating.toFixed(2)}
           </ButtonOpaque>
         </GridImage>
 

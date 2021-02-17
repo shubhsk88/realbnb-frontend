@@ -11,10 +11,10 @@ import {
   useToast,
   Text,
   VStack,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 
-import { useEmailLoginMutation } from "@/generated";
-import { isLoggedInVar } from "@/lib/cache";
 import { loginSchema } from "@/utils";
 import { GoogleSignIn } from "./GoogleSignIn";
 import { ButtonPrimary, ErrorDialog } from "./../common";
@@ -96,7 +96,7 @@ export const Login = ({ closeModal }: LoginProps): ReactElement => {
           <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
         </FormControl>
 
-        {error ? <div>{error}</div> : null}
+        {error ? <ErrorDialog error={error} /> : null}
 
         <ButtonPrimary
           isLoading={loading}

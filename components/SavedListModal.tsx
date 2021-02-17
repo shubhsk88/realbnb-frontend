@@ -16,7 +16,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  toast,
   useToast,
   VStack,
 } from "@chakra-ui/react";
@@ -47,27 +46,19 @@ export const SavedListModal = ({
   liked,
   ...props
 }: SavedListProps): ReactElement => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const [onUpdateList] = useUpdateListMutation({
-    refetchQueries: ["getRooms, getRoom"],
-  });
-
   const [isOpen, setIsOpen] = useState(false);
-  const toast = useToast();
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
+
+  const [onUpdateList] = useUpdateListMutation({
+    refetchQueries: () => ["getRooms, getRoom"],
+  });
 
   const onClose = () => {
     setIsOpen(false);
   };
 
   const handleLike = () => {
-    if (liked) {
-      onUpdateList({ variables: { roomId } });
-      toast({
-        title: "Removed from favourite list successfully",
-        status: "success",
-        duration: 2000,
-      });
-    } else setIsOpen(true);
+    liked ? onUpdateList({ variables: { roomId } }) : setIsOpen(true);
   };
 
   return (
@@ -102,7 +93,6 @@ interface MyModalProps {
 
 const MyModal = ({ roomId, isOpen, onClose }: MyModalProps): ReactElement => {
   const { data, loading, error } = useGetUserListsQuery();
-  console.log(data);
   const [isCreateList, setIsCreateList] = useState(false);
 
   const toggleContent = () => {
@@ -110,8 +100,7 @@ const MyModal = ({ roomId, isOpen, onClose }: MyModalProps): ReactElement => {
   };
 
   const onCloseReset = () => {
-    if (!isCreateList) toggleContent();
-    onClose();
+    isCreateList ? toggleContent() : onClose();
   };
 
   if (loading) return <div>loading</div>;
@@ -121,7 +110,7 @@ const MyModal = ({ roomId, isOpen, onClose }: MyModalProps): ReactElement => {
     <Modal isOpen={isOpen} onClose={onCloseReset}>
       <ModalOverlay />
 
-      {isCreateList ? (
+      {!isCreateList ? (
         <ModalContentLists
           roomId={roomId}
           lists={data.getList.lists}
@@ -154,7 +143,7 @@ const ModalContentLists = ({
   ...props
 }: ContentListsProps) => {
   const [onUpdateList] = useUpdateListMutation({
-    refetchQueries: ["getRooms", "getRoom"],
+    refetchQueries: () => ["getRooms, getRoom"],
     onCompleted: () => {
       onClose();
     },
@@ -198,7 +187,7 @@ const ModalContentLists = ({
               <Heading as="h5" textStyle="labelDark">
                 {list.name}
               </Heading>
-              <Text textStyled="labelMedium">
+              <Text textStyle="labelMedium">
                 {list.rooms.length ? list.rooms.length : "Nothing Saved Yet"}
               </Text>
             </ItemEntry>
@@ -224,6 +213,8 @@ const ModalContentForm = ({
   const { handleSubmit, register } = useForm();
   const toast = useToast();
 
+  const [formError, setFormError] = useState("");
+
   const [onCreateList, { loading: formLoading }] = useCreateListMutation({
     onCompleted: ({ createList }) => {
       if (createList.ok) {
@@ -237,10 +228,8 @@ const ModalContentForm = ({
         setFormError("An Unknown error occurred, please try again");
       }
     },
-    refetchQueries: ["getRooms", "getRoom"],
+    refetchQueries: () => ["getRooms, getRoom"],
   });
-
-  const [formError, setFormError] = useState("");
 
   const onSubmit = (data: { name: string }) => {
     onCreateList({

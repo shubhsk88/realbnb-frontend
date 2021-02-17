@@ -1,5 +1,5 @@
 import { ReactElement, useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import Cookies from "js-cookie";
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import {
@@ -31,8 +31,6 @@ export const BookingCard = ({
   room,
   ...props
 }: BookingCardProps): ReactElement => {
-  const router = useRouter();
-
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [rangeDates, setRangesDate] = useState<RangeProps>({
@@ -55,14 +53,17 @@ export const BookingCard = ({
         checkOut: rangeDates.end,
         days: numDays,
         guest: Number(guest),
-        total: room.price * numDays,
+        total: Number((room.price * numDays).toFixed(2)),
       },
     };
 
     Cookies.set("paymentDetails", JSON.stringify(details));
     paymentDetailsVar(details);
 
-    router.push(`/rooms/${room.id}/checkout`);
+    Router.push({
+      pathname: `/rooms/${room.id}/checkout`,
+      query: { details: JSON.stringify(details) },
+    });
   };
 
   const handleBooking = () => {
@@ -121,7 +122,7 @@ export const BookingCard = ({
                 ${room.price} x {numDays} nights
               </Text>
               <Text textStyle="monetary" fontSize="xl">
-                ${room.price * numDays}
+                ${(room.price * numDays).toFixed(2)}
               </Text>
             </HStack>
             <Button

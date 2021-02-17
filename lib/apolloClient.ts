@@ -6,7 +6,7 @@ import {
   NormalizedCacheObject,
   gql,
 } from "@apollo/client";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 import { useMemo } from "react";
 import { clientCache } from "./cache";
@@ -25,7 +25,7 @@ export const getApolloClient = (
 ) => {
   const token = Cookies.get("token");
   const httpLink = createHttpLink({
-    uri: "http://localhost:4000/graphql",
+    uri: "https://realbnb-backend.herokuapp.com/graphql",
     fetch,
     headers: {
       authorization: token ? `Bearer ${token}` : "",

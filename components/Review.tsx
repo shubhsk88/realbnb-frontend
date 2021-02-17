@@ -26,7 +26,7 @@ export const Review = ({
       <HStack fontSize="20px" my={10}>
         <Icon as={AiOutlineStar} />
         <Text fontWeight="bold">
-          {overallRating} ({reviews.length})
+          {overallRating.toFixed(2)} ({reviews.length})
         </Text>
       </HStack>
       <Wrap spacing="10px" w="100%" justify="space-between">

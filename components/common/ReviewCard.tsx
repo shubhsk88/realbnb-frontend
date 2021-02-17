@@ -11,6 +11,7 @@ import {
 import React, { ReactElement, useState } from "react";
 
 import { Review } from "@/generated";
+import format from "date-fns/format";
 
 interface CardProps extends BoxProps {
   review: Review;
@@ -23,12 +24,14 @@ export const ReviewCard = ({ review, ...props }: CardProps): ReactElement => {
   return (
     <Box>
       <HStack spacing={4} mb={4}>
-        <Avatar name={user.name} src={user.avatar} />
+        <Avatar name={user.name} src={`https://i.pravatar.cc/300`} />
         <div>
           <Heading as="h5" size="md">
             {user.name}
           </Heading>
-          <Text textStyle="labelLight">{review.updated}</Text>
+          <Text textStyle="labelLight">
+            {format(new Date(review.updated), "dd LLL yyyy")}
+          </Text>
         </div>
       </HStack>
       <Text noOfLines={isTruncated ? 3 : 0}>{review.content}</Text>

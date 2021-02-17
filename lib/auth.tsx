@@ -1,6 +1,6 @@
 import { useState, useContext, createContext, ReactElement, FC } from "react";
 import { useApolloClient } from "@apollo/client";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import {
   useEmailLoginMutation,
@@ -41,11 +41,18 @@ export function useProvideAuth() {
   const client = useApolloClient();
   const router = useRouter();
   const toast = useToast();
+  const getUser = () => {
+    const { data, error, loading } = useGetUserQuery();
+
+    return { user: data?.profile.user, error, loading };
+  };
 
   const signIn = (resolver, callback: () => void) => {
     if (resolver.token) {
       Cookies.set("token", resolver.token);
+
       isLoggedInVar(true);
+      router.reload();
       callback();
     } else {
       setError(resolver.error);
@@ -54,8 +61,10 @@ export function useProvideAuth() {
 
   const signInWithEmail = (callback: () => void): SignInWithEmailReturn => {
     const [onLogin, { error: serverError, loading }] = useEmailLoginMutation({
-      refetchQueries: ["getUser"],
+      refetchQueries: () => ["getUser"],
+
       onCompleted: ({ emailSignIn }) => {
+        client.cache.reset();
         signIn(emailSignIn, callback);
       },
     });
@@ -69,24 +78,28 @@ export function useProvideAuth() {
       onGoogleLogin,
       { error: serverError, loading },
     ] = useGoogleAuthMutation({
-      refetchQueries: ["getUser"],
+      refetchQueries: () => ["getUser"],
+
       onCompleted: ({ googleAuth }) => {
+        client.clearStore();
         signIn(googleAuth, callback);
       },
     });
+
     if (serverError) setError("Unknown error occurred,Please Try again");
 
     return { onGoogleLogin, error, loading };
   };
 
-  const getUser = () => {
-    const { data, error, loading } = useGetUserQuery();
-
-    return { user: data?.profile.user, error, loading };
-  };
-
   const logout = () => {
+    client.clearStore().then(() => {
+      client.cache.reset();
+      Router.push("/");
+    });
+    router.reload();
+
     client.cache.evict({ fieldName: "token" });
+    client.cache.evict({ fieldName: "getList" });
     client.cache.gc();
 
     Cookies.remove("token");
