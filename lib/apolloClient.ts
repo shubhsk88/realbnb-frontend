@@ -25,7 +25,7 @@ export const getApolloClient = (
 ) => {
   const token = Cookies.get("token");
   const httpLink = createHttpLink({
-    uri: "https://realbnb-backend.herokuapp.com/graphql",
+    uri: "http://localhost:4000/graphql",
     fetch,
     headers: {
       authorization: token ? `Bearer ${token}` : "",

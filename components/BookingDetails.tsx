@@ -5,7 +5,6 @@ import {
   Heading,
   HStack,
   StackDivider,
-  StackProps,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -14,7 +13,6 @@ import Image from "next/image";
 import { IoBedOutline } from "react-icons/io5";
 import { IconPair } from "./common";
 
-import { useGetUserQuery } from "@/generated";
 import { PaymentDetails } from "@/lib/cache";
 import { useAuth } from "@/lib/auth";
 
@@ -103,9 +101,11 @@ export const BookingDetails = ({
             <Text flex={1}>${paymentDetails.reservation.total}</Text>
           </HStack>
 
-          <HStack fontWeight="bold" fontSize="lg">
-            <Text flex={1}>Total</Text>
-            <Text flex={1} color="primary" fontSize="xl">
+          <HStack fontWeight="bold">
+            <Text flex={1} fontSize="lg">
+              Total
+            </Text>
+            <Text flex={1} textStyle="monetary" fontSize="lg">
               ${paymentDetails.reservation.total}
             </Text>
           </HStack>

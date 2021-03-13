@@ -14,16 +14,13 @@ import {
   GridProps,
   GridItemProps,
   VStack,
-  Stat,
-  StatNumber,
 } from "@chakra-ui/react";
-import { AiOutlineHeart, AiOutlineStar } from "react-icons/ai";
+import { AiOutlineStar } from "react-icons/ai";
 import { FiShare } from "react-icons/fi";
 import { IoBedOutline } from "react-icons/io5";
 import { BsList } from "react-icons/bs";
 import { HiOutlinePhotograph } from "react-icons/hi";
-
-import { Photo, useGetRoomQuery, Review, Room } from "@/generated";
+import { Photo, Room, useGetRoomQuery } from "@/generated";
 import { BookingCard, CarouselModal } from "@/components";
 import {
   ButtonOpaque,
@@ -35,6 +32,15 @@ import {
   ReviewCard,
   ReviewScore,
 } from "@/components/common";
+import { SavedListModal } from "@/components/SavedListModal";
+
+const averageReviews = (room) => {
+  const sum = room
+    ? room.reviews.reduce((sum, { averageRating }) => (sum += averageRating), 0)
+    : null;
+
+  return sum ? sum / room.reviews.length : sum;
+};
 
 const RoomDetails = (): ReactElement => {
   const router = useRouter();
@@ -45,33 +51,22 @@ const RoomDetails = (): ReactElement => {
   const [showAmenities, setShowAmenities] = useState(false);
   const room = data?.getRoom.room;
 
-  const averageReviews = () => {
-    const sum = room
-      ? room.reviews.reduce(
-          (sum, { averageRating }) => (sum += averageRating),
-          0
-        )
-      : null;
-
-    return sum ? sum / room.reviews.length : sum;
-  };
-
-  const overallRating = useMemo(() => averageReviews(), [
+  const overallRating = useMemo(() => averageReviews(room), [
     data?.getRoom.room.reviews,
   ]);
 
-  if (error) return <div>Error: {JSON.stringify(error)}</div>;
   if (loading) return <div>Loading</div>;
+  if (error) return <div>Error: {JSON.stringify(error)}</div>;
 
-  // FIXME: averageRating should be plural
+  //TODO: averageRating should be plural
   const avgRoomScores = Object.entries(room.averageRating).slice(1);
   const totalAmenity = room.amenities.length;
   return (
     <>
       <ImageGrid
-        h="50vh"
+        h="max(300px, 50vh)"
         mb={20}
-        photos={room.photos}
+        room={room}
         overallRating={overallRating}
       />
 
@@ -82,15 +77,12 @@ const RoomDetails = (): ReactElement => {
               <Text textStyle="label" fontSize="lg">
                 {room.roomType.name}
               </Text>
-
-              <Stat flex={0}>
-                <StatNumber
-                  color="primary"
-                  display={{ base: "unset", xl: "none" }}
-                >
-                  ${room.price}
-                </StatNumber>
-              </Stat>
+              <Text
+                textStyle="monetary"
+                display={{ base: "unset", xl: "none" }}
+              >
+                ${room.price}
+              </Text>
             </HStack>
 
             <Heading as="h2" size="lg">
@@ -156,10 +148,10 @@ const RoomDetails = (): ReactElement => {
       </Section>
 
       <ButtonPrimary
-        pos="absolute"
+        pos="fixed"
         left="50%"
         transform="translateX(-50%)"
-        bottom={0}
+        bottom={6}
         w="min(90%, 500px)"
         display={{ base: "unset", xl: "none" }}
       >
@@ -187,12 +179,14 @@ const Section = ({ name, children }: SectionProps) => (
 );
 
 interface ImageGridProps extends GridProps {
-  photos: Photo[];
+  room: Room;
   overallRating: number;
 }
 
-const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
+const ImageGrid = ({ room, overallRating, ...props }: ImageGridProps) => {
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
+
+  const photos = room.photos;
 
   const onClose = () => {
     setIsCarouselOpen(false);
@@ -217,10 +211,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
               aria-label="Share listing"
               icon={<Icon as={FiShare} boxSize={5} />}
             />
-            <IconButtonOpaque
-              aria-label="Save listing"
-              icon={<Icon as={AiOutlineHeart} boxSize={5} />}
-            />
+            <SavedListModal roomId={room.id} liked={room.isLiked} />
           </HStack>
 
           <ButtonOpaque
@@ -237,7 +228,7 @@ const ImageGrid = ({ photos, overallRating, ...props }: ImageGridProps) => {
 
         {photos
           .slice(2, 6)
-          .concat(Array(Math.abs(4 - photos.length) || 0).fill(null))
+          .concat(Array(Math.min(Math.abs(photos.length - 6), 4)).fill(null))
           .map((photo, idx) => (
             <GridImage key={photo?.id ?? idx} photo={photo} />
           ))}

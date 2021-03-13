@@ -494,7 +494,7 @@ export type GetUserListsQuery = (
 );
 
 export type UpdateListMutationVariables = Exact<{
-  id: Scalars['String'];
+  id?: Maybe<Scalars['String']>;
   roomId: Scalars['String'];
 }>;
 
@@ -549,7 +549,7 @@ export type GetRoomQuery = (
     & Pick<GetRoomResponse, 'ok' | 'error'>
     & { room?: Maybe<(
       { __typename?: 'Room' }
-      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'bedrooms' | 'bathrooms' | 'price'>
+      & Pick<Room, 'id' | 'name' | 'description' | 'beds' | 'bedrooms' | 'bathrooms' | 'price' | 'isLiked'>
       & { host: (
         { __typename?: 'User' }
         & Pick<User, 'name'>
@@ -840,7 +840,7 @@ export type GetUserListsQueryHookResult = ReturnType<typeof useGetUserListsQuery
 export type GetUserListsLazyQueryHookResult = ReturnType<typeof useGetUserListsLazyQuery>;
 export type GetUserListsQueryResult = Apollo.QueryResult<GetUserListsQuery, GetUserListsQueryVariables>;
 export const UpdateListDocument = gql`
-    mutation updateList($id: String!, $roomId: String!) {
+    mutation updateList($id: String, $roomId: String!) {
   updateList(id: $id, roomId: $roomId) {
     ok
     error
@@ -962,6 +962,7 @@ export const GetRoomDocument = gql`
       bedrooms
       bathrooms
       price
+      isLiked
       host {
         name
       }

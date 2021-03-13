@@ -4,8 +4,6 @@ import Cookies from "js-cookie";
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import {
   Button,
-  Stat,
-  StatNumber,
   Text,
   HStack,
   VStack,
@@ -94,11 +92,8 @@ export const BookingCard = ({
         {...props}
       >
         <HStack>
-          <Stat flex={0}>
-            <StatNumber color="primary">${room.price}</StatNumber>
-          </Stat>
-
-          <Text pl={1} fontSize="xl" color="gray.500">
+          <Text textStyle="monetary">${room.price}</Text>
+          <Text fontSize="lg" color="gray.500">
             / night
           </Text>
         </HStack>
@@ -126,11 +121,9 @@ export const BookingCard = ({
               <Text>
                 ${room.price} x {numDays} nights
               </Text>
-              <Stat flexGrow={0} size="xl">
-                <StatNumber color="primary">
-                  ${(room.price * numDays).toFixed(2)}
-                </StatNumber>
-              </Stat>
+              <Text textStyle="monetary" fontSize="xl">
+                ${(room.price * numDays).toFixed(2)}
+              </Text>
             </HStack>
             <Button
               w="100%"
