@@ -33,36 +33,45 @@ Realbnb is a place where you can rent your property and book them in easier way.
 
 1. Clone this repository and access the project's directory.
 
-2. Run `yarn install`.
+2. Navigate to the frontend directory using `cd frontend`
+3. Run `yarn install` 
 
-3. Run `yarn start` to work on the development server.
+3. Run `yarn dev` to start the development server.
 
 ## Built With
 
-- JavaScript/ES6
-
+- Typescript
+- Prisma
+- GraphQL
+- Chakra UI
 - React
-- React Hooks
-- React Router
-- Redux
-- Tailwind CSS
-- React Redux
-- Pokeapi
-- Netlify
+- Apollo
+- Next.js
+- Stripe
+- Twilio
+- Algolia
+- Vercel
 
 ## Author
 
 👤 **Shubham Singh**
 
+- Portfolio:[shubhski](https://www.shubhski.dev/)
 - Github: [@shubhsk88](https://github.com/shubhsk88)
-- Twitter: [@shubhski](twitter.com/shubski)
+- Twitter: [@shubhski](twitter.com/shubhski)
 - Linkedin: [linkedin](https://www.linkedin.com/in/shubhski/)
 
+
+👤 **Marcello Barbieri**
+
+- Github: [@marcebdev](https://github.com/marcebdev)
+
+- Linkedin: [linkedin](https://www.linkedin.com/in/marcello-b/)
 ## 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/shubhsk88/pokedex-app/issues).
+Feel free to check the [issues page](https://github.com/shubhsk88/realbnb-frontend/issues).
 
 ## Show your support
 
