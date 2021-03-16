@@ -1,29 +1,69 @@
-# Apollo Example
+# Realbnb Renting App
 
-[Apollo](https://www.apollographql.com/client/) is a GraphQL client that allows you to easily query the exact data you need from a GraphQL server. In addition to fetching and mutating data, Apollo analyzes your queries and their results to construct a client-side cache of your data, which is kept up to date as further queries and mutations are run.
+Realbnb is a place where you can rent your property and book them in easier way.It is similar to airbnb but with different design aspect.User can select the property and book them
 
-In this simple example, we integrate Apollo seamlessly with [Next.js data fetching methods](https://nextjs.org/docs/basic-features/data-fetching) to fetch queries in the server and hydrate them in the browser.
+## Live Demo
 
-This example relies on [Prisma + Nexus](https://github.com/prisma-labs/nextjs-graphql-api-examples) for its GraphQL backend.
+[View Live Demo](https://realbnb.vercel.app/)
 
-## Demo
+## Screenshots
 
-[https://next-with-apollo.now.sh](https://next-with-apollo.now.sh)
+![screenshot](main.png)
 
-## Deploy your own
 
-Deploy the example using [Vercel](https://vercel.com):
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-apollo&project-name=with-apollo&repository-name=with-apollo)
+## Features & Usage
 
-## How to use
+- A list of few property that is available for listing
+- User can search their favourite apartment
+- User can signup using email or google or phone number
+- User can login to the accoun
+- User can like the listing and see them in their saved list with different saved listing
+- User can see the nice carousal in details listing page
+- User can book and pay for the renting using the stripe api
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+## Potential Features
 
-```bash
-npx create-next-app --example with-apollo with-apollo-app
-# or
-yarn create next-app --example with-apollo with-apollo-app
-```
+- Search by property
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+- Authentication 
+- Payment using strip
+
+## Setup
+
+1. Clone this repository and access the project's directory.
+
+2. Run `yarn install`.
+
+3. Run `yarn start` to work on the development server.
+
+## Built With
+
+- JavaScript/ES6
+
+- React
+- React Hooks
+- React Router
+- Redux
+- Tailwind CSS
+- React Redux
+- Pokeapi
+- Netlify
+
+## Author
+
+👤 **Shubham Singh**
+
+- Github: [@shubhsk88](https://github.com/shubhsk88)
+- Twitter: [@shubhski](twitter.com/shubski)
+- Linkedin: [linkedin](https://www.linkedin.com/in/shubhski/)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
+
+Feel free to check the [issues page](https://github.com/shubhsk88/pokedex-app/issues).
+
+## Show your support
+
+Give a ⭐️ if you like this project!
