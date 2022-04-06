@@ -12,7 +12,7 @@ export const ReviewScore = ({
   const ratingValue = (rating / 5) * 100;
   return (
     <Flex w="100%" justifyContent="space-between">
-      <Text>{name}</Text>
+      <Text>{name[0].toUpperCase() + name.slice(1)}</Text>
       <Stack direction="row" alignItems="center" spacing={2}>
         <Box w="8rem">
           <Progress colorScheme="teal" size="xs" value={ratingValue} />
