@@ -10,9 +10,10 @@ export const ReviewScore = ({
   rating,
 }: ReviewScoreProps): ReactElement => {
   const ratingValue = (rating / 5) * 100;
+  const modifiedReview = name.replace(/([A-Z])/g, " $1");
   return (
     <Flex w="100%" justifyContent="space-between">
-      <Text>{name}</Text>
+      <Text>{modifiedReview[0].toUpperCase() + modifiedReview.slice(1)}</Text>
       <Stack direction="row" alignItems="center" spacing={2}>
         <Box w="8rem">
           <Progress colorScheme="teal" size="xs" value={ratingValue} />

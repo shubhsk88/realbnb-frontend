@@ -138,7 +138,7 @@ const RoomDetails = (): ReactElement => {
         <HStack fontSize="20px">
           <Icon as={AiOutlineStar} />
           <Text fontWeight="bold">
-            {overallRating} ({room.reviews.length})
+            {overallRating.toFixed(2)} ({room.reviews.length})
           </Text>
         </HStack>
 
